@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/FoodHub.Api/FoodHub.Api.csproj" />
+    <Project Path="src/FoodHub.Application/FoodHub.Application.csproj" />
+    <Project Path="src/FoodHub.Domain/FoodHub.Domain.csproj" />
+    <Project Path="src/FoodHub.Infrastructure/FoodHub.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/FoodHub.SharedKernel/FoodHub.SharedKernel.csproj" />
+  </Folder>
+</Solution>
