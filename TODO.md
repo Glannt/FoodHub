@@ -4,12 +4,12 @@ Cập nhật: **sau commit `24417e2`** · Build sạch `0 Warning / 0 Error`
 
 ## Vị trí hiện tại
 
-> **Giai đoạn 1 / Tuần 1–2 — phần code đã xong, đang chờ Postgres để làm nốt migration và CRUD nhà hàng.**
+> **Giai đoạn 1 / Tuần 1–2 — code đã xong, còn 2 việc để đóng giai đoạn.**
 
-Còn **2 việc** để đóng Giai đoạn 1. Một việc chờ bạn dựng database, một việc là viết code.
+Migration đã sinh được. Còn **1 việc chờ bạn dựng Postgres**, và **1 việc là viết code**.
 
 ```text
-Giai đoạn 1 ███████████░░░░░░░░░  60%   ← đây
+Giai đoạn 1 ██████████████░░░░░░░  70%   ← đây
          ↑ đã xong                    ↑ còn 2 việc
 
 Giai đoạn 2 ░░░░░░░░░░░░░░░░░░░░░   0%
@@ -68,9 +68,17 @@ Hạ tầng: `IApplicationDbContext` · `NotFoundException` · `ValidationBehavi
 | `MenuCategoryConfiguration` | ✅ | |
 | `MenuItemConfiguration` | ✅ | |
 | `AppDbContextUnitOfWork` | ✅ | bọc `AppDbContext`, chung `ChangeTracker` |
-| `IDesignTimeDbContextFactory` | ✅ | chuỗi placeholder, chờ bạn sửa |
+| `IDesignTimeDbContextFactory` | ✅ | chuỗi placeholder |
 | `AddInfrastructure(configuration)` | ✅ | |
-| **`InitialCreate` migration** | ❌ | **chờ Postgres** |
+| `Microsoft.EntityFrameworkCore.Design` trong **Api** | ✅ | bắt buộc cho startup project, xem ⑤ |
+| **`InitialCreate` migration** | ✅ | **đã sinh code** — 3 bảng, 4 index, 3 FK Cascade |
+| Áp migration lên DB (`database update`) | ❌ | **chờ Postgres** |
+
+> **⑤ `Microsoft.EntityFrameworkCore.Design` phải nằm ở `FoodHub.Api`, không chỉ ở Infrastructure.**
+> Đã mắc lỗi thật: *"Your startup project 'FoodHub.Api' doesn't reference Microsoft.EntityFrameworkCore.Design"*.
+> Nguyên nhân: Infrastructure khai báo package này với `PrivateAssets="all"` → **không truyền sang** `FoodHub.Api`.
+> Mà `dotnet ef` phải load `FoodHub.Api.dll` để dựng host rồi gọi design-time service lấy `DbContext`.
+> Chi tiết: `SETUP-BUOC-4-10.md` §10.7.
 
 ### ✅ 1.6 Api
 
@@ -83,20 +91,19 @@ Hạ tầng: `IApplicationDbContext` · `NotFoundException` · `ValidationBehavi
 | `/health/ready` | ✅ | tự bật khi có connection string |
 | OpenAPI built-in (`/openapi/v1.json`) | ✅ | không dùng Swashbuckle |
 
-### ⬜ 1.7 Hai việc còn lại
+### ⬜ 1.7 Việc còn lại
 
-**A. Migration — chờ Postgres**
+**A. Áp migration lên Postgres — chờ bạn dựng database**
+
+Migration `InitialCreate` **đã sinh xong** (không cần DB sống). Chỉ còn áp nó:
 
 ```powershell
 # 1. Điền ConnectionStrings:Default trong src\FoodHub.Api\appsettings.json
 # 2. Sửa chuỗi trong src\FoodHub.Infrastructure\Persistence\IDesignTimeDbContextFactory.cs
-dotnet ef migrations add InitialCreate -p src\FoodHub.Infrastructure -s src\FoodHub.Api
-dotnet ef database update       -p src\FoodHub.Infrastructure -s src\FoodHub.Api
+dotnet ef database update -p src\FoodHub.Infrastructure -s src\FoodHub.Api
 ```
 
-`dotnet ef 10.0.12` **đã cài sẵn** — không cần `dotnet tool install`.
-
-Sau khi có chuỗi, kiểm tra `/health/ready` phải báo `Healthy`.
+Sau đó kiểm tra `/health/ready` phải báo `Healthy` (tự bật DB check vì connection string không còn rỗng).
 
 **B. CRUD nhà hàng bằng CQRS — viết code**
 

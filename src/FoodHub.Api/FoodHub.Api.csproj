@@ -13,6 +13,17 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+
+    <!-- EF Core Tools (dotnet ef) bắt buộc package này ở STARTUP PROJECT (-s),
+         không phải ở project chứa DbContext (-p). Lý do: tool phải load FoodHub.Api.dll
+         để dựng host rồi gọi design-time service để lấy DbContext.
+         PrivateAssets="all" để package này KHÔNG bị đóng gói lên production -
+         nó chỉ dùng lúc build, chạy thật thì không cần.
+         Version lấy từ Directory.Packages.props, tuyệt đối không khai báo ở đây. -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

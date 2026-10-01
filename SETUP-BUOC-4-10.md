@@ -1469,6 +1469,34 @@ Lỗi thường gặp:
 
 ## 10.7 Cấu hình Postgres (bạn tự làm)
 
+> **Bắt buộc trước khi chạy `dotnet ef`: startup project phải có `Microsoft.EntityFrameworkCore.Design`.**
+>
+> Nhiều người tưởng chỉ cần package này ở project chứa `DbContext` (`-p`), nhưng **không đủ**.
+> `dotnet ef` phải **load `FoodHub.Api.dll`** vào bộ nhớ để dựng host rồi gọi design-time service
+> lấy `DbContext`. Package `Design` nằm trong Infrastructure mà có `PrivateAssets="all"`
+> thì **không truyền (flow) sang** `FoodHub.Api` → tool dừng với lỗi:
+>
+> ```text
+> Your startup project 'FoodHub.Api' doesn't reference Microsoft.EntityFrameworkCore.Design.
+> ```
+>
+> Thêm vào `src\FoodHub.Api\FoodHub.Api.csproj` (đã có sẵn trong repo):
+>
+> ```xml
+> <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+>   <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+>   <PrivateAssets>all</PrivateAssets>
+> </PackageReference>
+> ```
+>
+> `PrivateAssets="all"` ở đây là đúng — package này chỉ dùng lúc build, **không** được đóng gói
+> lên production. Không khai báo `Version` vì CPM đã lo.
+>
+> **Điểm hay:** `dotnet ef migrations add` **không cần database sống**. Nó chỉ dựng model rồi
+> sinh file code. Nên bạn có thể tạo migration ngay cả khi Postgres chưa bật (nhờ
+> `IDesignTimeDbContextFactory` cung cấp chuỗi placeholder). Chỉ `dotnet ef database update`
+> mới thật sự kết nối.
+
 Sau khi Postgres của bạn chạy được, làm 3 việc:
 
 **a)** Điền `ConnectionStrings:Default` trong `src\FoodHub.Api\appsettings.json` (và `appsettings.Development.json` nếu muốn tách môi trường).
