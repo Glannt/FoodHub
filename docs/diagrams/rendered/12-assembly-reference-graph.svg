@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1616.2329999999995 1284.2" width="1616.2329999999995" height="1284.2" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="L0" data-label="ASSEMBLY 0 - không phụ thuộc ai">
+  <rect x="40" y="40" width="328.11299999999994" height="173.8" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="40" width="328.11299999999994" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">ASSEMBLY 0 - không phụ thuộc ai</text>
+</g>
+<g class="subgraph" data-id="L1" data-label="ASSEMBLY 1 - chỉ biết SharedKernel">
+  <rect x="40" y="327.6" width="500.7659999999999" height="250.70000000000002" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="327.6" width="500.7659999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="341.6" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">ASSEMBLY 1 - chỉ biết SharedKernel</text>
+</g>
+<g class="subgraph" data-id="L2" data-label="ASSEMBLY 2 - chỉ biết Domain">
+  <rect x="560.7659999999998" y="327.6" width="517.809" height="267.6" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="560.7659999999998" y="327.6" width="517.809" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="572.7659999999998" y="341.6" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">ASSEMBLY 2 - chỉ biết Domain</text>
+</g>
+<g class="subgraph" data-id="L3" data-label="ASSEMBLY 3 - biết Application, hiện thực interface của Domain và Application">
+  <rect x="719.9239999999999" y="40" width="438.5219999999998" height="250.70000000000002" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="719.9239999999999" y="40" width="438.5219999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="731.9239999999999" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">ASSEMBLY 3 - biết Application, hiện thực interface của Domain và Application</text>
+</g>
+<g class="subgraph" data-id="L4" data-label="ASSEMBLY 4 - entry point, biết Infrastructure">
+  <rect x="388.11299999999994" y="40" width="311.8109999999999" height="267.6" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="388.11299999999994" y="40" width="311.8109999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="400.11299999999994" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">ASSEMBLY 4 - entry point, biết Infrastructure</text>
+</g>
+<g class="subgraph" data-id="RUN" data-label="LÚC CHẠY">
+  <rect x="1113.3264999999997" y="865.9" width="448.1549999999998" height="267.6" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1113.3264999999997" y="865.9" width="448.1549999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1125.3264999999997" y="879.9" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">LÚC CHẠY</text>
+</g>
+<polyline class="edge" data-from="START" data-to="SK" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,364.5 1337.4039999999995,404.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SK" data-to="DM" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,441.4 1337.4039999999995,481.40000000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="DM" data-to="AP" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,518.3000000000001 1337.4039999999995,558.3000000000001" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="AP" data-to="IN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,595.2 1337.4039999999995,635.2" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="IN" data-to="API" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,672.1 1337.4039999999995,712.1" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="API" data-to="DEPS" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,749 1337.4039999999998,789" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="DEPS" data-to="RUN" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999998,825.9 1337.4039999999995,865.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="RUN" data-to="KEY" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,1133.5 1337.4039999999995,1173.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="SKN" data-to="SKC" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="204.05649999999997,120.9 204.05649999999997,160.9" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="DMN" data-to="DMC" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="290.383,408.5 290.3829999999999,448.5" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="DMC" data-to="DMF" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="290.3829999999999,485.40000000000003 290.3829999999999,525.4000000000001" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="APN" data-to="APC" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="819.6704999999997,408.5 819.6704999999998,448.5" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="APC" data-to="APF" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="819.6704999999998,485.40000000000003 819.6704999999998,525.4000000000001" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="INN" data-to="INC" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="939.1849999999997,120.9 939.1849999999997,160.9" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="INC" data-to="INF" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="939.1849999999997,197.8 939.1849999999997,237.8" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="APIN" data-to="APIC" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="544.0184999999999,120.9 544.0184999999999,160.9" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="APIC" data-to="APIF" data-style="solid" data-arrow-start="false" data-arrow-end="false" points="544.0184999999999,197.8 544.0184999999999,237.8" fill="none" stroke="var(--_line)" stroke-width="1" />
+<polyline class="edge" data-from="LOADER" data-to="ALC" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,963.7 1337.4039999999995,1003.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="ALC" data-to="CLR" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1337.4039999999995,1040.6 1337.4039999999995,1080.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="node" data-id="START" data-label="1 project .csproj = 1 assembly = 1 file .dll" data-shape="stadium">
+  <rect x="1208.6134999999997" y="327.6" width="257.5809999999999" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="346.05" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">1 project .csproj = 1 assembly = 1 file .dll</text>
+</g>
+<g class="node" data-id="SK" data-label="SK" data-shape="rectangle">
+  <rect x="1307.4039999999995" y="404.5" width="60" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="422.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">SK</text>
+</g>
+<g class="node" data-id="DM" data-label="DM" data-shape="rectangle">
+  <rect x="1306.4254999999996" y="481.40000000000003" width="61.956999999999994" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="499.85" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">DM</text>
+</g>
+<g class="node" data-id="AP" data-label="AP" data-shape="rectangle">
+  <rect x="1307.4039999999995" y="558.3000000000001" width="60" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="576.7500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">AP</text>
+</g>
+<g class="node" data-id="IN" data-label="IN" data-shape="rectangle">
+  <rect x="1307.4039999999995" y="635.2" width="60" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="653.6500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">IN</text>
+</g>
+<g class="node" data-id="API" data-label="API" data-shape="rectangle">
+  <rect x="1306.0549999999996" y="712.1" width="62.69799999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="730.5500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">API</text>
+</g>
+<g class="node" data-id="DEPS" data-label="DEPS" data-shape="rectangle">
+  <rect x="1298.6449999999998" y="789" width="77.518" height="36.900000000000006" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="1337.4039999999998" y="807.45" text-anchor="middle" font-size="13" font-weight="500" fill="#004085" dy="4.55">DEPS</text>
+</g>
+<g class="node" data-id="KEY" data-label="QUY TẮC VÀNG: ProjectReference là ràng buộc LÚC COMPILE
+Domain viết using FoodHub.Infrastructure sẽ ra CS0246 và BUILD HỎNG
+đây là điểm .NET mạnh hơn hẳn Spring, nơi kiến trúc chỉ là quy ước trên giấy" data-shape="rectangle">
+  <rect x="1098.5749999999998" y="1173.5" width="477.6579999999997" height="70.7" rx="0" ry="0" fill="#f8d7da" stroke="#dc3545" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="1208.85" text-anchor="middle" font-size="13" font-weight="500" fill="#721c24"><tspan x="1337.4039999999995" dy="-12.350000000000001">QUY TẮC VÀNG: ProjectReference là ràng buộc LÚC COMPILE</tspan><tspan x="1337.4039999999995" dy="16.900000000000002">Domain viết using FoodHub.Infrastructure sẽ ra CS0246 và BUILD HỎNG</tspan><tspan x="1337.4039999999995" dy="16.900000000000002">đây là điểm .NET mạnh hơn hẳn Spring, nơi kiến trúc chỉ là quy ước trên giấy</tspan></text>
+</g>
+<g class="node" data-id="SKN" data-label="FoodHub.SharedKernel.dll" data-shape="rectangle">
+  <rect x="103.7945" y="84" width="200.52399999999994" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="204.05649999999997" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">FoodHub.SharedKernel.dll</text>
+</g>
+<g class="node" data-id="SKC" data-label="IDomainEvent, Entity, AggregateRoot, Result" data-shape="rectangle">
+  <rect x="56" y="160.9" width="296.11299999999994" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="204.05649999999997" y="179.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">IDomainEvent, Entity, AggregateRoot, Result</text>
+</g>
+<g class="node" data-id="DMN" data-label="FoodHub.Domain.dll" data-shape="rectangle">
+  <rect x="210.86899999999997" y="371.6" width="159.028" height="36.900000000000006" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="290.383" y="390.05" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">FoodHub.Domain.dll</text>
+</g>
+<g class="node" data-id="DMC" data-label="Restaurant, MenuCategory, MenuItem, MenuItemAddedEvent, IUnitOfWork" data-shape="rectangle">
+  <rect x="56" y="448.5" width="468.7659999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="290.3829999999999" y="466.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Restaurant, MenuCategory, MenuItem, MenuItemAddedEvent, IUnitOfWork</text>
+</g>
+<g class="node" data-id="DMF" data-label="KHÔNG using EFCore, MediatR, SignalR, StackExchange.Redis" data-shape="rectangle">
+  <rect x="84.899" y="525.4000000000001" width="410.9679999999999" height="36.900000000000006" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="290.3829999999999" y="543.8500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">KHÔNG using EFCore, MediatR, SignalR, StackExchange.Redis</text>
+</g>
+<g class="node" data-id="APN" data-label="FoodHub.Application.dll" data-shape="rectangle">
+  <rect x="729.0414999999998" y="371.6" width="181.25799999999995" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="819.6704999999998" y="390.05" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">FoodHub.Application.dll</text>
+</g>
+<g class="node" data-id="APC" data-label="Handlers, Validators, Commands, Queries, Behaviors, IApplicationDbContext" data-shape="rectangle">
+  <rect x="576.7659999999998" y="448.5" width="485.8089999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="819.6704999999998" y="466.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Handlers, Validators, Commands, Queries, Behaviors, IApplicationDbContext</text>
+</g>
+<g class="node" data-id="APF" data-label="CÓ using EFCore - thỏa hiệp có chủ đích
+để dùng DbSet và AsNoTracking" data-shape="rectangle">
+  <rect x="681.2469999999998" y="525.4000000000001" width="276.847" height="53.800000000000004" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="819.6704999999998" y="552.3000000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03"><tspan x="819.6704999999998" dy="-3.9000000000000012">CÓ using EFCore - thỏa hiệp có chủ đích</tspan><tspan x="819.6704999999998" dy="16.900000000000002">để dùng DbSet và AsNoTracking</tspan></text>
+</g>
+<g class="node" data-id="INN" data-label="FoodHub.Infrastructure.dll" data-shape="rectangle">
+  <rect x="840.4049999999997" y="84" width="197.55999999999997" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="939.1849999999997" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">FoodHub.Infrastructure.dll</text>
+</g>
+<g class="node" data-id="INC" data-label="AppDbContext, 3 file EF Configuration, UnitOfWork, DI extension" data-shape="rectangle">
+  <rect x="735.9239999999999" y="160.9" width="406.5219999999998" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="939.1849999999997" y="179.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">AppDbContext, 3 file EF Configuration, UnitOfWork, DI extension</text>
+</g>
+<g class="node" data-id="INF" data-label="CÓ using EFCore, Npgsql, Identity, StackExchange.Redis" data-shape="rectangle">
+  <rect x="752.5964999999999" y="237.8" width="373.1769999999999" height="36.900000000000006" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="939.1849999999998" y="256.25" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03" dy="4.55">CÓ using EFCore, Npgsql, Identity, StackExchange.Redis</text>
+</g>
+<g class="node" data-id="APIN" data-label="FoodHub.Api.dll" data-shape="rectangle">
+  <rect x="476.3604999999999" y="84" width="135.316" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="544.0184999999999" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">FoodHub.Api.dll</text>
+</g>
+<g class="node" data-id="APIC" data-label="Controllers, Middleware, Program.cs" data-shape="rectangle">
+  <rect x="415.2279999999999" y="160.9" width="257.581" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="544.0184999999999" y="179.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Controllers, Middleware, Program.cs</text>
+</g>
+<g class="node" data-id="APIF" data-label="CÓ using MediatR, EF Core, Npgsql
+nơi duy nhất được phép biết tất cả mọi tầng" data-shape="rectangle">
+  <rect x="404.11299999999994" y="237.8" width="279.8109999999999" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="544.0184999999999" y="264.7" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="544.0184999999999" dy="-3.9000000000000012">CÓ using MediatR, EF Core, Npgsql</tspan><tspan x="544.0184999999999" dy="16.900000000000002">nơi duy nhất được phép biết tất cả mọi tầng</tspan></text>
+</g>
+<g class="node" data-id="LOADER" data-label="Host đọc FoodHub.Api.deps.json
+lấy đúng đường dẫn .dll của từng package" data-shape="rectangle">
+  <rect x="1197.4984999999997" y="909.9" width="279.8109999999999" height="53.800000000000004" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="936.8" text-anchor="middle" font-size="13" font-weight="500" fill="#004085"><tspan x="1337.4039999999995" dy="-3.9000000000000012">Host đọc FoodHub.Api.deps.json</tspan><tspan x="1337.4039999999995" dy="16.900000000000002">lấy đúng đường dẫn .dll của từng package</tspan></text>
+</g>
+<g class="node" data-id="ALC" data-label="AssemblyLoadContext nạp FoodHub.Api.dll vào bộ nhớ" data-shape="rectangle">
+  <rect x="1156.7434999999996" y="1003.7" width="361.32099999999986" height="36.900000000000006" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="1022.1500000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#004085" dy="4.55">AssemblyLoadContext nạp FoodHub.Api.dll vào bộ nhớ</text>
+</g>
+<g class="node" data-id="CLR" data-label="CLR thực thi IL, JIT dịch IL sang mã máy khi hàm được gọi lần đầu" data-shape="rectangle">
+  <rect x="1129.3264999999997" y="1080.6" width="416.1549999999998" height="36.900000000000006" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="1337.4039999999995" y="1099.05" text-anchor="middle" font-size="13" font-weight="500" fill="#004085" dy="4.55">CLR thực thi IL, JIT dịch IL sang mã máy khi hàm được gọi lần đầu</text>
+</g>
+</svg>

@@ -1,0 +1,76 @@
+flowchart TD
+    START(["1 project .csproj = 1 assembly = 1 file .dll"])
+
+    START --> SK
+
+    subgraph L0["ASSEMBLY 0 - không phụ thuộc ai"]
+        direction TB
+        SKN["FoodHub.SharedKernel.dll"]
+        SKC["IDomainEvent, Entity, AggregateRoot, Result"]
+        SKN --- SKC
+    end
+
+    SK --> DM
+
+    subgraph L1["ASSEMBLY 1 - chỉ biết SharedKernel"]
+        direction TB
+        DMN["FoodHub.Domain.dll"]
+        DMC["Restaurant, MenuCategory, MenuItem, MenuItemAddedEvent, IUnitOfWork"]
+        DMF["KHÔNG using EFCore, MediatR, SignalR, StackExchange.Redis"]
+        DMN --- DMC --- DMF
+    end
+
+    DM --> AP
+
+    subgraph L2["ASSEMBLY 2 - chỉ biết Domain"]
+        direction TB
+        APN["FoodHub.Application.dll"]
+        APC["Handlers, Validators, Commands, Queries, Behaviors, IApplicationDbContext"]
+        APF["CÓ using EFCore - thỏa hiệp có chủ đích<br/>để dùng DbSet và AsNoTracking"]
+        APN --- APC --- APF
+    end
+
+    AP --> IN
+
+    subgraph L3["ASSEMBLY 3 - biết Application, hiện thực interface của Domain và Application"]
+        direction TB
+        INN["FoodHub.Infrastructure.dll"]
+        INC["AppDbContext, 3 file EF Configuration, UnitOfWork, DI extension"]
+        INF["CÓ using EFCore, Npgsql, Identity, StackExchange.Redis"]
+        INN --- INC --- INF
+    end
+
+    IN --> API
+
+    subgraph L4["ASSEMBLY 4 - entry point, biết Infrastructure"]
+        direction TB
+        APIN["FoodHub.Api.dll"]
+        APIC["Controllers, Middleware, Program.cs"]
+        APIF["CÓ using MediatR, EF Core, Npgsql<br/>nơi duy nhất được phép biết tất cả mọi tầng"]
+        APIN --- APIC --- APIF
+    end
+
+    API --> DEPS
+
+    subgraph RUN["LÚC CHẠY"]
+        direction TB
+        LOADER["Host đọc FoodHub.Api.deps.json<br/>lấy đúng đường dẫn .dll của từng package"]
+        ALC["AssemblyLoadContext nạp FoodHub.Api.dll vào bộ nhớ"]
+        CLR["CLR thực thi IL, JIT dịch IL sang mã máy khi hàm được gọi lần đầu"]
+        LOADER --> ALC --> CLR
+    end
+
+    DEPS --> RUN
+
+    KEY["QUY TẮC VÀNG: ProjectReference là ràng buộc LÚC COMPILE<br/>Domain viết using FoodHub.Infrastructure sẽ ra CS0246 và BUILD HỎNG<br/>đây là điểm .NET mạnh hơn hẳn Spring, nơi kiến trúc chỉ là quy ước trên giấy"]
+
+    RUN --> KEY
+
+    classDef ok fill:#d4edda,stroke:#28a745,color:#155724
+    classDef bad fill:#f8d7da,stroke:#dc3545,color:#721c24
+    classDef warn fill:#fff3cd,stroke:#d39e00,color:#664d03
+    classDef info fill:#cce5ff,stroke:#004085,color:#004085
+    class DMF,DMN ok
+    class APF,INF warn
+    class KEY bad
+    class DEPS,LOADER,ALC,CLR info

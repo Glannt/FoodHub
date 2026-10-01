@@ -1,0 +1,35 @@
+sequenceDiagram
+    autonumber
+    participant W as OutboxDispatcher<br/>BackgroundService
+    participant PG as PostgreSQL<br/>outbox_messages
+    participant H1 as MenuItemAddedEventHandler
+    participant S as SignalR Hub
+    participant M as MailSender
+    participant R as Redis Cache
+
+    loop Mỗi 5 giây
+        W->>PG: SELECT FROM outbox_messages WHERE processed_at IS NULL LIMIT 50 FOR UPDATE SKIP LOCKED
+        PG-->>W: 0 đến 50 dòng
+        alt Không có dòng nào
+            W->>W: ngủ - vòng sau
+        else Có dòng
+            loop Mỗi 1 dòng
+                W->>H1: Publish(MenuItemAddedEvent)
+                par 3 handler chạy song song
+                    H1->>S: SendAsync MenuAdded đến group restaurant-r1
+                    H1->>M: Gửi email cho admin
+                    H1->>R: Invalidate menu-r1
+                end
+                alt Handler thất bại
+                    H1-->>W: ném Exception
+                    W->>PG: Giữ processed_at NULL, tăng retry_count, ghi last_error
+                    W->>W: Hủy vòng - thử lại lần sau
+                else Handler thành công
+                    H1-->>W: ok
+                    W->>PG: UPDATE outbox_messages SET processed_at = now()
+                end
+            end
+        end
+    end
+
+    Note over W,PG: SKIP LOCKED giúp 2 worker không xử lý trùng cùng 1 dòng

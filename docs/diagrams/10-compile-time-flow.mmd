@@ -1,0 +1,64 @@
+flowchart TD
+    START(["dotnet build"]) --> SDK
+
+    subgraph S1["BƯỚC 1 - dotnet CLI chọn SDK"]
+        direction TB
+        READJSON["đọc global.json"] --> PINS["rollForward + version<br/>chốt SDK 10.0.401"]
+    end
+
+    SDK --> MSB
+
+    subgraph S2["BƯỚC 2 - MSBuild nạp cấu hình theo đúng thứ tự"]
+        direction TB
+        IMPSDK["Sdk=Microsoft.NET.Sdk trong csproj<br/>→ nạp Sdk.props rồi Sdk.targets"]
+        PROPS["Directory.Build.props<br/>TÌM TỪ THƯ MỤC PROJECT ĐI LÊN, DỪNG Ở FILE ĐẦU TIÊN"]
+        CPM["Directory.Packages.props<br/>đặt ManagePackageVersionsCentrally=true"]
+        BODY["thân file .csproj<br/>ghi đè được mọi thứ props đặt trước"]
+        TARGETS["Directory.Build.targets<br/>nạp SAU thân csproj nên ghi đè được"]
+        IMPSDK --> PROPS --> CPM --> BODY --> TARGETS
+    end
+
+    MSB --> S2
+
+    subgraph S3["BƯỚC 3 - Restore, tổ chức theo thứ tự phụ thuộc"]
+        direction TB
+        GRAPH["đọc ProjectReference của mọi csproj<br/>dựng DAG phụ thuộc"]
+        TOPO["sắp topo: SharedKernel → Domain → Application → Infrastructure → Api"]
+        NUGET["tải package từ NuGet theo version trong Directory.Packages.props"]
+        ASSETS["ghi kết quả vào obj/project.assets.json"]
+        GRAPH --> TOPO --> NUGET --> ASSETS
+    end
+
+    S2 --> S3
+
+    subgraph S4["BƯỚC 4 - Roslyn biên dịch TỪNG PROJECT RIÊNG BIỆT"]
+        direction TB
+        SK1["biên dịch SharedKernel.cs → FoodHub.SharedKernel.dll"]
+        SK2["dùng .dll vừa xong làm tham chiếu METADATA cho Domain<br/>biên dịch → FoodHub.Domain.dll"]
+        SK3["→ FoodHub.Application.dll"]
+        SK4["→ FoodHub.Infrastructure.dll"]
+        SK5["→ FoodHub.Api.dll"]
+        SK1 --> SK2 --> SK3 --> SK4 --> SK5
+    end
+
+    S3 --> S4
+
+    OUT["obj/Debug/net10.0/*.dll<br/>rồi copy sang bin/Debug/net10.0/"]
+
+    S4 --> OUT
+
+    subgraph S5["BƯỚC 5 - Api sinh 2 file mô tả cách chạy"]
+        direction TB
+        DEPS["FoodHub.Api.deps.json<br/>danh sách assembly + đường dẫn + version"]
+        RUNTIME["FoodHub.Api.runtimeconfig.json<br/>bản runtime .NET nào cần dùng"]
+    end
+
+    OUT --> S5
+    S5 --> DONE(["dotnet build xong"])
+
+    classDef warn fill:#fff3cd,stroke:#d39e00,color:#664d03
+    classDef ok fill:#d4edda,stroke:#28a745,color:#155724
+    classDef hard fill:#f8d7da,stroke:#dc3545,color:#721c24
+    class PROPS,CPM warn
+    class GRAPH,TOPO ok
+    class S4,S5 hard

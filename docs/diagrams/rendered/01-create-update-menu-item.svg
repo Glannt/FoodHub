@@ -1,0 +1,344 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2776.495 2494" width="2776.495" height="2494" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="seq-arrow" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" />
+  </marker>
+  <marker id="seq-arrow-open" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polyline points="0 0, 8 2.5, 0 5" fill="none" stroke="var(--_arrow)" stroke-width="1" />
+  </marker>
+</defs>
+<g class="block" data-type="rect" data-label="rgb(235, 242, 255)">
+  <rect x="30" y="78" width="819.8439999999999" height="170" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="78" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="87" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(235, 242, 255)]</text>
+</g>
+<g class="block" data-type="alt" data-label="Có lỗi">
+  <rect x="30" y="509" width="819.8439999999999" height="115" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="509" width="66.49000000000001" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="518" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">alt [Có lỗi]</text>
+</g>
+<g class="block" data-type="rect" data-label="rgb(235, 242, 255)">
+  <rect x="30" y="271" width="1407.8979999999997" height="503" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="271" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="280" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(235, 242, 255)]</text>
+</g>
+<g class="block" data-type="rect" data-label="rgb(232, 247, 233)">
+  <rect x="1110.5189999999998" y="797" width="1635.976" height="570" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1110.5189999999998" y="797" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1116.5189999999998" y="806" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(232, 247, 233)]</text>
+</g>
+<g class="block" data-type="rect" data-label="rgb(255, 248, 225)">
+  <rect x="1110.5189999999998" y="1390" width="1147.216" height="170" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1110.5189999999998" y="1390" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1116.5189999999998" y="1399" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(255, 248, 225)]</text>
+</g>
+<g class="block" data-type="rect" data-label="rgb(252, 235, 245)">
+  <rect x="1110.5189999999998" y="1583" width="1635.976" height="355" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1110.5189999999998" y="1583" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1116.5189999999998" y="1592" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(252, 235, 245)]</text>
+</g>
+<g class="block" data-type="rect" data-label="rgb(232, 247, 233)">
+  <rect x="1110.5189999999998" y="1961" width="842.0739999999998" height="210" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1110.5189999999998" y="1961" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1116.5189999999998" y="1970" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(232, 247, 233)]</text>
+</g>
+<g class="block" data-type="rect" data-label="rgb(235, 242, 255)">
+  <rect x="30" y="2194" width="1407.8979999999997" height="250" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="2194" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="2203" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(235, 242, 255)]</text>
+</g>
+<line class="lifeline" data-actor="Client" x1="158.12149999999997" y1="70" x2="158.12149999999997" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Ctrl" x1="436.5874999999999" y1="70" x2="436.5874999999999" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="ValB" x1="718.3879999999999" y1="70" x2="718.3879999999999" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="LogB" x1="980.1814999999999" y1="70" x2="980.1814999999999" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Hdl" x1="1274.2084999999997" y1="70" x2="1274.2084999999997" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="DOM" x1="1588.2424999999996" y1="70" x2="1588.2424999999996" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="EVT" x1="1845.5899999999997" y1="70" x2="1845.5899999999997" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="DBC" x1="2115.1639999999998" y1="70" x2="2115.1639999999998" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="UOW" x1="2438.0899999999997" y1="70" x2="2438.0899999999997" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="PG" x1="2682.47" y1="70" x2="2682.47" y2="2464" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<g class="message" data-from="Client" data-to="Ctrl" data-label="POST /api/restaurants/r1/menu/items" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="158.12149999999997" y1="118" x2="436.5874999999999" y2="118" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="297.3544999999999" y="108" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">POST /api/restaurants/r1/menu/items</text>
+</g>
+<g class="message" data-from="Ctrl" data-to="Ctrl" data-label="Ghép CreateMenuItemCommand từ route và body" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="436.5874999999999,158 466.5874999999999,158 466.5874999999999,178 436.5874999999999,178" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="474.5874999999999" y="168" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Ghép CreateMenuItemCommand từ route và body</text>
+</g>
+<g class="message" data-from="Ctrl" data-to="ValB" data-label="Send(command, ct) - MediatR vào Behavior đăng ký đầu tiên" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="436.5874999999999" y1="228" x2="718.3879999999999" y2="228" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="577.4877499999999" y="218" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Send(command, ct) - MediatR vào Behavior đăng ký đầu tiên</text>
+</g>
+<g class="message" data-from="ValB" data-to="ValB" data-label="Tự tìm IValidator cho command" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="718.3879999999999,311 748.3879999999999,311 748.3879999999999,331 718.3879999999999,331" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="756.3879999999999" y="321" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Tự tìm IValidator cho command</text>
+</g>
+<g class="message" data-from="ValB" data-to="ValB" data-label="Gọi ValidateAsync trên từng validator" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="718.3879999999999,381 748.3879999999999,381 748.3879999999999,401 718.3879999999999,401" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="756.3879999999999" y="391" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Gọi ValidateAsync trên từng validator</text>
+</g>
+<g class="message" data-from="ValB" data-to="ValB" data-label="danh sách lỗi" data-line-style="dashed" data-arrow-head="filled" data-self="true">
+  <polyline points="718.3879999999999,451 748.3879999999999,451 748.3879999999999,471 718.3879999999999,471" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="756.3879999999999" y="461" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">danh sách lỗi</text>
+</g>
+<g class="message" data-from="ValB" data-to="Ctrl" data-label="ném ValidationException - KHÔNG gọi next" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="718.3879999999999" y1="549" x2="436.5874999999999" y2="549" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="577.4877499999999" y="539" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ném ValidationException - KHÔNG gọi next</text>
+</g>
+<g class="message" data-from="Ctrl" data-to="Client" data-label="400 problem+json" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="436.5874999999999" y1="604" x2="158.12149999999997" y2="604" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="297.3544999999999" y="594" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">400 problem+json</text>
+</g>
+<g class="message" data-from="ValB" data-to="LogB" data-label="await next1" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="718.3879999999999" y1="644" x2="980.1814999999999" y2="644" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="849.2847499999999" y="634" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">await next1</text>
+</g>
+<g class="message" data-from="LogB" data-to="LogB" data-label="Stopwatch.StartNew và log Bắt đầu" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="980.1814999999999,684 1010.1814999999999,684 1010.1814999999999,704 980.1814999999999,704" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1018.1814999999999" y="694" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Stopwatch.StartNew và log Bắt đầu</text>
+</g>
+<g class="message" data-from="LogB" data-to="Hdl" data-label="await next2" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="980.1814999999999" y1="754" x2="1274.2084999999997" y2="754" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1127.1949999999997" y="744" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">await next2</text>
+</g>
+<g class="message" data-from="Hdl" data-to="DBC" data-label="Restaurants.AnyAsync với r.Id bằng r1" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1274.2084999999997" y1="837" x2="2115.1639999999998" y2="837" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1694.6862499999997" y="827" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Restaurants.AnyAsync với r.Id bằng r1</text>
+</g>
+<g class="message" data-from="DBC" data-to="PG" data-label="SELECT EXISTS FROM restaurants" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="877" x2="2682.47" y2="877" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="867" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SELECT EXISTS FROM restaurants</text>
+</g>
+<g class="message" data-from="PG" data-to="DBC" data-label="true" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2682.47" y1="917" x2="2115.1639999999998" y2="917" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="907" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">true</text>
+</g>
+<g class="message" data-from="DBC" data-to="Hdl" data-label="true" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="957" x2="1274.2084999999997" y2="957" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1694.6862499999997" y="947" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">true</text>
+</g>
+<g class="message" data-from="Hdl" data-to="DBC" data-label="MenuCategories.AnyAsync với c.Id và RestaurantId" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1274.2084999999997" y1="997" x2="2115.1639999999998" y2="997" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1694.6862499999997" y="987" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">MenuCategories.AnyAsync với c.Id và RestaurantId</text>
+</g>
+<g class="message" data-from="DBC" data-to="PG" data-label="SELECT EXISTS FROM menu_categories" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="1037" x2="2682.47" y2="1037" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="1027" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SELECT EXISTS FROM menu_categories</text>
+</g>
+<g class="message" data-from="PG" data-to="DBC" data-label="true" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2682.47" y1="1077" x2="2115.1639999999998" y2="1077" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="1067" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">true</text>
+</g>
+<g class="message" data-from="DBC" data-to="Hdl" data-label="true" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="1117" x2="1274.2084999999997" y2="1117" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1694.6862499999997" y="1107" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">true</text>
+</g>
+<g class="message" data-from="Hdl" data-to="DOM" data-label="new MenuItem r1, c1, name, desc, price, img" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1274.2084999999997" y1="1157" x2="1588.2424999999996" y2="1157" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1431.2254999999996" y="1147" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">new MenuItem r1, c1, name, desc, price, img</text>
+</g>
+<g class="message" data-from="DOM" data-to="DOM" data-label="Guard: name và desc khác rỗng, price lớn hơn 0" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="1588.2424999999996,1197 1618.2424999999996,1197 1618.2424999999996,1217 1588.2424999999996,1217" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1626.2424999999996" y="1207" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Guard: name và desc khác rỗng, price lớn hơn 0</text>
+</g>
+<g class="message" data-from="DOM" data-to="EVT" data-label="Raise(new MenuItemAddedEvent)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1588.2424999999996" y1="1267" x2="1845.5899999999997" y2="1267" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1716.9162499999998" y="1257" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Raise(new MenuItemAddedEvent)</text>
+</g>
+<g class="message" data-from="EVT" data-to="DOM" data-label="_domainEvents.Count bằng 1" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1845.5899999999997" y1="1307" x2="1588.2424999999996" y2="1307" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1716.9162499999998" y="1297" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">_domainEvents.Count bằng 1</text>
+</g>
+<g class="message" data-from="DOM" data-to="Hdl" data-label="menuItem" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1588.2424999999996" y1="1347" x2="1274.2084999999997" y2="1347" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1431.2254999999996" y="1337" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">menuItem</text>
+</g>
+<g class="message" data-from="Hdl" data-to="DBC" data-label="dbContext.MenuItems.Add(menuItem)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1274.2084999999997" y1="1430" x2="2115.1639999999998" y2="1430" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1694.6862499999997" y="1420" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">dbContext.MenuItems.Add(menuItem)</text>
+</g>
+<g class="message" data-from="DBC" data-to="DBC" data-label="BeginTracking với EntityState.Added" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="2115.1639999999998,1470 2145.1639999999998,1470 2145.1639999999998,1490 2115.1639999999998,1490" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="2153.1639999999998" y="1480" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">BeginTracking với EntityState.Added</text>
+</g>
+<g class="message" data-from="DBC" data-to="Hdl" data-label="không query, không round-trip" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="1540" x2="1274.2084999999997" y2="1540" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1694.6862499999997" y="1530" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">không query, không round-trip</text>
+</g>
+<g class="message" data-from="Hdl" data-to="UOW" data-label="SaveChangesAsync(ct)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1274.2084999999997" y1="1623" x2="2438.0899999999997" y2="1623" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1856.1492499999997" y="1613" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SaveChangesAsync(ct)</text>
+</g>
+<g class="message" data-from="UOW" data-to="DBC" data-label="SaveChangesAsync(ct)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="2438.0899999999997" y1="1663" x2="2115.1639999999998" y2="1663" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="2276.6269999999995" y="1653" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SaveChangesAsync(ct)</text>
+</g>
+<g class="message" data-from="DBC" data-to="PG" data-label="BEGIN" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="1718" x2="2682.47" y2="1718" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="1708" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">BEGIN</text>
+</g>
+<g class="message" data-from="DBC" data-to="PG" data-label="INSERT menu_items" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="1758" x2="2682.47" y2="1758" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="1748" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">INSERT menu_items</text>
+</g>
+<g class="message" data-from="DBC" data-to="PG" data-label="COMMIT" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="1798" x2="2682.47" y2="1798" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="1788" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">COMMIT</text>
+</g>
+<g class="message" data-from="PG" data-to="DBC" data-label="rows affected bằng 1" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2682.47" y1="1838" x2="2115.1639999999998" y2="1838" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="2398.817" y="1828" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">rows affected bằng 1</text>
+</g>
+<g class="message" data-from="DBC" data-to="UOW" data-label="1" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2115.1639999999998" y1="1878" x2="2438.0899999999997" y2="1878" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="2276.6269999999995" y="1868" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">1</text>
+</g>
+<g class="message" data-from="UOW" data-to="Hdl" data-label="int" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="2438.0899999999997" y1="1918" x2="1274.2084999999997" y2="1918" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1856.1492499999997" y="1908" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">int</text>
+</g>
+<g class="message" data-from="Hdl" data-to="EVT" data-label="đọc DomainEvents" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1274.2084999999997" y1="2001" x2="1845.5899999999997" y2="2001" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1559.8992499999997" y="1991" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">đọc DomainEvents</text>
+</g>
+<g class="message" data-from="EVT" data-to="Hdl" data-label="MenuItemAddedEvent" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1845.5899999999997" y1="2041" x2="1274.2084999999997" y2="2041" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1559.8992499999997" y="2031" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">MenuItemAddedEvent</text>
+</g>
+<g class="message" data-from="Hdl" data-to="Hdl" data-label="xử lý event rồi ClearDomainEvents" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="1274.2084999999997,2081 1304.2084999999997,2081 1304.2084999999997,2101 1274.2084999999997,2101" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1312.2084999999997" y="2091" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">xử lý event rồi ClearDomainEvents</text>
+</g>
+<g class="message" data-from="EVT" data-to="DOM" data-label="Count bằng 0" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1845.5899999999997" y1="2151" x2="1588.2424999999996" y2="2151" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1716.9162499999998" y="2141" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Count bằng 0</text>
+</g>
+<g class="message" data-from="Hdl" data-to="LogB" data-label="CreateMenuItemResult với menuItem.Id" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1274.2084999999997" y1="2234" x2="980.1814999999999" y2="2234" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1127.1949999999997" y="2224" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">CreateMenuItemResult với menuItem.Id</text>
+</g>
+<g class="message" data-from="LogB" data-to="LogB" data-label="Stopwatch.Stop rồi log elapsed" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="980.1814999999999,2274 1010.1814999999999,2274 1010.1814999999999,2294 980.1814999999999,2294" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1018.1814999999999" y="2284" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Stopwatch.Stop rồi log elapsed</text>
+</g>
+<g class="message" data-from="LogB" data-to="ValB" data-label="result" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="980.1814999999999" y1="2344" x2="718.3879999999999" y2="2344" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="849.2847499999999" y="2334" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">result</text>
+</g>
+<g class="message" data-from="ValB" data-to="Ctrl" data-label="result" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="718.3879999999999" y1="2384" x2="436.5874999999999" y2="2384" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="577.4877499999999" y="2374" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">result</text>
+</g>
+<g class="message" data-from="Ctrl" data-to="Client" data-label="201 Created kèm Location header" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="436.5874999999999" y1="2424" x2="158.12149999999997" y2="2424" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="297.3544999999999" y="2414" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">201 Created kèm Location header</text>
+</g>
+<g class="note" data-position="over" data-actors="ValB,LogB">
+  <polygon points="669.8427499999999,236 1022.7267499999998,236 1028.7267499999998,242 1028.7267499999998,259 669.8427499999999,259" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1022.7267499999998,236 1028.7267499999998,242 1022.7267499999998,242" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="849.2847499999999" y="247.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">TẦNG APPLICATION - thứ tự bao ngoài do AddOpenBehavior quyết định</text>
+</g>
+<g class="note" data-position="over" data-actors="ValB,Hdl">
+  <polygon points="844.4772499999999,557 1142.1192499999997,557 1148.1192499999997,563 1148.1192499999997,580 844.4772499999999,580" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1142.1192499999997,557 1148.1192499999997,563 1142.1192499999997,563" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="996.2982499999998" y="568.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Handler chưa bao giờ chạy, cũng không có log thời gian xử lý</text>
+</g>
+<g class="note" data-position="over" data-actors="Hdl,EVT">
+  <polygon points="1477.8732499999996,762 1635.9252499999998,762 1641.9252499999998,768 1641.9252499999998,785 1477.8732499999996,785" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1635.9252499999998,762 1641.9252499999998,768 1635.9252499999998,768" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1559.8992499999997" y="773.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">TẦNG DOMAIN - Raise sự kiện</text>
+</g>
+<g class="note" data-position="over" data-actors="Hdl,DBC">
+  <polygon points="1582.6632499999998,1355 1800.7092499999999,1355 1806.7092499999999,1361 1806.7092499999999,1378 1582.6632499999998,1378" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1800.7092499999999,1355 1806.7092499999999,1361 1800.7092499999999,1361" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1694.6862499999997" y="1366.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">CHANGE TRACKER - chưa chạm Database</text>
+</g>
+<g class="note" data-position="over" data-actors="Hdl,PG">
+  <polygon points="1860.3762499999998,1548 2090.3022499999997,1548 2096.3022499999997,1554 2096.3022499999997,1571 1860.3762499999998,1571" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="2090.3022499999997,1548 2096.3022499999997,1554 2090.3022499999997,1554" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1978.3392499999998" y="1559.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">TRANSACTION - IUnitOfWork hoạt động ở đây</text>
+</g>
+<g class="note" data-position="over" data-actors="UOW,DBC">
+  <polygon points="1933.8349999999994,1671 2613.4189999999994,1671 2619.4189999999994,1677 2619.4189999999994,1694 1933.8349999999994,1694" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="2613.4189999999994,1671 2619.4189999999994,1677 2613.4189999999994,1677" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="2276.6269999999995" y="1682.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)"><tspan x="2276.6269999999995" dy="-3.3000000000000007">AppDbContextUnitOfWork là lớp bọc mỏng giữ CHÍNH AppDbContext này</tspan><tspan x="2276.6269999999995" dy="14.3">nên SaveChangesAsync vẫn thấy hết thay đổi trong ChangeTracker</tspan></text>
+</g>
+<g class="note" data-position="over" data-actors="Hdl,EVT">
+  <polygon points="1442.5302499999998,1926 1671.2682499999999,1926 1677.2682499999999,1932 1677.2682499999999,1949 1442.5302499999998,1949" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1671.2682499999999,1926 1677.2682499999999,1932 1671.2682499999999,1932" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1559.89925" y="1937.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">DISPATCH - chỉ sau khi COMMIT thành công</text>
+</g>
+<g class="note" data-position="over" data-actors="Ctrl,Client">
+  <polygon points="175.82749999999993,2159 412.88149999999996,2159 418.88149999999996,2165 418.88149999999996,2182 175.82749999999993,2182" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="412.88149999999996,2159 418.88149999999996,2165 412.88149999999996,2165" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="297.3544999999999" y="2170.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">UNWIND - kết quả đi ngược lại đúng thứ tự ngược</text>
+</g>
+<g class="actor" data-id="Client" data-label="Client REST
+Blazor hoặc Postman" data-type="participant">
+  <rect x="39.999999999999986" y="30" width="236.24299999999997" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="158.12149999999997" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="158.12149999999997" dy="-3.9000000000000012">Client REST</tspan><tspan x="158.12149999999997" dy="16.900000000000002">Blazor hoặc Postman</tspan></text>
+</g>
+<g class="actor" data-id="Ctrl" data-label="MenuItemsController
+FoodHub.Api" data-type="participant">
+  <rect x="316.24299999999994" y="30" width="240.68899999999994" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="436.5874999999999" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="436.5874999999999" dy="-3.9000000000000012">MenuItemsController</tspan><tspan x="436.5874999999999" dy="16.900000000000002">FoodHub.Api</tspan></text>
+</g>
+<g class="actor" data-id="ValB" data-label="ValidationBehavior
+bọc ngoài cùng" data-type="participant">
+  <rect x="596.9319999999999" y="30" width="242.91199999999998" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="718.3879999999999" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="718.3879999999999" dy="-3.9000000000000012">ValidationBehavior</tspan><tspan x="718.3879999999999" dy="16.900000000000002">bọc ngoài cùng</tspan></text>
+</g>
+<g class="actor" data-id="LogB" data-label="LoggingBehavior
+bọc trong" data-type="participant">
+  <rect x="879.8439999999999" y="30" width="200.67499999999998" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="980.1814999999999" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="980.1814999999999" dy="-3.9000000000000012">LoggingBehavior</tspan><tspan x="980.1814999999999" dy="16.900000000000002">bọc trong</tspan></text>
+</g>
+<g class="actor" data-id="Hdl" data-label="CreateMenuItemHandler
+FoodHub.Application" data-type="participant">
+  <rect x="1120.5189999999998" y="30" width="307.3789999999999" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1274.2084999999997" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="1274.2084999999997" dy="-3.9000000000000012">CreateMenuItemHandler</tspan><tspan x="1274.2084999999997" dy="16.900000000000002">FoodHub.Application</tspan></text>
+</g>
+<g class="actor" data-id="DOM" data-label="MenuItem
+AggregateRoot ở Domain" data-type="participant">
+  <rect x="1467.8979999999997" y="30" width="240.68899999999994" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1588.2424999999996" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="1588.2424999999996" dy="-3.9000000000000012">MenuItem</tspan><tspan x="1588.2424999999996" dy="16.900000000000002">AggregateRoot ở Domain</tspan></text>
+</g>
+<g class="actor" data-id="EVT" data-label="_domainEvents
+trong RAM" data-type="participant">
+  <rect x="1748.5869999999998" y="30" width="194.00599999999997" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1845.5899999999997" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="1845.5899999999997" dy="-3.9000000000000012">_domainEvents</tspan><tspan x="1845.5899999999997" dy="16.900000000000002">trong RAM</tspan></text>
+</g>
+<g class="actor" data-id="DBC" data-label="AppDbContext
+FoodHub.Infrastructure" data-type="participant">
+  <rect x="1982.5929999999998" y="30" width="265.14199999999994" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="2115.1639999999998" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="2115.1639999999998" dy="-3.9000000000000012">AppDbContext</tspan><tspan x="2115.1639999999998" dy="16.900000000000002">FoodHub.Infrastructure</tspan></text>
+</g>
+<g class="actor" data-id="UOW" data-label="AppDbContextUnitOfWork
+bọc AppDbContext" data-type="participant">
+  <rect x="2287.7349999999997" y="30" width="300.71" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="2438.0899999999997" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="2438.0899999999997" dy="-3.9000000000000012">AppDbContextUnitOfWork</tspan><tspan x="2438.0899999999997" dy="16.900000000000002">bọc AppDbContext</tspan></text>
+</g>
+<g class="actor" data-id="PG" data-label="PostgreSQL" data-type="participant">
+  <rect x="2628.4449999999997" y="30" width="108.04999999999998" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="2682.47" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">PostgreSQL</text>
+</g>
+</svg>

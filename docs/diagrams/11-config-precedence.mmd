@@ -1,0 +1,66 @@
+flowchart TD
+    START(["Cấu hình trong FoodHub có 2 nhóm, tách biệt hoàn toàn"])
+
+    START --> Q1{"Nhóm nào?"}
+
+    Q1 -->|"Lúc COMPILE<br/>do MSBuild đọc"| MC
+
+    Q1 -->|"Lúc RUNTIME<br/>do app đọc"| RT
+
+    subgraph MC["NHÓM 1 - LÚC COMPILE, MSBuild đọc file"]
+        direction TB
+        M1["1. global.json<br/>chỉ định SDK, ảnh hưởng 1 lần duy nhất"]
+        M2["2. Directory.Build.props<br/>áp cho MỌI project"]
+        M3["3. thân file .csproj<br/>đặt sau nên THẮNG Directory.Build.props"]
+        M4["4. Directory.Build.targets<br/>đặt sau .csproj nên thắng .csproj"]
+        M5["5. Directory.Packages.props<br/>nguồn version DUY NHẤT"]
+        M1 --> M2 --> M3 --> M4 --> M5
+    end
+
+    subgraph RULE1["QUY TẮC QUAN TRỌNG NHẤT"]
+        direction TB
+        R1A["Directory.Build.props: MSBuild đi từ thư mục project LÊN TRÊN<br/>và DỪNG NGAY Ở file đầu tiên tìm thấy"]
+        R1B["→ gần project nhất THẮNG, file ở gốc bị BỎ QUA hoàn toàn"]
+        R1C["→ muốn ghi đè thì tạo Directory.Build.props ngay trong thư mục project đó"]
+        R1D["→ muốn tắt hẳn: đặt ImportDirectoryBuildProps là false"]
+        R1A --> R1B --> R1C --> R1D
+    end
+
+    subgraph NOTE1["HIỆN TẠI TRONG REPO NÀY"]
+        direction TB
+        N1A["chỉ có 1 Directory.Build.props ở gốc FoodHub/"]
+        N1B["không project nào có file riêng"]
+        N1C["→ không có ghi đè nào xảy ra, mọi project đều nhận cùng 1 bộ quy tắc"]
+        N1A --> N1B --> N1C
+    end
+
+    subgraph DUPE["VÌ SAO KHÔNG CẦN KHAI BÁO LẠI"]
+        direction TB
+        DP1["FoodHub.Api.csproj có <Nullable>enable</Nullable><br/>và <ImplicitUsings>enable</ImplicitUsings>"]
+        DP2["Directory.Build.props cũng có 2 dòng đó"]
+        DP3["→ trùng lặp vô hại vì cùng giá trị<br/>nếu khác giá trị thì .csproj thắng"]
+        DP1 --> DP2 --> DP3
+    end
+
+    Q1 -->|"Lúc RUNTIME<br/>do app đọc"| RT
+
+    subgraph RT["NHÓM 2 - LÚC RUNTIME, app đọc file"]
+        direction TB
+        T1["appsettings.json<br/>mặc định"]
+        T2["appsettings.Development.json<br/>nạp SAU, ghi đè khóa trùng"]
+        T3["Biến môi trường<br/>nạp SAU CÙNG, thắng tất cả"]
+        T4["launchSettings.json<br/>CHỈ có tác dụng khi chạy dotnet run hoặc F5 trong Visual Studio<br/>biến môi trường do nó sinh ra"]
+        T5["ConnectionStrings:Default<br/>đọc bằng IConfiguration, truyền vào UseNpgsql"]
+        T1 --> T2 --> T3 --> T4
+        T3 --> T5
+    end
+
+    RT --> ENDCFG(["Kết thúc: cấu hình compile và cấu hình runtime<br/>KHÔNG liên quan gì đến nhau"])
+
+    classDef warn fill:#fff3cd,stroke:#d39e00,color:#664d03
+    classDef ok fill:#d4edda,stroke:#28a745,color:#155724
+    classDef info fill:#cce5ff,stroke:#004085,color:#004085
+    class R1A,R1B,R1C warn
+    class N1C,DP3 ok
+    class M5,T5 info
+    class T4 warn

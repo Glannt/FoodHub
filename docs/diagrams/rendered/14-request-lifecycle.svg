@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1803.0973749999996 1833.0549999999998" width="1803.0973749999996" height="1833.0549999999998" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="ZONE_A" data-label="VÙNG A - CONTAINER DI - không phải pipeline, chỉ cung cấp object">
+  <rect x="630.867" y="40" width="365.1629999999999" height="361.40000000000003" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="630.867" y="40" width="365.1629999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="642.867" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">VÙNG A - CONTAINER DI - không phải pipeline, chỉ cung cấp object</text>
+</g>
+<g class="subgraph" data-id="ZONE_B" data-label="VÙNG B - MIDDLEWARE - thấy MỌI request, kể cả 404 và file tĩnh">
+  <rect x="308.63300000000004" y="942.8" width="469.0525833333332" height="455.2" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="308.63300000000004" y="942.8" width="469.0525833333332" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="320.63300000000004" y="956.8" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">VÙNG B - MIDDLEWARE - thấy MỌI request, kể cả 404 và file tĩnh</text>
+</g>
+<g class="subgraph" data-id="ZH" data-label="NHÁNH HEALTH - KHÔNG đi qua filter">
+  <rect x="275.344" y="40" width="335.52299999999997" height="250.70000000000002" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="275.344" y="40" width="335.52299999999997" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="287.344" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">NHÁNH HEALTH - KHÔNG đi qua filter</text>
+</g>
+<g class="subgraph" data-id="ZONE_C" data-label="VÙNG C - FILTER - CHỈ có trong MVC, bọc quanh action">
+  <rect x="1377.4809999999998" y="40" width="385.6163749999999" height="659.7" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1377.4809999999998" y="40" width="385.6163749999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1389.4809999999998" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">VÙNG C - FILTER - CHỈ có trong MVC, bọc quanh action</text>
+</g>
+<g class="subgraph" data-id="ZONE_D" data-label="VÙNG D - BEHAVIOR - CHỈ có trong MediatR, bọc quanh handler">
+  <rect x="1038.2599999999998" y="40" width="296.991" height="361.40000000000003" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1038.2599999999998" y="40" width="296.991" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1050.2599999999998" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">VÙNG D - BEHAVIOR - CHỈ có trong MediatR, bọc quanh handler</text>
+</g>
+<g class="subgraph" data-id="ZONE_E" data-label="VÙNG E - ĐƯỜNG ĐI NGƯỢC LẠI">
+  <rect x="1016.0299999999999" y="518.3" width="341.451" height="404.5" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="1016.0299999999999" y="518.3" width="341.451" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1028.0299999999997" y="532.3" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">VÙNG E - ĐƯỜNG ĐI NGƯỢC LẠI</text>
+</g>
+<polyline class="edge" data-from="REQ" data-to="KESTREL" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="147.672,76.9 147.672,96.9 147.67199999999997,96.9 147.67199999999997,116.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="REQ" data-to="KESTREL" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="147.672,76.9 147.672,96.9 147.67199999999997,96.9 147.67199999999997,116.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MATCH" data-to="HEALTH" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="MapHealthChecks" points="528.3203333333333,1619.5458333333333 528.3203333333333,1683.855 506.4605,1683.855 506.4605000000001,1756.1549999999997" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="MATCH" data-to="FILTER" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="MapControllers" points="600.9386666666667,1619.5458333333333 600.9386666666667,1683.855 622.7985000000001,1683.855 622.7985,1756.1549999999997" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CTRL" data-to="SEND" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1696.0278124999998,764.8 1696.0278124999998,804.6 1684.0679791666664,804.6 1684.0679791666664,804.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K5" data-to="MATCH" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="564.6295,1382 564.6295,1398 564.6295,1438" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F4" data-to="SEND" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1610.8968749999997,419.20000000000005 1610.8968749999997,434.75000000000006 1671.1483124999997,434.75000000000006 1671.1483124999997,804.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F4" data-to="CTRL" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1610.8968749999997,419.20000000000005 1610.8968749999997,434.75000000000006 1696.0278124999998,434.75000000000006 1696.0278124999998,727.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="D4" data-to="RES" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,385.40000000000003 1186.7554999999998,401.40000000000003 1186.7555,450.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="RES" data-to="E1" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7555,487.2000000000001 1186.7554999999998,518.3 1186.7554999999998,557.65" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K3" data-to="ERR" data-style="dotted" data-arrow-start="false" data-arrow-end="true" points="432.22933333333333,1211.3 432.22933333333333,1223.3 407.4255,1223.3 407.4255,1398 407.4255,1426 235.85100000000003,1426 235.85100000000003,1438" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K2" data-to="NOTE" data-style="dotted" data-arrow-start="false" data-arrow-end="true" points="647.91425,1117.5 647.9142499999999,1129.5 720.8335,1129.5 720.8335,1398 720.8335,1426 894.5195,1426 894.5195,1438" fill="none" stroke="var(--_line)" stroke-width="1" stroke-dasharray="4 4" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="A1" data-to="A2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="813.4485,120.9 813.4485,169.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="A2" data-to="A3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="813.4485,206.25000000000003 813.4485,254.70000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="A3" data-to="A4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="813.4485,308.5 813.4485,331.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K1" data-to="K2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="591.0285833333332,1023.6999999999999 591.0285833333332,1063.7" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K2" data-to="K3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="534.1429166666667,1117.5 534.1429166666667,1129.5 486.0275,1129.5 486.02750000000003,1157.5" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K3" data-to="K4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="539.8256666666666,1211.3 539.8256666666666,1223.3 564.6295,1223.3 564.6295,1251.3" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="K4" data-to="K5" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="564.6295,1288.1999999999998 564.6295,1328.1999999999998" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="H1" data-to="H2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="443.1055,120.9 443.1055,169.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="H2" data-to="H3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="443.1055,206.25000000000003 443.1055,254.70000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F1" data-to="F2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1610.8968749999997,137.8 1610.8968749999997,169.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F2" data-to="F3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1610.8968749999997,223.15000000000003 1610.8968749999997,254.70000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F3" data-to="F4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1610.8968749999997,308.5 1610.8968749999997,365.40000000000003" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F4" data-to="F5" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1610.8968749999997,419.20000000000005 1610.8968749999997,434.75000000000006 1520.0484999999996,434.75000000000006 1520.0484999999996,450.30000000000007" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F5" data-to="F6" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1520.0484999999996,504.1 1520.0484999999996,557.65" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="F6" data-to="F7" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1520.0484999999996,611.45 1520.0484999999996,643" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="D1" data-to="D2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,137.8 1186.7554999999998,169.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="D2" data-to="D3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,206.25000000000003 1186.7554999999998,254.70000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="D3" data-to="D4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,291.6 1186.7554999999998,331.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="E1" data-to="E2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,594.55 1186.7554999999998,643" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="E2" data-to="E3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,679.9 1186.7554999999998,727.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="E3" data-to="E4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,764.8000000000001 1186.7554999999998,804.8" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="E4" data-to="E5" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1186.7554999999998,841.6999999999999 1186.7554999999998,869.9" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="MATCH" data-to="HEALTH" data-label="MapHealthChecks">
+  <rect x="453.9605" y="1690.855" width="104.968" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="506.4445" y="1706.005" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">MapHealthChecks</text>
+</g>
+<g class="edge-label" data-from="MATCH" data-to="FILTER" data-label="MapControllers">
+  <rect x="576.7985000000001" y="1690.855" width="91.90000000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="622.7485000000001" y="1706.005" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">MapControllers</text>
+</g>
+<g class="node" data-id="REQ" data-label="HTTP Request vào cổng https" data-shape="stadium">
+  <rect x="40" y="40" width="215.344" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="147.672" y="58.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">HTTP Request vào cổng https</text>
+</g>
+<g class="node" data-id="KESTREL" data-label="KESTREL" data-shape="rectangle">
+  <rect x="95.57499999999997" y="116.9" width="104.194" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="147.67199999999997" y="135.35000000000002" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">KESTREL</text>
+</g>
+<g class="node" data-id="MATCH" data-label="Endpoint nào được match?" data-shape="diamond">
+  <polygon points="564.6295,1438 673.557,1546.9275 564.6295,1655.855 455.702,1546.9275" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="564.6295" y="1546.9275" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">Endpoint nào được match?</text>
+</g>
+<g class="node" data-id="HEALTH" data-label="HEALTH" data-shape="rectangle">
+  <rect x="458.80950000000007" y="1756.1549999999997" width="95.30199999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="506.4605000000001" y="1774.6049999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">HEALTH</text>
+</g>
+<g class="node" data-id="FILTER" data-label="FILTER" data-shape="rectangle">
+  <rect x="578.1115" y="1756.1549999999997" width="89.374" height="36.900000000000006" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="622.7985" y="1774.6049999999998" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">FILTER</text>
+</g>
+<g class="node" data-id="SEND" data-label="SEND" data-shape="rectangle">
+  <rect x="1632.3893124999997" y="804.8" width="77.518" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1671.1483124999997" y="823.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">SEND</text>
+</g>
+<g class="node" data-id="CTRL" data-label="CTRL" data-shape="rectangle">
+  <rect x="1657.2688124999997" y="727.9" width="77.518" height="36.900000000000006" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="1696.0278124999998" y="746.35" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">CTRL</text>
+</g>
+<g class="node" data-id="RES" data-label="RES" data-shape="rectangle">
+  <rect x="1152.4424999999999" y="450.30000000000007" width="68.62599999999999" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1186.7555" y="468.75000000000006" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">RES</text>
+</g>
+<g class="node" data-id="ERR" data-label="Nếu ném exception ở BẤT KỲ đâu trong VÙNG C hoặc VÙNG D
+nó nổi lên tới UseExceptionHandler ở VÙNG B
+và được chuyển thành ProblemDetails 404 hoặc 400" data-shape="rectangle">
+  <rect x="40" y="1438" width="391.70200000000006" height="70.7" rx="0" ry="0" fill="#f8d7da" stroke="#dc3545" stroke-width="0.75" />
+  <text x="235.85100000000003" y="1473.35" text-anchor="middle" font-size="13" font-weight="500" fill="#721c24"><tspan x="235.85100000000003" dy="-12.350000000000001">Nếu ném exception ở BẤT KỲ đâu trong VÙNG C hoặc VÙNG D</tspan><tspan x="235.85100000000003" dy="16.900000000000002">nó nổi lên tới UseExceptionHandler ở VÙNG B</tspan><tspan x="235.85100000000003" dy="16.900000000000002">và được chuyển thành ProblemDetails 404 hoặc 400</tspan></text>
+</g>
+<g class="node" data-id="NOTE" data-label="LƯU Ý: UseRouting nằm TRƯỚC UseExceptionHandler
+nên lỗi phát sinh lúc DÒ ENDPOINT sẽ KHÔNG bị bắt
+còn lỗi trong action thì luôn bị bắt vì UseEndpoints nằm CUỐI" data-shape="rectangle">
+  <rect x="697.557" y="1438" width="393.92499999999995" height="70.7" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="894.5195" y="1473.35" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="894.5195" dy="-12.350000000000001">LƯU Ý: UseRouting nằm TRƯỚC UseExceptionHandler</tspan><tspan x="894.5195" dy="16.900000000000002">nên lỗi phát sinh lúc DÒ ENDPOINT sẽ KHÔNG bị bắt</tspan><tspan x="894.5195" dy="16.900000000000002">còn lỗi trong action thì luôn bị bắt vì UseEndpoints nằm CUỐI</tspan></text>
+</g>
+<g class="node" data-id="A1" data-label="Handler cần IApplicationDbContext và IUnitOfWork" data-shape="rectangle">
+  <rect x="646.867" y="84" width="333.1629999999999" height="36.900000000000006" rx="0" ry="0" fill="#e2e3e5" stroke="#6c757d" stroke-width="0.75" />
+  <text x="813.4485" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="#383d41" dy="4.55">Handler cần IApplicationDbContext và IUnitOfWork</text>
+</g>
+<g class="node" data-id="A2" data-label="ServiceProvider tra cứu ServiceDescriptor" data-shape="rectangle">
+  <rect x="663.91" y="169.35000000000002" width="299.07699999999994" height="36.900000000000006" rx="0" ry="0" fill="#e2e3e5" stroke="#6c757d" stroke-width="0.75" />
+  <text x="813.4485" y="187.8" text-anchor="middle" font-size="13" font-weight="500" fill="#383d41" dy="4.55">ServiceProvider tra cứu ServiceDescriptor</text>
+</g>
+<g class="node" data-id="A3" data-label="CẢ HAI đều lấy từ cùng một AppDbContext instance
+nên dùng chung ChangeTracker" data-shape="rectangle">
+  <rect x="647.9784999999999" y="254.70000000000002" width="330.9399999999999" height="53.800000000000004" rx="0" ry="0" fill="#e2e3e5" stroke="#6c757d" stroke-width="0.75" />
+  <text x="813.4484999999999" y="281.6" text-anchor="middle" font-size="13" font-weight="500" fill="#383d41"><tspan x="813.4484999999999" dy="-3.9000000000000012">CẢ HAI đều lấy từ cùng một AppDbContext instance</tspan><tspan x="813.4484999999999" dy="16.900000000000002">nên dùng chung ChangeTracker</tspan></text>
+</g>
+<g class="node" data-id="A4" data-label="Không có gì ở đây chạy nếu không ai yêu cầu
+và không chặn request nào" data-shape="rectangle">
+  <rect x="660.5754999999999" y="331.6" width="305.746" height="53.800000000000004" rx="0" ry="0" fill="#e2e3e5" stroke="#6c757d" stroke-width="0.75" />
+  <text x="813.4485" y="358.5" text-anchor="middle" font-size="13" font-weight="500" fill="#383d41"><tspan x="813.4485" dy="-3.9000000000000012">Không có gì ở đây chạy nếu không ai yêu cầu</tspan><tspan x="813.4485" dy="16.900000000000002">và không chặn request nào</tspan></text>
+</g>
+<g class="node" data-id="K1" data-label="Kestrel: giải mã TLS, đọc HTTP, tạo HttpContext" data-shape="rectangle">
+  <rect x="433.33908333333335" y="986.8" width="315.3789999999999" height="36.900000000000006" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="591.0285833333332" y="1005.25" text-anchor="middle" font-size="13" font-weight="500" fill="#004085" dy="4.55">Kestrel: giải mã TLS, đọc HTTP, tạo HttpContext</text>
+</g>
+<g class="node" data-id="K2" data-label="UseRouting - TỰ CHÈN vào đầu pipeline
+dò endpoint và gắn vào HttpContext, CHƯA gọi action" data-shape="rectangle">
+  <rect x="420.3715833333334" y="1063.7" width="341.31399999999985" height="53.800000000000004" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="591.0285833333332" y="1090.6000000000001" text-anchor="middle" font-size="13" font-weight="500" fill="#004085"><tspan x="591.0285833333332" dy="-3.9000000000000012">UseRouting - TỰ CHÈN vào đầu pipeline</tspan><tspan x="591.0285833333332" dy="16.900000000000002">dò endpoint và gắn vào HttpContext, CHƯA gọi action</tspan></text>
+</g>
+<g class="node" data-id="K3" data-label="UseExceptionHandler - bọc trùm phía sau
+IExceptionHandler xử lý lỗi thành ProblemDetails" data-shape="rectangle">
+  <rect x="324.63300000000004" y="1157.5" width="322.78899999999993" height="53.800000000000004" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="486.02750000000003" y="1184.4" text-anchor="middle" font-size="13" font-weight="500" fill="#004085"><tspan x="486.02750000000003" dy="-3.9000000000000012">UseExceptionHandler - bọc trùm phía sau</tspan><tspan x="486.02750000000003" dy="16.900000000000002">IExceptionHandler xử lý lỗi thành ProblemDetails</tspan></text>
+</g>
+<g class="node" data-id="K4" data-label="UseHttpsRedirection - nếu là http thì trả 307" data-shape="rectangle">
+  <rect x="418.4255" y="1251.3" width="292.40799999999996" height="36.900000000000006" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="564.6295" y="1269.75" text-anchor="middle" font-size="13" font-weight="500" fill="#004085" dy="4.55">UseHttpsRedirection - nếu là http thì trả 307</text>
+</g>
+<g class="node" data-id="K5" data-label="UseEndpoints - TỰ CHÈN vào cuối pipeline
+thực thi endpoint vừa được match" data-shape="rectangle">
+  <rect x="421.76000000000005" y="1328.1999999999998" width="285.7389999999999" height="53.800000000000004" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="564.6295" y="1355.1" text-anchor="middle" font-size="13" font-weight="500" fill="#004085"><tspan x="564.6295" dy="-3.9000000000000012">UseEndpoints - TỰ CHÈN vào cuối pipeline</tspan><tspan x="564.6295" dy="16.900000000000002">thực thi endpoint vừa được match</tspan></text>
+</g>
+<g class="node" data-id="H1" data-label="HealthCheckMiddleware" data-shape="rectangle">
+  <rect x="349.883" y="84" width="186.44499999999996" height="36.900000000000006" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="443.10549999999995" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460" dy="4.55">HealthCheckMiddleware</text>
+</g>
+<g class="node" data-id="H2" data-label="chạy đúng các IHealthCheck đã đăng ký" data-shape="rectangle">
+  <rect x="305.7935" y="169.35000000000002" width="274.624" height="36.900000000000006" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="443.1055" y="187.8" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460" dy="4.55">chạy đúng các IHealthCheck đã đăng ký</text>
+</g>
+<g class="node" data-id="H3" data-label="trả JSON, không có Controller, không có filter" data-shape="rectangle">
+  <rect x="291.344" y="254.70000000000002" width="303.52299999999997" height="36.900000000000006" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="443.1055" y="273.15000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460" dy="4.55">trả JSON, không có Controller, không có filter</text>
+</g>
+<g class="node" data-id="F1" data-label="IAuthorizationFilter
+kiểm tra quyền, ví dụ AuthorizeAttribute" data-shape="rectangle">
+  <rect x="1474.6963749999998" y="84" width="272.4009999999999" height="53.800000000000004" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="1610.8968749999997" y="110.9" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460"><tspan x="1610.8968749999997" dy="-3.9000000000000012">IAuthorizationFilter</tspan><tspan x="1610.8968749999997" dy="16.900000000000002">kiểm tra quyền, ví dụ AuthorizeAttribute</tspan></text>
+</g>
+<g class="node" data-id="F2" data-label="IAsyncResourceFilter
+OnResourceExecuting" data-shape="rectangle">
+  <rect x="1522.4908749999997" y="169.35000000000002" width="176.81199999999998" height="53.800000000000004" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="1610.8968749999997" y="196.25000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460"><tspan x="1610.8968749999997" dy="-3.9000000000000012">IAsyncResourceFilter</tspan><tspan x="1610.8968749999997" dy="16.900000000000002">OnResourceExecuting</tspan></text>
+</g>
+<g class="node" data-id="F3" data-label="IActionFilter
+OnActionExecuting" data-shape="rectangle">
+  <rect x="1533.6058749999997" y="254.70000000000002" width="154.582" height="53.800000000000004" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="1610.8968749999997" y="281.6" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460"><tspan x="1610.8968749999997" dy="-3.9000000000000012">IActionFilter</tspan><tspan x="1610.8968749999997" dy="16.900000000000002">OnActionExecuting</tspan></text>
+</g>
+<g class="node" data-id="F4" data-label="CONTROLLER ACTION
+đây mới là code của bạn" data-shape="rectangle">
+  <rect x="1520.6383749999998" y="365.40000000000003" width="180.51699999999994" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1610.8968749999997" y="392.3" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1610.8968749999997" dy="-3.9000000000000012">CONTROLLER ACTION</tspan><tspan x="1610.8968749999997" dy="16.900000000000002">đây mới là code của bạn</tspan></text>
+</g>
+<g class="node" data-id="F5" data-label="IActionFilter
+OnActionExecuted" data-shape="rectangle">
+  <rect x="1444.2394999999997" y="450.30000000000007" width="151.618" height="53.800000000000004" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="1520.0484999999996" y="477.20000000000005" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460"><tspan x="1520.0484999999996" dy="-3.9000000000000012">IActionFilter</tspan><tspan x="1520.0484999999996" dy="16.900000000000002">OnActionExecuted</tspan></text>
+</g>
+<g class="node" data-id="F6" data-label="IAsyncResultFilter
+OnResultExecuting" data-shape="rectangle">
+  <rect x="1442.7574999999997" y="557.65" width="154.582" height="53.800000000000004" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="1520.0484999999996" y="584.55" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460"><tspan x="1520.0484999999996" dy="-3.9000000000000012">IAsyncResultFilter</tspan><tspan x="1520.0484999999996" dy="16.900000000000002">OnResultExecuting</tspan></text>
+</g>
+<g class="node" data-id="F7" data-label="ghi response, rồi OnResultExecuted" data-shape="rectangle">
+  <rect x="1393.4809999999998" y="643" width="253.13499999999993" height="36.900000000000006" rx="0" ry="0" fill="#d1ecf1" stroke="#0c5460" stroke-width="0.75" />
+  <text x="1520.0484999999996" y="661.45" text-anchor="middle" font-size="13" font-weight="500" fill="#0c5460" dy="4.55">ghi response, rồi OnResultExecuted</text>
+</g>
+<g class="node" data-id="D1" data-label="ValidationBehavior - bọc ngoài cùng
+vì đăng ký AddOpenBehavior đầu tiên" data-shape="rectangle">
+  <rect x="1054.2599999999998" y="84" width="264.991" height="53.800000000000004" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="1186.7554999999998" y="110.9" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03"><tspan x="1186.7554999999998" dy="-3.9000000000000012">ValidationBehavior - bọc ngoài cùng</tspan><tspan x="1186.7554999999998" dy="16.900000000000002">vì đăng ký AddOpenBehavior đầu tiên</tspan></text>
+</g>
+<g class="node" data-id="D2" data-label="LoggingBehavior - bọc trong" data-shape="rectangle">
+  <rect x="1082.0474999999997" y="169.35000000000002" width="209.41599999999997" height="36.900000000000006" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="1186.7554999999998" y="187.8" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03" dy="4.55">LoggingBehavior - bọc trong</text>
+</g>
+<g class="node" data-id="D3" data-label="IRequestHandler - code nghiệp vụ" data-shape="rectangle">
+  <rect x="1067.5979999999997" y="254.70000000000002" width="238.31499999999997" height="36.900000000000006" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="1186.7554999999998" y="273.15000000000003" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03" dy="4.55">IRequestHandler - code nghiệp vụ</text>
+</g>
+<g class="node" data-id="D4" data-label="IUnitOfWork SaveChangesAsync
+BEGIN, INSERT, COMMIT" data-shape="rectangle">
+  <rect x="1068.7094999999997" y="331.6" width="236.09199999999996" height="53.800000000000004" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="1186.7554999999998" y="358.5" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03"><tspan x="1186.7554999999998" dy="-3.9000000000000012">IUnitOfWork SaveChangesAsync</tspan><tspan x="1186.7554999999998" dy="16.900000000000002">BEGIN, INSERT, COMMIT</tspan></text>
+</g>
+<g class="node" data-id="E1" data-label="kết quả đi ngược lên qua các filter" data-shape="rectangle">
+  <rect x="1070.562" y="557.65" width="232.38699999999994" height="36.900000000000006" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="1186.7554999999998" y="576.1" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">kết quả đi ngược lên qua các filter</text>
+</g>
+<g class="node" data-id="E2" data-label="LoggingBehavior Stop rồi ghi log elapsed" data-shape="rectangle">
+  <rect x="1045.368" y="643" width="282.775" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1186.7555" y="661.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">LoggingBehavior Stop rồi ghi log elapsed</text>
+</g>
+<g class="node" data-id="E3" data-label="ValidationBehavior trả kết quả về cho MediatR" data-shape="rectangle">
+  <rect x="1032.0299999999997" y="727.9" width="309.451" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1186.7554999999998" y="746.35" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">ValidationBehavior trả kết quả về cho MediatR</text>
+</g>
+<g class="node" data-id="E4" data-label="Controller nhận kết quả, Created hoặc Ok" data-shape="rectangle">
+  <rect x="1046.4795" y="804.8" width="280.552" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1186.7555" y="823.25" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Controller nhận kết quả, Created hoặc Ok</text>
+</g>
+<g class="node" data-id="E5" data-label="Response về Client" data-shape="rectangle">
+  <rect x="1109.4644999999998" y="869.9" width="154.582" height="36.900000000000006" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="1186.7554999999998" y="888.35" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">Response về Client</text>
+</g>
+</svg>

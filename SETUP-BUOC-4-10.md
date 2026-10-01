@@ -14,6 +14,20 @@ File này làm tiếp: **Bước 4 → 10**.
 > Bạn tự cấu hình Postgres, nên **Bước 10 chỉ viết code, chưa chạy migration**.
 > Mọi thứ ở Bước 4–9 đều chạy được **không cần database**.
 
+### 4 lỗi trong bản gốc đã được sửa (đã kiểm chứng bằng build thật)
+
+| # | Vị trí | Lỗi | Sửa thành |
+|---|---|---|---|
+| ① | §7.5 | `UseSnakeCaseNamingConvention()` thuộc package `EFCore.NamingConventions` không có trong `Directory.Packages.props` → `CS1061` | Bỏ hẳn, dùng `HasColumnName(...)` tường minh trong từng `Configuration` |
+| ② | §7.5 | `AppDbContext` không implement `IUnitOfWork` → `sp.GetRequiredService<AppDbContext>()` không ép được → `CS0266` | Bọc: `new AppDbContextUnitOfWork(sp.GetRequiredService<AppDbContext>())` |
+| ③ | §8.3 | `ProblemDetails` không có thuộc tính `Errors` → `CS0117`; dùng `ValidationProblemDetails` thì `errors` bị mất khi serialize | `HttpValidationProblemDetails(errors)` |
+| ④ | §10.2 | `MenuItem : Entity<Guid>` nhưng constructor gọi `Raise(...)` → `CS0103` | `MenuItem : AggregateRoot<Guid>` |
+
+Mỗi lỗi đều được ghi chú ngay tại chỗ trong tài liệu, kèm giải thích vì sao.
+
+> **Bài học rút ra:** 4 lỗi trên đều là lỗi *"viết trông đúng nhưng không chạy được"*.
+> Chỉ có `dotnet build` mới bắt được — không có tài liệu nào bắt được.
+
 ---
 
 ## Quy ước bắt buộc trong project
@@ -428,22 +442,39 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Default");
+        var connectionString = configuration.GetConnectionString("Default")
+            ?? throw new InvalidOperationException(
+                "Chưa cấu hình \"ConnectionStrings:Default\" trong appsettings.json.");
 
         services.AddDbContext<AppDbContext>(options =>
-            options.UseNpgsql(connectionString)
-                   .UseSnakeCaseNamingConvention());
+            options.UseNpgsql(connectionString));
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<AppDbContext>());
-        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
+
+        services.AddScoped<IUnitOfWork>(sp =>
+            new AppDbContextUnitOfWork(sp.GetRequiredService<AppDbContext>()));
 
         return services;
     }
 }
 ```
 
-> `UseSnakeCaseNamingConvention()` tự động đổi tên cột `MenuItemId` → `menu_item_id`, `AddressText` → `address_text`.
-> Nhờ vậy các class `EntityConfiguration` ở Bước 10 không cần chỉ định tên cột thủ công.
+> **Sửa ① — không dùng `UseSnakeCaseNamingConvention()`.**
+> Extension này đến từ package `EFCore.NamingConventions`, **không có** trong `Directory.Packages.props`.
+> Gọi nó sẽ ra `CS1061`. Thay vào đó, các class `Configuration` ở Bước 10 chỉ định tường minh
+> `HasColumnName("menu_item_id")` cho **mọi** property — tường minh hơn convention, và đọc file
+> database thì ai cũng hiểu cột tên gì mà không cần đoán.
+>
+> **Sửa ② — `IUnitOfWork` phải bọc, không phải trả thẳng.**
+> `AppDbContext` **không** implement `IUnitOfWork`, nên `sp.GetRequiredService<AppDbContext>()`
+> không ép được sang `IUnitOfWork` → `CS0266`. Phải bọc qua `AppDbContextUnitOfWork`.
+> Lý do không cho `AppDbContext` implement thẳng: nếu implement, tầng `Application` khi đăng ký DI
+> sẽ phải nhắc tới kiểu `AppDbContext` (thuộc Infrastructure) → phá vỡ ranh giới tầng.
+>
+> **Điểm cần nhớ:** cả hai dòng `AddScoped` đều gọi `GetRequiredService<AppDbContext>()`,
+> nên **cùng trỏ tới một** `AppDbContext` → chung `ChangeTracker`.
+> Nếu để 2 interface trỏ tới 2 `DbContext` khác nhau thì `Add()` xong `SaveChangesAsync()`
+> sẽ INSERT 0 dòng, **không có lỗi, không có cảnh báo**.
 
 ---
 
@@ -525,16 +556,22 @@ public sealed class ValidationExceptionHandler(IProblemDetailsService problemDet
         return await problemDetailsService.TryWriteAsync(new ProblemDetailsContext
         {
             HttpContext = httpContext,
-            ProblemDetails = new ProblemDetails
+            ProblemDetails = new HttpValidationProblemDetails(errors)
             {
                 Status = StatusCodes.Status400BadRequest,
-                Title = "Dữ liệu không hợp lệ",
-                Errors = errors
+                Title = "Dữ liệu không hợp lệ"
             }
         });
     }
 }
 ```
+
+> **Sửa ③ — bắt buộc dùng `HttpValidationProblemDetails`, không dùng `ProblemDetails`.**
+> `ProblemDetails` **không có** thuộc tính `Errors` → `CS0117`.
+> Không chỉ vậy: nếu dùng `ValidationProblemDetails`, `IProblemDetailsService` khi serialize với
+> kiểu khai báo `ProblemDetails` sẽ **mất sạch** `errors`. Chỉ `HttpValidationProblemDetails` có
+> writer riêng nên giữ được `{"errors":{"Name":["..."]}}`.
+> Đã kiểm chứng bằng cách chạy thật, response trả về đúng 400 kèm `errors`.
 
 ## 8.4 Ghi đè `src\FoodHub.Api\Program.cs`
 
@@ -756,7 +793,7 @@ using FoodHub.SharedKernel;
 
 namespace FoodHub.Domain.Restaurants;
 
-public sealed class MenuItem : Entity<Guid>
+public sealed class MenuItem : AggregateRoot<Guid>
 {
     private MenuItem()
     {
@@ -816,6 +853,17 @@ public sealed class MenuItem : Entity<Guid>
     public void SetAvailability(bool isAvailable) => IsAvailable = isAvailable;
 }
 ```
+
+> **Sửa ④ — `MenuItem` kế thừa `AggregateRoot<Guid>`, không phải `Entity<Guid>`.**
+> Bản gốc của tài liệu viết `Entity<Guid>` nhưng lại gọi `Raise(...)` trong constructor →
+> `CS0103: The name 'Raise' does not exist in the current context`.
+> `Raise` chỉ tồn tại trên `AggregateRoot<TId>`.
+>
+> Về mặt DDD, `MenuItem` **đúng là** nên là aggregate root riêng: nó có vòng đời độc lập và
+> thay đổi rất thường xuyên (bật/tắt món khi hết hàng, đổi giá). Nếu gộp vào aggregate
+> `Restaurant`, mỗi lần đổi trạng thái món sẽ kéo theo việc nạp và kiểm soát toàn bộ menu.
+>
+> `MenuCategory` thì giữ nguyên `Entity<Guid>` — nhóm món không tồn tại ý nghĩa nếu nhà hàng bị xoá.
 
 ### `src\FoodHub.Domain\Restaurants\MenuItemAddedEvent.cs`
 ```csharp

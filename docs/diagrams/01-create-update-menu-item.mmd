@@ -1,0 +1,88 @@
+sequenceDiagram
+    autonumber
+    participant Client as Client REST<br/>Blazor hoặc Postman
+    participant Ctrl as MenuItemsController<br/>FoodHub.Api
+    participant ValB as ValidationBehavior<br/>bọc ngoài cùng
+    participant LogB as LoggingBehavior<br/>bọc trong
+    participant Hdl as CreateMenuItemHandler<br/>FoodHub.Application
+    participant DOM as MenuItem<br/>AggregateRoot ở Domain
+    participant EVT as _domainEvents<br/>trong RAM
+    participant DBC as AppDbContext<br/>FoodHub.Infrastructure
+    participant UOW as AppDbContextUnitOfWork<br/>bọc AppDbContext
+    participant PG as PostgreSQL
+
+    rect rgb(235, 242, 255)
+    Note over Client,Ctrl: TẦNG API
+    Client->>Ctrl: POST /api/restaurants/r1/menu/items
+    Ctrl->>Ctrl: Ghép CreateMenuItemCommand từ route và body
+    Ctrl->>ValB: Send(command, ct) - MediatR vào Behavior đăng ký đầu tiên
+    end
+
+    rect rgb(235, 242, 255)
+    Note over ValB,LogB: TẦNG APPLICATION - thứ tự bao ngoài do AddOpenBehavior quyết định
+    ValB->>ValB: Tự tìm IValidator cho command
+    ValB->>ValB: Gọi ValidateAsync trên từng validator
+    ValB-->>ValB: danh sách lỗi
+    alt Có lỗi
+        ValB-->>Ctrl: ném ValidationException - KHÔNG gọi next
+        Note over ValB,Hdl: Handler chưa bao giờ chạy, cũng không có log thời gian xử lý
+        Ctrl-->>Client: 400 problem+json
+    end
+    ValB->>LogB: await next1
+    LogB->>LogB: Stopwatch.StartNew và log Bắt đầu
+    LogB->>Hdl: await next2
+    end
+
+    rect rgb(232, 247, 233)
+    Note over Hdl,EVT: TẦNG DOMAIN - Raise sự kiện
+    Hdl->>DBC: Restaurants.AnyAsync với r.Id bằng r1
+    DBC->>PG: SELECT EXISTS FROM restaurants
+    PG-->>DBC: true
+    DBC-->>Hdl: true
+    Hdl->>DBC: MenuCategories.AnyAsync với c.Id và RestaurantId
+    DBC->>PG: SELECT EXISTS FROM menu_categories
+    PG-->>DBC: true
+    DBC-->>Hdl: true
+    Hdl->>DOM: new MenuItem r1, c1, name, desc, price, img
+    DOM->>DOM: Guard: name và desc khác rỗng, price lớn hơn 0
+    DOM->>EVT: Raise(new MenuItemAddedEvent)
+    EVT-->>DOM: _domainEvents.Count bằng 1
+    DOM-->>Hdl: menuItem
+    end
+
+    rect rgb(255, 248, 225)
+    Note over Hdl,DBC: CHANGE TRACKER - chưa chạm Database
+    Hdl->>DBC: dbContext.MenuItems.Add(menuItem)
+    DBC->>DBC: BeginTracking với EntityState.Added
+    DBC-->>Hdl: không query, không round-trip
+    end
+
+    rect rgb(252, 235, 245)
+    Note over Hdl,PG: TRANSACTION - IUnitOfWork hoạt động ở đây
+    Hdl->>UOW: SaveChangesAsync(ct)
+    UOW->>DBC: SaveChangesAsync(ct)
+    Note over UOW,DBC: AppDbContextUnitOfWork là lớp bọc mỏng giữ CHÍNH AppDbContext này<br/>nên SaveChangesAsync vẫn thấy hết thay đổi trong ChangeTracker
+    DBC->>PG: BEGIN
+    DBC->>PG: INSERT menu_items
+    DBC->>PG: COMMIT
+    PG-->>DBC: rows affected bằng 1
+    DBC-->>UOW: 1
+    UOW-->>Hdl: int
+    end
+
+    rect rgb(232, 247, 233)
+    Note over Hdl,EVT: DISPATCH - chỉ sau khi COMMIT thành công
+    Hdl->>EVT: đọc DomainEvents
+    EVT-->>Hdl: MenuItemAddedEvent
+    Hdl->>Hdl: xử lý event rồi ClearDomainEvents
+    EVT-->>DOM: Count bằng 0
+    end
+
+    rect rgb(235, 242, 255)
+    Note over Ctrl,Client: UNWIND - kết quả đi ngược lại đúng thứ tự ngược
+    Hdl-->>LogB: CreateMenuItemResult với menuItem.Id
+    LogB->>LogB: Stopwatch.Stop rồi log elapsed
+    LogB-->>ValB: result
+    ValB-->>Ctrl: result
+    Ctrl-->>Client: 201 Created kèm Location header
+    end

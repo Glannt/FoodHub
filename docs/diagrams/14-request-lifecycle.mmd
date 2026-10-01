@@ -1,0 +1,101 @@
+flowchart TD
+    REQ(["HTTP Request vào cổng https"])
+
+    subgraph ZONE_A["VÙNG A - CONTAINER DI - không phải pipeline, chỉ cung cấp object"]
+        direction TB
+        A1["Handler cần IApplicationDbContext và IUnitOfWork"]
+        A2["ServiceProvider tra cứu ServiceDescriptor"]
+        A3["CẢ HAI đều lấy từ cùng một AppDbContext instance<br/>nên dùng chung ChangeTracker"]
+        A4["Không có gì ở đây chạy nếu không ai yêu cầu<br/>và không chặn request nào"]
+        A1 --> A2 --> A3 --> A4
+    end
+
+    REQ --> KESTREL
+
+    subgraph ZONE_B["VÙNG B - MIDDLEWARE - thấy MỌI request, kể cả 404 và file tĩnh"]
+        direction TB
+        K1["Kestrel: giải mã TLS, đọc HTTP, tạo HttpContext"]
+        K2["UseRouting - TỰ CHÈN vào đầu pipeline<br/>dò endpoint và gắn vào HttpContext, CHƯA gọi action"]
+        K3["UseExceptionHandler - bọc trùm phía sau<br/>IExceptionHandler xử lý lỗi thành ProblemDetails"]
+        K4["UseHttpsRedirection - nếu là http thì trả 307"]
+        K5["UseEndpoints - TỰ CHÈN vào cuối pipeline<br/>thực thi endpoint vừa được match"]
+        K1 --> K2 --> K3 --> K4 --> K5
+    end
+
+    REQ --> KESTREL
+
+    K5 --> MATCH{"Endpoint nào được match?"}
+
+    MATCH -->|"MapHealthChecks"| HEALTH
+
+    subgraph ZH["NHÁNH HEALTH - KHÔNG đi qua filter"]
+        direction TB
+        H1["HealthCheckMiddleware"]
+        H2["chạy đúng các IHealthCheck đã đăng ký"]
+        H3["trả JSON, không có Controller, không có filter"]
+        H1 --> H2 --> H3
+    end
+
+    MATCH -->|"MapControllers"| FILTER
+
+    subgraph ZONE_C["VÙNG C - FILTER - CHỈ có trong MVC, bọc quanh action"]
+        direction TB
+        F1["IAuthorizationFilter<br/>kiểm tra quyền, ví dụ AuthorizeAttribute"]
+        F2["IAsyncResourceFilter<br/>OnResourceExecuting"]
+        F3["IActionFilter<br/>OnActionExecuting"]
+        F4["CONTROLLER ACTION<br/>đây mới là code của bạn"]
+        F5["IActionFilter<br/>OnActionExecuted"]
+        F6["IAsyncResultFilter<br/>OnResultExecuting"]
+        F7["ghi response, rồi OnResultExecuted"]
+        F1 --> F2 --> F3 --> F4 --> F5 --> F6 --> F7
+    end
+
+    F4 --> SEND
+
+    subgraph ZONE_D["VÙNG D - BEHAVIOR - CHỈ có trong MediatR, bọc quanh handler"]
+        direction TB
+        D1["ValidationBehavior - bọc ngoài cùng<br/>vì đăng ký AddOpenBehavior đầu tiên"]
+        D2["LoggingBehavior - bọc trong"]
+        D3["IRequestHandler - code nghiệp vụ"]
+        D4["IUnitOfWork SaveChangesAsync<br/>BEGIN, INSERT, COMMIT"]
+        D1 --> D2 --> D3 --> D4
+    end
+
+    F4 --> CTRL
+    CTRL["MenuItemsController<br/>chỉ ghép request rồi sender.Send"]
+    CTRL --> SEND
+
+    D4 --> RES
+
+    subgraph ZONE_E["VÙNG E - ĐƯỜNG ĐI NGƯỢC LẠI"]
+        direction TB
+        E1["kết quả đi ngược lên qua các filter"]
+        E2["LoggingBehavior Stop rồi ghi log elapsed"]
+        E3["ValidationBehavior trả kết quả về cho MediatR"]
+        E4["Controller nhận kết quả, Created hoặc Ok"]
+        E5["Response về Client"]
+        E1 --> E2 --> E3 --> E4 --> E5
+    end
+
+    RES --> E1
+
+    ERR["Nếu ném exception ở BẤT KỲ đâu trong VÙNG C hoặc VÙNG D<br/>nó nổi lên tới UseExceptionHandler ở VÙNG B<br/>và được chuyển thành ProblemDetails 404 hoặc 400"]
+
+    K3 -.-> ERR
+
+    NOTE["LƯU Ý: UseRouting nằm TRƯỚC UseExceptionHandler<br/>nên lỗi phát sinh lúc DÒ ENDPOINT sẽ KHÔNG bị bắt<br/>còn lỗi trong action thì luôn bị bắt vì UseEndpoints nằm CUỐI"]
+
+    K2 -.-> NOTE
+
+    classDef m fill:#cce5ff,stroke:#004085,color:#004085
+    classDef f fill:#d1ecf1,stroke:#0c5460,color:#0c5460
+    classDef b fill:#d4edda,stroke:#28a745,color:#155724
+    classDef d fill:#fff3cd,stroke:#d39e00,color:#664d03
+    classDef bad fill:#f8d7da,stroke:#dc3545,color:#721c24
+    classDef a fill:#e2e3e5,stroke:#6c757d,color:#383d41
+    class K1,K2,K3,K4,K5 m
+    class F1,F2,F3,F5,F6,F7,H1,H2,H3 f
+    class D1,D2,D3,D4 d
+    class ERR bad
+    class A1,A2,A3,A4 a
+    class MATCH,FILTER,CTRL,E1,E5 b

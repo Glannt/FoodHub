@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300.282 839" width="1300.282" height="839" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="seq-arrow" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" />
+  </marker>
+  <marker id="seq-arrow-open" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polyline points="0 0, 8 2.5, 0 5" fill="none" stroke="var(--_arrow)" stroke-width="1" />
+  </marker>
+</defs>
+<g class="block" data-type="par" data-label="3 handler chạy song song">
+  <rect x="603.2339999999999" y="352" width="667.048" height="140" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="603.2339999999999" y="352" width="179.35000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="609.2339999999999" y="361" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">par [3 handler chạy song song]</text>
+</g>
+<g class="block" data-type="alt" data-label="Handler thất bại">
+  <rect x="30" y="500" width="802.8009999999999" height="274" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="500" width="118.63000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="509" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">alt [Handler thất bại]</text>
+  <line x1="30" y1="686" x2="832.8009999999999" y2="686" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+  <text x="38" y="700" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">[Handler thành công]</text>
+</g>
+<g class="block" data-type="loop" data-label="Mỗi 1 dòng">
+  <rect x="30" y="284" width="1240.282" height="490" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="284" width="100.81" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="293" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">loop [Mỗi 1 dòng]</text>
+</g>
+<g class="block" data-type="alt" data-label="Không có dòng nào">
+  <rect x="30" y="186" width="1240.282" height="588" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="186" width="137.77000000000004" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="195" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">alt [Không có dòng nào]</text>
+  <line x1="30" y1="296" x2="1270.282" y2="296" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+  <text x="38" y="310" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">[Có dòng]</text>
+</g>
+<g class="block" data-type="loop" data-label="Mỗi 5 giây">
+  <rect x="30" y="78" width="1240.282" height="696" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="30" y="78" width="100.81" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="36" y="87" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">loop [Mỗi 5 giây]</text>
+</g>
+<line class="lifeline" data-actor="W" x1="174.79399999999998" y1="70" x2="174.79399999999998" y2="809" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="PG" x1="461.41099999999994" y1="70" x2="461.41099999999994" y2="809" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="H1" x1="718.0174999999999" y1="70" x2="718.0174999999999" y2="809" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="S" x1="915.7144999999999" y1="70" x2="915.7144999999999" y2="809" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="M" x1="1060.0594999999998" y1="70" x2="1060.0594999999998" y2="809" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="R" x1="1205.8864999999998" y1="70" x2="1205.8864999999998" y2="809" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<g class="message" data-from="W" data-to="PG" data-label="SELECT FROM outbox_messages WHERE processed_at IS NULL LIMIT 50 FOR UPDATE SKIP LOCKED" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="174.79399999999998" y1="118" x2="461.41099999999994" y2="118" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="318.10249999999996" y="108" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SELECT FROM outbox_messages WHERE processed_at IS NULL LIMIT 50 FOR UPDATE SKIP LOCKED</text>
+</g>
+<g class="message" data-from="PG" data-to="W" data-label="0 đến 50 dòng" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="461.41099999999994" y1="158" x2="174.79399999999998" y2="158" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="318.10249999999996" y="148" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">0 đến 50 dòng</text>
+</g>
+<g class="message" data-from="W" data-to="W" data-label="ngủ - vòng sau" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="174.79399999999998,226 204.79399999999998,226 204.79399999999998,246 174.79399999999998,246" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="212.79399999999998" y="236" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ngủ - vòng sau</text>
+</g>
+<g class="message" data-from="W" data-to="H1" data-label="Publish(MenuItemAddedEvent)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="174.79399999999998" y1="324" x2="718.0174999999999" y2="324" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="446.40574999999995" y="314" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Publish(MenuItemAddedEvent)</text>
+</g>
+<g class="message" data-from="H1" data-to="S" data-label="SendAsync MenuAdded đến group restaurant-r1" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="718.0174999999999" y1="392" x2="915.7144999999999" y2="392" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="816.866" y="382" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SendAsync MenuAdded đến group restaurant-r1</text>
+</g>
+<g class="message" data-from="H1" data-to="M" data-label="Gửi email cho admin" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="718.0174999999999" y1="432" x2="1060.0594999999998" y2="432" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="889.0384999999999" y="422" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Gửi email cho admin</text>
+</g>
+<g class="message" data-from="H1" data-to="R" data-label="Invalidate menu-r1" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="718.0174999999999" y1="472" x2="1205.8864999999998" y2="472" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="961.9519999999999" y="462" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Invalidate menu-r1</text>
+</g>
+<g class="message" data-from="H1" data-to="W" data-label="ném Exception" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="718.0174999999999" y1="540" x2="174.79399999999998" y2="540" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="446.40574999999995" y="530" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ném Exception</text>
+</g>
+<g class="message" data-from="W" data-to="PG" data-label="Giữ processed_at NULL, tăng retry_count, ghi last_error" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="174.79399999999998" y1="580" x2="461.41099999999994" y2="580" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="318.10249999999996" y="570" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Giữ processed_at NULL, tăng retry_count, ghi last_error</text>
+</g>
+<g class="message" data-from="W" data-to="W" data-label="Hủy vòng - thử lại lần sau" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="174.79399999999998,620 204.79399999999998,620 204.79399999999998,640 174.79399999999998,640" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="212.79399999999998" y="630" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Hủy vòng - thử lại lần sau</text>
+</g>
+<g class="message" data-from="H1" data-to="W" data-label="ok" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="718.0174999999999" y1="714" x2="174.79399999999998" y2="714" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="446.40574999999995" y="704" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ok</text>
+</g>
+<g class="message" data-from="W" data-to="PG" data-label="UPDATE outbox_messages SET processed_at = now()" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="174.79399999999998" y1="754" x2="461.41099999999994" y2="754" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="318.10249999999996" y="744" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">UPDATE outbox_messages SET processed_at = now()</text>
+</g>
+<g class="note" data-position="over" data-actors="W,PG">
+  <polygon points="169.5485,762 460.65649999999994,762 466.65649999999994,768 466.65649999999994,785 169.5485,785" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="460.65649999999994,762 466.65649999999994,768 460.65649999999994,768" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="318.10249999999996" y="773.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SKIP LOCKED giúp 2 worker không xử lý trùng cùng 1 dòng</text>
+</g>
+<g class="actor" data-id="W" data-label="OutboxDispatcher
+BackgroundService" data-type="participant">
+  <rect x="40" y="30" width="269.58799999999997" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="174.79399999999998" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="174.79399999999998" dy="-3.9000000000000012">OutboxDispatcher</tspan><tspan x="174.79399999999998" dy="16.900000000000002">BackgroundService</tspan></text>
+</g>
+<g class="actor" data-id="PG" data-label="PostgreSQL
+outbox_messages" data-type="participant">
+  <rect x="349.58799999999997" y="30" width="223.64599999999996" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="461.41099999999994" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="461.41099999999994" dy="-3.9000000000000012">PostgreSQL</tspan><tspan x="461.41099999999994" dy="16.900000000000002">outbox_messages</tspan></text>
+</g>
+<g class="actor" data-id="H1" data-label="MenuItemAddedEventHandler" data-type="participant">
+  <rect x="613.2339999999999" y="30" width="209.56699999999995" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="718.0174999999999" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">MenuItemAddedEventHandler</text>
+</g>
+<g class="actor" data-id="S" data-label="SignalR Hub" data-type="participant">
+  <rect x="862.8009999999999" y="30" width="105.827" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="915.7144999999999" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">SignalR Hub</text>
+</g>
+<g class="actor" data-id="M" data-label="MailSender" data-type="participant">
+  <rect x="1008.6279999999998" y="30" width="102.863" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1060.0594999999998" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">MailSender</text>
+</g>
+<g class="actor" data-id="R" data-label="Redis Cache" data-type="participant">
+  <rect x="1151.4909999999998" y="30" width="108.79099999999998" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1205.8864999999998" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">Redis Cache</text>
+</g>
+</svg>

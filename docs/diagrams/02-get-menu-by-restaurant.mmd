@@ -1,0 +1,59 @@
+sequenceDiagram
+    autonumber
+    participant Client as Client REST
+    participant Ctrl as MenuItemsController<br/>FoodHub.Api
+    participant ValB as ValidationBehavior<br/>bọc ngoài cùng
+    participant LogB as LoggingBehavior<br/>bọc trong
+    participant Hdl as GetMenuByRestaurantHandler
+    participant DBC as AppDbContext<br/>FoodHub.Infrastructure
+    participant PG as PostgreSQL
+
+    rect rgb(235, 242, 255)
+    Note over Client,Ctrl: TẦNG API
+    Client->>Ctrl: GET /api/restaurants/r1/menu
+    Ctrl->>Ctrl: Tạo GetMenuByRestaurantQuery với r1
+    Ctrl->>ValB: Send(query, ct)
+    end
+
+    rect rgb(235, 242, 255)
+    Note over ValB,LogB: TẦNG APPLICATION
+    ValB->>ValB: Tự tìm IValidator cho query
+    ValB-->>ValB: không có validator nên next() luôn
+    ValB->>LogB: await next1
+    LogB->>LogB: Stopwatch.StartNew
+    LogB->>Hdl: await next2
+    end
+
+    rect rgb(232, 247, 233)
+    Note over Hdl,DBC: ĐƯỜNG ĐỌC - AsNoTracking và Projection
+    Hdl->>DBC: Restaurants AsNoTracking, Where, Select, FirstOrDefaultAsync
+    DBC->>PG: SELECT id, name FROM restaurants WHERE id = r1 LIMIT 1
+    PG-->>DBC: 1 dòng hoặc NULL
+    DBC-->>Hdl: anonymous type
+    alt Nhà hàng không tồn tại
+        Hdl-->>LogB: ném NotFoundException
+        LogB-->>ValB: ném tiếp lên
+        ValB-->>Ctrl: ném tiếp lên
+        Ctrl-->>Client: 404 problem+json
+    end
+    Hdl->>DBC: MenuCategories AsNoTracking, OrderBy, Select
+    DBC->>PG: SELECT id, name FROM menu_categories WHERE restaurant_id = r1 ORDER BY name
+    PG-->>DBC: danh sách
+    DBC-->>Hdl: categories
+    Hdl->>DBC: MenuItems AsNoTracking, OrderBy, Select 7 cột
+    DBC->>PG: SELECT id, category_id, name, description, price, is_available, image_url FROM menu_items WHERE restaurant_id = r1 ORDER BY name
+    PG-->>DBC: danh sách
+    DBC-->>Hdl: items
+    Hdl->>Hdl: Gom theo nhóm trong RAM - không query lại
+    end
+
+    rect rgb(235, 242, 255)
+    Note over Hdl,Client: UNWIND
+    Hdl-->>LogB: GetMenuByRestaurantResult
+    LogB->>LogB: Stopwatch.Stop rồi log elapsed
+    LogB-->>ValB: result
+    ValB-->>Ctrl: result
+    Ctrl-->>Client: 200 OK kèm JSON menu
+    end
+
+    Note over Hdl,PG: KHÔNG SaveChanges - KHÔNG transaction - KHÔNG domain event - KHÔNG dùng IUnitOfWork

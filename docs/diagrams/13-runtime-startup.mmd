@@ -1,0 +1,83 @@
+flowchart TD
+    START(["dotnet run"]) --> EXE
+
+    EXE["dotnet FoodHub.Api.dll<br/>hoặc chạy thẳng FoodHub.Api.exe"]
+
+    EXE --> CREATE
+
+    subgraph P1["GIAI ĐOẠN 1 - TẠO BUILDER, gọi CreateBuilder"]
+        direction TB
+        ENV["đọc ASPNETCORE_ENVIRONMENT<br/>ra môi trường Development"]
+        CONF["dựng IConfiguration từ appsettings.json<br/>+ appsettings.Development.json<br/>+ biến môi trường + args"]
+        COLLECTION["tạo IServiceCollection<br/>thực chất là List rỗng, CHƯA có object nào"]
+        BASE["đăng ký sẵn: ILogger, Kestrel, IConfiguration, IHostEnvironment"]
+        ENV --> CONF --> COLLECTION --> BASE
+    end
+
+    CREATE --> P1
+
+    P1 --> REG
+
+    subgraph P2["GIAI ĐOẠN 2 - ĐĂNG KÝ DỊCH VỤ, gọi builder.Services.AddXxx"]
+        direction TB
+        NOTE["CHỈ GHI ServiceDescriptor vào List<br/>CHƯA tạo object nào, CHƯA validate gì"]
+        A1["AddApplication<br/>AddMediatR, AddOpenBehavior, AddValidatorsFromAssembly"]
+        A2["AddInfrastructure<br/>AddDbContext, AddScoped, AddHealthChecks"]
+        A3["AddControllers, AddOpenApi, AddExceptionHandler, AddProblemDetails"]
+        NOTE --> A1 --> A2 --> A3
+    end
+
+    REG --> P2
+
+    P2 --> BUILD
+
+    subgraph P3["GIAI ĐOẠN 3 - ĐÓNG BÓNG CONTAINER, gọi builder.Build"]
+        direction TB
+        SP["IServiceCollection được ĐÓNG BÓNG thành IServiceProvider<br/>tức là ServiceProvider"]
+        SINGLETON["tạo ngay các Singleton cần cho khởi động<br/>kể cả các IHostedService"]
+        LOCK["từ giờ danh sách không thêm được nữa<br/>thêm sau sẽ báo lỗi runtime"]
+        SP --> SINGLETON --> LOCK
+    end
+
+    BUILD --> P3
+
+    P3 --> PIPE
+
+    subgraph P4["GIAI ĐOẠN 4 - DỰNG MIDDLEWARE PIPELINE, gọi app.UseXxx"]
+        direction TB
+        PNOTE["Mỗi UseXxx chỉ PUSH một delegate vào danh sách<br/>CHƯA chạy gì cả"]
+        U1["UseExceptionHandler - phải đầu tiên để bọc được mọi lỗi phía sau"]
+        U2["UseHttpsRedirection"]
+        PNOTE --> U1 --> U2
+    end
+
+    PIPE --> ENDPOINTS
+
+    subgraph P5["GIAI ĐOẠN 5 - ĐĂNG KÝ ENDPOINT, gọi app.MapXxx"]
+        direction TB
+        E1["MapHealthChecks /health/live"]
+        E2["MapHealthChecks /health/ready"]
+        E3["MapControllers - quét các Controller và gom endpoint"]
+        E1 --> E2 --> E3
+    end
+
+    ENDPOINTS --> RUN
+
+    subgraph P6["GIAI ĐOẠN 6 - app.Run, khởi động server"]
+        direction TB
+        AUTOROUTE["WebApplication TỰ CHÈN UseRouting vào ĐẦU pipeline<br/>vì ta không gọi tay"]
+        USEEND["WebApplication TỰ CHÈN UseEndpoints vào CUỐI pipeline<br/>nơi thực thi endpoint đã match"]
+        KESTREL["Kestrel bắt đầu lắng nghe TCP"]
+        AUTOROUTE --> USEEND --> KESTREL
+    end
+
+    RUN --> P6
+
+    P6 --> REQ(["Có HTTP request tới"])
+
+    classDef info fill:#cce5ff,stroke:#004085,color:#004085
+    classDef ok fill:#d4edda,stroke:#28a745,color:#155724
+    classDef warn fill:#fff3cd,stroke:#d39e00,color:#664d03
+    class COLLECTION,NOTE,PNOTE,AUTOROUTE,USEEND warn
+    class CONF,ENV ok
+    class SP,LOCK,KESTREL info

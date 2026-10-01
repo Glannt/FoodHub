@@ -1,0 +1,64 @@
+sequenceDiagram
+    autonumber
+    participant Client as Client
+    participant Ctrl as MenuItemsController
+    participant SP as ServiceProvider<br/>vùng chứa DI
+    participant SC as IServiceCollection<br/>danh sách mô tả
+    participant Sender as Send mediator
+    participant ValB as ValidationBehavior
+    participant LogB as LoggingBehavior
+    participant Hdl as CreateMenuItemHandler
+    participant DBC as AppDbContext
+    participant PG as PostgreSQL
+
+    Note over SP,SC: Khi ứng dụng đang chạy, mọi tra cứu đi vào ServiceProvider, không vào IServiceCollection nữa
+
+    Client->>Ctrl: POST /api/restaurants/r1/menu/items
+    Ctrl->>SP: cần ISender qua constructor injection
+    SP->>SC: tra cứu ServiceDescriptor của ISender
+    SC-->>SP: kiểu Send, đăng ký dạng transient
+    SP->>Sender: new Send(...)
+    Sender->>SP: cần IEnumerable IPipelineBehavior cho request này
+    SC-->>SP: ValidationBehavior rồi LoggingBehavior<br/>đúng thứ tự AddOpenBehavior
+    SP-->>Sender: mảng 2 behavior
+    Sender->>ValB: Handle(request, next1)
+    ValB->>SP: cần IEnumerable IValidator cho command
+    SC-->>SP: CreateMenuItemValidator
+    SP-->>ValB: validator
+    ValB->>LogB: await next1 vì validate không lỗi
+    LogB->>SP: cần ILogger bằng generic
+    SC-->>SP: đăng ký dạng singleton
+    SP-->>LogB: trả về logger dùng chung toàn app
+    LogB->>Hdl: await next2
+    Hdl->>SP: cần IApplicationDbContext và IUnitOfWork
+
+    rect rgb(255, 248, 225)
+    Note over SP,DBC: ĐIỂM MẤU CHỐT - cùng một AppDbContext
+    SP->>SP: hỏi AppDbContext đã có trong cache của scope chưa
+    alt Chưa có - lần gọi đầu tiên trong request
+        SP->>DBC: new AppDbContext với options
+        DBC->>DBC: khởi tạo ChangeTracker rỗng
+        SP->>SP: lưu vào cache theo kiểu, theo scope
+    end
+    SP-->>Hdl: IApplicationDbContext CHÍNH LÀ AppDbContext này
+    SP-->>Hdl: IUnitOfWork là lớp bọc mỏng giữ CHÍNH AppDbContext này
+    end
+
+    Note over SP,Hdl: AppDbContext không implement IUnitOfWork<br/>nên phải có AppDbContextUnitOfWork bọc ngoài<br/>cả hai đều lấy từ cùng một GetRequiredService AppDbContext
+
+    Hdl->>DBC: MenuItems.Add và AnyAsync
+    DBC->>PG: SELECT EXISTS
+    PG-->>DBC: true
+    DBC-->>Hdl: kết quả
+    Hdl->>DBC: SaveChangesAsync
+    DBC->>PG: BEGIN, INSERT, COMMIT
+    PG-->>DBC: 1 dòng
+    DBC-->>Hdl: 1
+    Hdl-->>LogB: kết quả
+    LogB->>LogB: Stopwatch.Stop rồi ghi log
+    LogB-->>ValB: kết quả
+    ValB-->>Sender: kết quả
+    Sender-->>Ctrl: CreateMenuItemResult
+    Ctrl-->>Client: 201 Created
+
+    Note over SP,DBC: Nếu đăng ký sai bằng new AppDbContext cho IUnitOfWork<br/>thì Add và SaveChanges sẽ chạy trên 2 object khác nhau<br/>INSERT sẽ không ra gì mà KHÔNG có lỗi nào báo ra

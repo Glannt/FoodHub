@@ -1,0 +1,259 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1921.4959999999996 1861" width="1921.4959999999996" height="1861" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="seq-arrow" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" />
+  </marker>
+  <marker id="seq-arrow-open" markerWidth="8" markerHeight="5" refX="8" refY="2.5" orient="auto-start-reverse">
+    <polyline points="0 0, 8 2.5, 0 5" fill="none" stroke="var(--_arrow)" stroke-width="1" />
+  </marker>
+</defs>
+<g class="block" data-type="alt" data-label="Chưa có - lần gọi đầu tiên trong request">
+  <rect x="336.215" y="911" width="1417.2309999999995" height="170" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="336.215" y="911" width="236.76999999999995" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="342.215" y="920" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">alt [Chưa có - lần gọi đầu tiên trong request]</text>
+</g>
+<g class="block" data-type="rect" data-label="rgb(255, 248, 225)">
+  <rect x="336.215" y="813" width="1417.2309999999995" height="378" rx="0" ry="0" fill="none" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="336.215" y="813" width="141.07000000000002" height="18" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="342.215" y="822" font-size="11" font-weight="600" fill="var(--_text-sec)" dy="3.8499999999999996">rect [rgb(255, 248, 225)]</text>
+</g>
+<line class="lifeline" data-actor="Client" x1="70" y1="70" x2="70" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Ctrl" x1="228.1075" y1="70" x2="228.1075" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="SP" x1="455.07399999999996" y1="70" x2="455.07399999999996" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="SC" x1="725.0184999999999" y1="70" x2="725.0184999999999" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Sender" x1="944.9454999999998" y1="70" x2="944.9454999999998" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="ValB" x1="1117.0779999999997" y1="70" x2="1117.0779999999997" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="LogB" x1="1299.2139999999997" y1="70" x2="1299.2139999999997" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="Hdl" x1="1496.5404999999996" y1="70" x2="1496.5404999999996" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="DBC" x1="1684.2339999999995" y1="70" x2="1684.2339999999995" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<line class="lifeline" data-actor="PG" x1="1837.4709999999995" y1="70" x2="1837.4709999999995" y2="1831" stroke="var(--_line)" stroke-width="0.75" stroke-dasharray="6 4" />
+<g class="message" data-from="Client" data-to="Ctrl" data-label="POST /api/restaurants/r1/menu/items" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="70" y1="90" x2="228.1075" y2="90" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="149.05374999999998" y="80" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">POST /api/restaurants/r1/menu/items</text>
+</g>
+<g class="message" data-from="Ctrl" data-to="SP" data-label="cần ISender qua constructor injection" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="228.1075" y1="130" x2="455.07399999999996" y2="130" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="341.59074999999996" y="120" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">cần ISender qua constructor injection</text>
+</g>
+<g class="message" data-from="SP" data-to="SC" data-label="tra cứu ServiceDescriptor của ISender" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="170" x2="725.0184999999999" y2="170" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="590.0462499999999" y="160" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">tra cứu ServiceDescriptor của ISender</text>
+</g>
+<g class="message" data-from="SC" data-to="SP" data-label="kiểu Send, đăng ký dạng transient" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="725.0184999999999" y1="210" x2="455.07399999999996" y2="210" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="590.0462499999999" y="200" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">kiểu Send, đăng ký dạng transient</text>
+</g>
+<g class="message" data-from="SP" data-to="Sender" data-label="new Send(...)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="250" x2="944.9454999999998" y2="250" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="700.0097499999999" y="240" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">new Send(...)</text>
+</g>
+<g class="message" data-from="Sender" data-to="SP" data-label="cần IEnumerable IPipelineBehavior cho request này" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="944.9454999999998" y1="290" x2="455.07399999999996" y2="290" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="700.0097499999999" y="280" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">cần IEnumerable IPipelineBehavior cho request này</text>
+</g>
+<g class="message" data-from="SC" data-to="SP" data-label="ValidationBehavior rồi LoggingBehavior
+đúng thứ tự AddOpenBehavior" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="725.0184999999999" y1="330" x2="455.07399999999996" y2="330" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="590.0462499999999" y="320" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)"><tspan x="590.0462499999999" dy="-3.3000000000000007">ValidationBehavior rồi LoggingBehavior</tspan><tspan x="590.0462499999999" dy="14.3">đúng thứ tự AddOpenBehavior</tspan></text>
+</g>
+<g class="message" data-from="SP" data-to="Sender" data-label="mảng 2 behavior" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="370" x2="944.9454999999998" y2="370" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="700.0097499999999" y="360" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">mảng 2 behavior</text>
+</g>
+<g class="message" data-from="Sender" data-to="ValB" data-label="Handle(request, next1)" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="944.9454999999998" y1="410" x2="1117.0779999999997" y2="410" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1031.0117499999997" y="400" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Handle(request, next1)</text>
+</g>
+<g class="message" data-from="ValB" data-to="SP" data-label="cần IEnumerable IValidator cho command" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1117.0779999999997" y1="450" x2="455.07399999999996" y2="450" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="786.0759999999998" y="440" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">cần IEnumerable IValidator cho command</text>
+</g>
+<g class="message" data-from="SC" data-to="SP" data-label="CreateMenuItemValidator" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="725.0184999999999" y1="490" x2="455.07399999999996" y2="490" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="590.0462499999999" y="480" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">CreateMenuItemValidator</text>
+</g>
+<g class="message" data-from="SP" data-to="ValB" data-label="validator" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="530" x2="1117.0779999999997" y2="530" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="786.0759999999998" y="520" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">validator</text>
+</g>
+<g class="message" data-from="ValB" data-to="LogB" data-label="await next1 vì validate không lỗi" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1117.0779999999997" y1="570" x2="1299.2139999999997" y2="570" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1208.1459999999997" y="560" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">await next1 vì validate không lỗi</text>
+</g>
+<g class="message" data-from="LogB" data-to="SP" data-label="cần ILogger bằng generic" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1299.2139999999997" y1="610" x2="455.07399999999996" y2="610" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="877.1439999999998" y="600" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">cần ILogger bằng generic</text>
+</g>
+<g class="message" data-from="SC" data-to="SP" data-label="đăng ký dạng singleton" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="725.0184999999999" y1="650" x2="455.07399999999996" y2="650" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="590.0462499999999" y="640" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">đăng ký dạng singleton</text>
+</g>
+<g class="message" data-from="SP" data-to="LogB" data-label="trả về logger dùng chung toàn app" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="690" x2="1299.2139999999997" y2="690" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="877.1439999999998" y="680" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">trả về logger dùng chung toàn app</text>
+</g>
+<g class="message" data-from="LogB" data-to="Hdl" data-label="await next2" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1299.2139999999997" y1="730" x2="1496.5404999999996" y2="730" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1397.8772499999995" y="720" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">await next2</text>
+</g>
+<g class="message" data-from="Hdl" data-to="SP" data-label="cần IApplicationDbContext và IUnitOfWork" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1496.5404999999996" y1="770" x2="455.07399999999996" y2="770" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="975.8072499999998" y="760" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">cần IApplicationDbContext và IUnitOfWork</text>
+</g>
+<g class="message" data-from="SP" data-to="SP" data-label="hỏi AppDbContext đã có trong cache của scope chưa" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="455.07399999999996,853 485.07399999999996,853 485.07399999999996,873 455.07399999999996,873" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="493.07399999999996" y="863" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">hỏi AppDbContext đã có trong cache của scope chưa</text>
+</g>
+<g class="message" data-from="SP" data-to="DBC" data-label="new AppDbContext với options" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="951" x2="1684.2339999999995" y2="951" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1069.6539999999998" y="941" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">new AppDbContext với options</text>
+</g>
+<g class="message" data-from="DBC" data-to="DBC" data-label="khởi tạo ChangeTracker rỗng" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="1684.2339999999995,991 1714.2339999999995,991 1714.2339999999995,1011 1684.2339999999995,1011" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1722.2339999999995" y="1001" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">khởi tạo ChangeTracker rỗng</text>
+</g>
+<g class="message" data-from="SP" data-to="SP" data-label="lưu vào cache theo kiểu, theo scope" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="455.07399999999996,1061 485.07399999999996,1061 485.07399999999996,1081 455.07399999999996,1081" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="493.07399999999996" y="1071" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">lưu vào cache theo kiểu, theo scope</text>
+</g>
+<g class="message" data-from="SP" data-to="Hdl" data-label="IApplicationDbContext CHÍNH LÀ AppDbContext này" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="1131" x2="1496.5404999999996" y2="1131" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="975.8072499999998" y="1121" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">IApplicationDbContext CHÍNH LÀ AppDbContext này</text>
+</g>
+<g class="message" data-from="SP" data-to="Hdl" data-label="IUnitOfWork là lớp bọc mỏng giữ CHÍNH AppDbContext này" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="455.07399999999996" y1="1171" x2="1496.5404999999996" y2="1171" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="975.8072499999998" y="1161" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">IUnitOfWork là lớp bọc mỏng giữ CHÍNH AppDbContext này</text>
+</g>
+<g class="message" data-from="Hdl" data-to="DBC" data-label="MenuItems.Add và AnyAsync" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1496.5404999999996" y1="1226" x2="1684.2339999999995" y2="1226" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1590.3872499999995" y="1216" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">MenuItems.Add và AnyAsync</text>
+</g>
+<g class="message" data-from="DBC" data-to="PG" data-label="SELECT EXISTS" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1684.2339999999995" y1="1266" x2="1837.4709999999995" y2="1266" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1760.8524999999995" y="1256" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SELECT EXISTS</text>
+</g>
+<g class="message" data-from="PG" data-to="DBC" data-label="true" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1837.4709999999995" y1="1306" x2="1684.2339999999995" y2="1306" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1760.8524999999995" y="1296" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">true</text>
+</g>
+<g class="message" data-from="DBC" data-to="Hdl" data-label="kết quả" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1684.2339999999995" y1="1346" x2="1496.5404999999996" y2="1346" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1590.3872499999995" y="1336" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">kết quả</text>
+</g>
+<g class="message" data-from="Hdl" data-to="DBC" data-label="SaveChangesAsync" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1496.5404999999996" y1="1386" x2="1684.2339999999995" y2="1386" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1590.3872499999995" y="1376" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">SaveChangesAsync</text>
+</g>
+<g class="message" data-from="DBC" data-to="PG" data-label="BEGIN, INSERT, COMMIT" data-line-style="solid" data-arrow-head="filled" data-self="false">
+  <line x1="1684.2339999999995" y1="1426" x2="1837.4709999999995" y2="1426" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1760.8524999999995" y="1416" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">BEGIN, INSERT, COMMIT</text>
+</g>
+<g class="message" data-from="PG" data-to="DBC" data-label="1 dòng" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1837.4709999999995" y1="1466" x2="1684.2339999999995" y2="1466" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1760.8524999999995" y="1456" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">1 dòng</text>
+</g>
+<g class="message" data-from="DBC" data-to="Hdl" data-label="1" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1684.2339999999995" y1="1506" x2="1496.5404999999996" y2="1506" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1590.3872499999995" y="1496" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">1</text>
+</g>
+<g class="message" data-from="Hdl" data-to="LogB" data-label="kết quả" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1496.5404999999996" y1="1546" x2="1299.2139999999997" y2="1546" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1397.8772499999995" y="1536" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">kết quả</text>
+</g>
+<g class="message" data-from="LogB" data-to="LogB" data-label="Stopwatch.Stop rồi ghi log" data-line-style="solid" data-arrow-head="filled" data-self="true">
+  <polyline points="1299.2139999999997,1586 1329.2139999999997,1586 1329.2139999999997,1606 1299.2139999999997,1606" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#seq-arrow)" />
+  <text x="1337.2139999999997" y="1596" font-size="11" text-anchor="start" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">Stopwatch.Stop rồi ghi log</text>
+</g>
+<g class="message" data-from="LogB" data-to="ValB" data-label="kết quả" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1299.2139999999997" y1="1656" x2="1117.0779999999997" y2="1656" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1208.1459999999997" y="1646" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">kết quả</text>
+</g>
+<g class="message" data-from="ValB" data-to="Sender" data-label="kết quả" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="1117.0779999999997" y1="1696" x2="944.9454999999998" y2="1696" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="1031.0117499999997" y="1686" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">kết quả</text>
+</g>
+<g class="message" data-from="Sender" data-to="Ctrl" data-label="CreateMenuItemResult" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="944.9454999999998" y1="1736" x2="228.1075" y2="1736" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="586.5264999999999" y="1726" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">CreateMenuItemResult</text>
+</g>
+<g class="message" data-from="Ctrl" data-to="Client" data-label="201 Created" data-line-style="dashed" data-arrow-head="filled" data-self="false">
+  <line x1="228.1075" y1="1776" x2="70" y2="1776" stroke="var(--_line)" stroke-width="1" stroke-dasharray="6 4" marker-end="url(#seq-arrow)" />
+  <text x="149.05374999999998" y="1766" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">201 Created</text>
+</g>
+<g class="note" data-position="over" data-actors="SP,DBC">
+  <polygon points="960.3039999999997,778 1173.0039999999997,778 1179.0039999999997,784 1179.0039999999997,801 960.3039999999997,801" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1173.0039999999997,778 1179.0039999999997,784 1173.0039999999997,784" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1069.6539999999998" y="789.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)" dy="3.8499999999999996">ĐIỂM MẤU CHỐT - cùng một AppDbContext</text>
+</g>
+<g class="note" data-position="over" data-actors="SP,Hdl">
+  <polygon points="601.2362499999997,1179 1344.3782499999998,1179 1350.3782499999998,1185 1350.3782499999998,1202 601.2362499999997,1202" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1344.3782499999998,1179 1350.3782499999998,1185 1344.3782499999998,1185" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="975.8072499999998" y="1190.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)"><tspan x="975.8072499999998" dy="-10.450000000000001">AppDbContext không implement IUnitOfWork</tspan><tspan x="975.8072499999998" dy="14.3">nên phải có AppDbContextUnitOfWork bọc ngoài</tspan><tspan x="975.8072499999998" dy="14.3">cả hai đều lấy từ cùng một GetRequiredService AppDbContext</tspan></text>
+</g>
+<g class="note" data-position="over" data-actors="SP,DBC">
+  <polygon points="664.7889999999998,1784 1468.5189999999998,1784 1474.5189999999998,1790 1474.5189999999998,1807 664.7889999999998,1807" fill="var(--bg)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <polygon points="1468.5189999999998,1784 1474.5189999999998,1790 1468.5189999999998,1790" fill="var(--_inner-stroke)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1069.6539999999998" y="1795.5" font-size="11" text-anchor="middle" font-weight="400" fill="var(--_text-muted)"><tspan x="1069.6539999999998" dy="-10.450000000000001">Nếu đăng ký sai bằng new AppDbContext cho IUnitOfWork</tspan><tspan x="1069.6539999999998" dy="14.3">thì Add và SaveChanges sẽ chạy trên 2 object khác nhau</tspan><tspan x="1069.6539999999998" dy="14.3">INSERT sẽ không ra gì mà KHÔNG có lỗi nào báo ra</tspan></text>
+</g>
+<g class="actor" data-id="Client" data-label="Client" data-type="participant">
+  <rect x="30" y="30" width="80" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="70" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">Client</text>
+</g>
+<g class="actor" data-id="Ctrl" data-label="MenuItemsController" data-type="participant">
+  <rect x="150" y="30" width="156.21499999999997" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="228.1075" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">MenuItemsController</text>
+</g>
+<g class="actor" data-id="SP" data-label="ServiceProvider
+vùng chứa DI" data-type="participant">
+  <rect x="346.215" y="30" width="217.718" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="455.07399999999996" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="455.07399999999996" dy="-3.9000000000000012">ServiceProvider</tspan><tspan x="455.07399999999996" dy="16.900000000000002">vùng chứa DI</tspan></text>
+</g>
+<g class="actor" data-id="SC" data-label="IServiceCollection
+danh sách mô tả" data-type="participant">
+  <rect x="603.9329999999999" y="30" width="242.17099999999996" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="725.0184999999999" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)"><tspan x="725.0184999999999" dy="-3.9000000000000012">IServiceCollection</tspan><tspan x="725.0184999999999" dy="16.900000000000002">danh sách mô tả</tspan></text>
+</g>
+<g class="actor" data-id="Sender" data-label="Send mediator" data-type="participant">
+  <rect x="886.1039999999998" y="30" width="117.68299999999999" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="944.9454999999998" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">Send mediator</text>
+</g>
+<g class="actor" data-id="ValB" data-label="ValidationBehavior" data-type="participant">
+  <rect x="1043.7869999999998" y="30" width="146.582" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1117.0779999999997" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">ValidationBehavior</text>
+</g>
+<g class="actor" data-id="LogB" data-label="LoggingBehavior" data-type="participant">
+  <rect x="1230.3689999999997" y="30" width="137.69" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1299.2139999999997" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">LoggingBehavior</text>
+</g>
+<g class="actor" data-id="Hdl" data-label="CreateMenuItemHandler" data-type="participant">
+  <rect x="1408.0589999999997" y="30" width="176.96299999999997" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1496.5404999999996" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">CreateMenuItemHandler</text>
+</g>
+<g class="actor" data-id="DBC" data-label="AppDbContext" data-type="participant">
+  <rect x="1625.0219999999995" y="30" width="118.424" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1684.2339999999995" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">AppDbContext</text>
+</g>
+<g class="actor" data-id="PG" data-label="PostgreSQL" data-type="participant">
+  <rect x="1783.4459999999995" y="30" width="108.04999999999998" height="40" rx="4" ry="4" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="1837.4709999999995" y="50" font-size="13" text-anchor="middle" font-weight="500" fill="var(--_text)" dy="4.55">PostgreSQL</text>
+</g>
+</svg>

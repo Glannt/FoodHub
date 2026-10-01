@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1455.5729999999994 1272.317" width="1455.5729999999994" height="1272.317" style="--bg:#ffffff;--fg:#1f2328;--line:#d1d9e0;--accent:#0969da;--muted:#59636e;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<g class="subgraph" data-id="MC" data-label="NHÓM 1 - LÚC COMPILE, MSBuild đọc file">
+  <rect x="40" y="710.4169999999999" width="315.51599999999996" height="489.00000000000006" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="710.4169999999999" width="315.51599999999996" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="724.4169999999999" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">NHÓM 1 - LÚC COMPILE, MSBuild đọc file</text>
+</g>
+<g class="subgraph" data-id="RULE1" data-label="QUY TẮC QUAN TRỌNG NHẤT">
+  <rect x="922.2169999999996" y="40" width="493.35599999999965" height="344.5" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="922.2169999999996" y="40" width="493.35599999999965" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="934.2169999999996" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">QUY TẮC QUAN TRỌNG NHẤT</text>
+</g>
+<g class="subgraph" data-id="NOTE1" data-label="HIỆN TẠI TRONG REPO NÀY">
+  <rect x="439.9829999999999" y="40" width="462.2339999999998" height="250.70000000000002" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="439.9829999999999" y="40" width="462.2339999999998" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="451.9829999999999" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">HIỆN TẠI TRONG REPO NÀY</text>
+</g>
+<g class="subgraph" data-id="DUPE" data-label="VÌ SAO KHÔNG CẦN KHAI BÁO LẠI">
+  <rect x="40" y="40" width="379.9829999999999" height="284.5" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="40" y="40" width="379.9829999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="52" y="54" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">VÌ SAO KHÔNG CẦN KHAI BÁO LẠI</text>
+</g>
+<g class="subgraph" data-id="RT" data-label="NHÓM 2 - LÚC RUNTIME, app đọc file">
+  <rect x="379.51599999999996" y="726.417" width="782.3469999999999" height="412.1" rx="0" ry="0" fill="var(--_group-fill)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <rect x="379.51599999999996" y="726.417" width="782.3469999999999" height="28" rx="0" ry="0" fill="var(--_group-hdr)" stroke="var(--_node-stroke)" stroke-width="1" />
+  <text x="391.51599999999996" y="740.417" font-size="12" font-weight="600" fill="var(--_text-sec)" dy="4.199999999999999">NHÓM 2 - LÚC RUNTIME, app đọc file</text>
+</g>
+<polyline class="edge" data-from="START" data-to="Q1" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="640.2983333333333,441.4 640.2983333333333,481.4" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Q1" data-to="MC" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Lúc COMPILE
+do MSBuild đọc" points="607.6940833333333,579.2127499999999 607.6940833333333,623.817 197.75799999999998,623.817 197.75799999999998,710.4169999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Q1" data-to="RT" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Lúc RUNTIME
+do app đọc" points="640.2983333333333,611.817 640.2983333333333,726.417" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Q1" data-to="RT" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="Lúc RUNTIME
+do app đọc" points="672.9025833333333,579.21275 672.9025833333333,639.817 901.0806666666666,639.817 901.0806666666666,726.417" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="RT" data-to="ENDCFG" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="770.6895,1138.517 770.6895,1178.517" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M1" data-to="M2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="197.75799999999998,816.2169999999999 197.75799999999998,856.217" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M2" data-to="M3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="197.75799999999998,910.017 197.75799999999998,950.017" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M3" data-to="M4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="197.75799999999998,1003.8170000000001 197.75799999999998,1043.817" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="M4" data-to="M5" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="197.75799999999998,1097.617 197.75799999999998,1129.617" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="R1A" data-to="R1B" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1168.8949999999995,137.8 1168.8949999999995,169.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="R1B" data-to="R1C" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1168.8949999999995,206.25000000000003 1168.8949999999995,246.25" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="R1C" data-to="R1D" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1168.8949999999995,283.15 1168.8949999999995,331.6" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="N1A" data-to="N1B" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="671.0999999999998,120.9 671.0999999999998,169.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="N1B" data-to="N1C" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="671.0999999999998,206.25000000000003 671.0999999999998,246.25" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="DP1" data-to="DP2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="229.99149999999995,137.8 229.99149999999995,169.35000000000002" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="DP2" data-to="DP3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="229.99149999999995,206.25000000000003 229.99149999999995,246.25" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T1" data-to="T2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="794.5867499999998,816.217 794.5867499999999,856.217" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T2" data-to="T3" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="794.5867499999999,910.0169999999999 794.5867499999998,950.017" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T3" data-to="T4" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="794.5867499999998,1003.817 794.5867499999998,1023.817 600.9999999999999,1023.817 600.9999999999999,1043.817" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="T3" data-to="T5" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="794.5867499999998,1003.817 794.5867499999998,1023.817 988.1734999999999,1023.817 988.1734999999999,1043.817" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="Q1" data-to="MC" data-label="Lúc COMPILE
+do MSBuild đọc">
+  <rect x="152.25799999999998" y="630.817" width="90.71200000000002" height="44.6" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="197.61399999999998" y="653.117" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)"><tspan x="197.61399999999998" dy="-3.3000000000000007">Lúc COMPILE</tspan><tspan x="197.61399999999998" dy="14.3">do MSBuild đọc</tspan></text>
+</g>
+<g class="edge-label" data-from="Q1" data-to="RT" data-label="Lúc RUNTIME
+do app đọc">
+  <rect x="597.2983333333333" y="646.817" width="85.36600000000001" height="44.6" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="639.9813333333333" y="669.117" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)"><tspan x="639.9813333333333" dy="-3.3000000000000007">Lúc RUNTIME</tspan><tspan x="639.9813333333333" dy="14.3">do app đọc</tspan></text>
+</g>
+<g class="edge-label" data-from="Q1" data-to="RT" data-label="Lúc RUNTIME
+do app đọc">
+  <rect x="858.0806666666666" y="646.817" width="85.36600000000001" height="44.6" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="900.7636666666666" y="669.117" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)"><tspan x="900.7636666666666" dy="-3.3000000000000007">Lúc RUNTIME</tspan><tspan x="900.7636666666666" dy="14.3">do app đọc</tspan></text>
+</g>
+<g class="node" data-id="START" data-label="Cấu hình trong FoodHub có 2 nhóm, tách biệt hoàn toàn" data-shape="stadium">
+  <rect x="460.0083333333334" y="404.5" width="360.5799999999998" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="640.2983333333333" y="422.95" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Cấu hình trong FoodHub có 2 nhóm, tách biệt hoàn toàn</text>
+</g>
+<g class="node" data-id="Q1" data-label="Nhóm nào?" data-shape="diamond">
+  <polygon points="640.2983333333333,481.4 705.5068333333332,546.6084999999999 640.2983333333333,611.8169999999999 575.0898333333333,546.6084999999999" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="640.2983333333333" y="546.6084999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Nhóm nào?</text>
+</g>
+<g class="node" data-id="ENDCFG" data-label="Kết thúc: cấu hình compile và cấu hình runtime
+KHÔNG liên quan gì đến nhau" data-shape="stadium">
+  <rect x="614.1115" y="1178.517" width="313.15599999999995" height="53.800000000000004" rx="26.900000000000002" ry="26.900000000000002" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="770.6895" y="1205.4170000000001" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="770.6895" dy="-3.9000000000000012">Kết thúc: cấu hình compile và cấu hình runtime</tspan><tspan x="770.6895" dy="16.900000000000002">KHÔNG liên quan gì đến nhau</tspan></text>
+</g>
+<g class="node" data-id="M1" data-label="1. global.json
+chỉ định SDK, ảnh hưởng 1 lần duy nhất" data-shape="rectangle">
+  <rect x="63.410000000000025" y="762.4169999999999" width="268.6959999999999" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="197.75799999999998" y="789.3169999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="197.75799999999998" dy="-3.9000000000000012">1. global.json</tspan><tspan x="197.75799999999998" dy="16.900000000000002">chỉ định SDK, ảnh hưởng 1 lần duy nhất</tspan></text>
+</g>
+<g class="node" data-id="M2" data-label="2. Directory.Build.props
+áp cho MỌI project" data-shape="rectangle">
+  <rect x="106.75849999999998" y="856.217" width="181.999" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="197.75799999999998" y="883.117" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="197.75799999999998" dy="-3.9000000000000012">2. Directory.Build.props</tspan><tspan x="197.75799999999998" dy="16.900000000000002">áp cho MỌI project</tspan></text>
+</g>
+<g class="node" data-id="M3" data-label="3. thân file .csproj
+đặt sau nên THẮNG Directory.Build.props" data-shape="rectangle">
+  <rect x="56" y="950.017" width="283.51599999999996" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="197.75799999999998" y="976.917" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="197.75799999999998" dy="-3.9000000000000012">3. thân file .csproj</tspan><tspan x="197.75799999999998" dy="16.900000000000002">đặt sau nên THẮNG Directory.Build.props</tspan></text>
+</g>
+<g class="node" data-id="M4" data-label="4. Directory.Build.targets
+đặt sau .csproj nên thắng .csproj" data-shape="rectangle">
+  <rect x="82.3055" y="1043.817" width="230.90499999999997" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="197.75799999999998" y="1070.717" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="197.75799999999998" dy="-3.9000000000000012">4. Directory.Build.targets</tspan><tspan x="197.75799999999998" dy="16.900000000000002">đặt sau .csproj nên thắng .csproj</tspan></text>
+</g>
+<g class="node" data-id="M5" data-label="5. Directory.Packages.props
+nguồn version DUY NHẤT" data-shape="rectangle">
+  <rect x="91.1975" y="1129.617" width="213.12099999999995" height="53.800000000000004" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="197.75799999999998" y="1156.517" text-anchor="middle" font-size="13" font-weight="500" fill="#004085"><tspan x="197.75799999999998" dy="-3.9000000000000012">5. Directory.Packages.props</tspan><tspan x="197.75799999999998" dy="16.900000000000002">nguồn version DUY NHẤT</tspan></text>
+</g>
+<g class="node" data-id="R1A" data-label="Directory.Build.props: MSBuild đi từ thư mục project LÊN TRÊN
+và DỪNG NGAY Ở file đầu tiên tìm thấy" data-shape="rectangle">
+  <rect x="967.4864999999995" y="84" width="402.8169999999999" height="53.800000000000004" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="1168.8949999999995" y="110.9" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03"><tspan x="1168.8949999999995" dy="-3.9000000000000012">Directory.Build.props: MSBuild đi từ thư mục project LÊN TRÊN</tspan><tspan x="1168.8949999999995" dy="16.900000000000002">và DỪNG NGAY Ở file đầu tiên tìm thấy</tspan></text>
+</g>
+<g class="node" data-id="R1B" data-label="→ gần project nhất THẮNG, file ở gốc bị BỎ QUA hoàn toàn" data-shape="rectangle">
+  <rect x="984.1589999999995" y="169.35000000000002" width="369.4719999999999" height="36.900000000000006" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="1168.8949999999995" y="187.8" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03" dy="4.55">→ gần project nhất THẮNG, file ở gốc bị BỎ QUA hoàn toàn</text>
+</g>
+<g class="node" data-id="R1C" data-label="→ muốn ghi đè thì tạo Directory.Build.props ngay trong thư mục project đó" data-shape="rectangle">
+  <rect x="938.2169999999996" y="246.25" width="461.35599999999965" height="36.900000000000006" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="1168.8949999999995" y="264.7" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03" dy="4.55">→ muốn ghi đè thì tạo Directory.Build.props ngay trong thư mục project đó</text>
+</g>
+<g class="node" data-id="R1D" data-label="→ muốn tắt hẳn: đặt ImportDirectoryBuildProps là false" data-shape="rectangle">
+  <rect x="994.1624999999996" y="331.6" width="349.4649999999998" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1168.8949999999995" y="350.05" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">→ muốn tắt hẳn: đặt ImportDirectoryBuildProps là false</text>
+</g>
+<g class="node" data-id="N1A" data-label="chỉ có 1 Directory.Build.props ở gốc FoodHub/" data-shape="rectangle">
+  <rect x="515.6334999999998" y="84" width="310.93299999999994" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="671.0999999999998" y="102.45" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">chỉ có 1 Directory.Build.props ở gốc FoodHub/</text>
+</g>
+<g class="node" data-id="N1B" data-label="không project nào có file riêng" data-shape="rectangle">
+  <rect x="563.0574999999998" y="169.35000000000002" width="216.08499999999995" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="671.0999999999998" y="187.8" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">không project nào có file riêng</text>
+</g>
+<g class="node" data-id="N1C" data-label="→ không có ghi đè nào xảy ra, mọi project đều nhận cùng 1 bộ quy tắc" data-shape="rectangle">
+  <rect x="455.9829999999999" y="246.25" width="430.2339999999998" height="36.900000000000006" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="671.0999999999998" y="264.7" text-anchor="middle" font-size="13" font-weight="500" fill="#155724" dy="4.55">→ không có ghi đè nào xảy ra, mọi project đều nhận cùng 1 bộ quy tắc</text>
+</g>
+<g class="node" data-id="DP1" data-label="FoodHub.Api.csproj có &lt;Nullable&gt;enable&lt;/Nullable&gt;
+và &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;" data-shape="rectangle">
+  <rect x="56" y="84" width="347.9829999999999" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="229.99149999999995" y="110.9" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="229.99149999999995" dy="-3.9000000000000012">FoodHub.Api.csproj có &lt;Nullable&gt;enable&lt;/Nullable&gt;</tspan><tspan x="229.99149999999995" dy="16.900000000000002">và &lt;ImplicitUsings&gt;enable&lt;/ImplicitUsings&gt;</tspan></text>
+</g>
+<g class="node" data-id="DP2" data-label="Directory.Build.props cũng có 2 dòng đó" data-shape="rectangle">
+  <rect x="91.56799999999996" y="169.35000000000002" width="276.847" height="36.900000000000006" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="229.99149999999995" y="187.8" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">Directory.Build.props cũng có 2 dòng đó</text>
+</g>
+<g class="node" data-id="DP3" data-label="→ trùng lặp vô hại vì cùng giá trị
+nếu khác giá trị thì .csproj thắng" data-shape="rectangle">
+  <rect x="113.42749999999995" y="246.25" width="233.128" height="53.800000000000004" rx="0" ry="0" fill="#d4edda" stroke="#28a745" stroke-width="0.75" />
+  <text x="229.99149999999995" y="273.15" text-anchor="middle" font-size="13" font-weight="500" fill="#155724"><tspan x="229.99149999999995" dy="-3.9000000000000012">→ trùng lặp vô hại vì cùng giá trị</tspan><tspan x="229.99149999999995" dy="16.900000000000002">nếu khác giá trị thì .csproj thắng</tspan></text>
+</g>
+<g class="node" data-id="T1" data-label="appsettings.json
+mặc định" data-shape="rectangle">
+  <rect x="725.4467499999998" y="762.4169999999999" width="138.28000000000003" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="794.5867499999998" y="789.3169999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="794.5867499999998" dy="-3.9000000000000012">appsettings.json</tspan><tspan x="794.5867499999998" dy="16.900000000000002">mặc định</tspan></text>
+</g>
+<g class="node" data-id="T2" data-label="appsettings.Development.json
+nạp SAU, ghi đè khóa trùng" data-shape="rectangle">
+  <rect x="686.1737499999999" y="856.217" width="216.82599999999994" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="794.5867499999999" y="883.117" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="794.5867499999999" dy="-3.9000000000000012">appsettings.Development.json</tspan><tspan x="794.5867499999999" dy="16.900000000000002">nạp SAU, ghi đè khóa trùng</tspan></text>
+</g>
+<g class="node" data-id="T3" data-label="Biến môi trường
+nạp SAU CÙNG, thắng tất cả" data-shape="rectangle">
+  <rect x="694.6952499999999" y="950.017" width="199.78299999999996" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="794.5867499999998" y="976.917" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="794.5867499999998" dy="-3.9000000000000012">Biến môi trường</tspan><tspan x="794.5867499999998" dy="16.900000000000002">nạp SAU CÙNG, thắng tất cả</tspan></text>
+</g>
+<g class="node" data-id="T4" data-label="launchSettings.json
+CHỈ có tác dụng khi chạy dotnet run hoặc F5 trong Visual Studio
+biến môi trường do nó sinh ra" data-shape="rectangle">
+  <rect x="395.51599999999996" y="1043.817" width="410.9679999999999" height="70.7" rx="0" ry="0" fill="#fff3cd" stroke="#d39e00" stroke-width="0.75" />
+  <text x="600.9999999999999" y="1079.167" text-anchor="middle" font-size="13" font-weight="500" fill="#664d03"><tspan x="600.9999999999999" dy="-12.350000000000001">launchSettings.json</tspan><tspan x="600.9999999999999" dy="16.900000000000002">CHỈ có tác dụng khi chạy dotnet run hoặc F5 trong Visual Studio</tspan><tspan x="600.9999999999999" dy="16.900000000000002">biến môi trường do nó sinh ra</tspan></text>
+</g>
+<g class="node" data-id="T5" data-label="ConnectionStrings:Default
+đọc bằng IConfiguration, truyền vào UseNpgsql" data-shape="rectangle">
+  <rect x="830.4839999999999" y="1043.817" width="315.37899999999996" height="53.800000000000004" rx="0" ry="0" fill="#cce5ff" stroke="#004085" stroke-width="0.75" />
+  <text x="988.1734999999999" y="1070.717" text-anchor="middle" font-size="13" font-weight="500" fill="#004085"><tspan x="988.1734999999999" dy="-3.9000000000000012">ConnectionStrings:Default</tspan><tspan x="988.1734999999999" dy="16.900000000000002">đọc bằng IConfiguration, truyền vào UseNpgsql</tspan></text>
+</g>
+</svg>
