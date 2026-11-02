@@ -1,0 +1,90 @@
+classDiagram
+    direction TB
+
+    class ApiController {
+        <<RestaurantsController>>
+        +Create(request, ct) ActionResult
+        +Update(id, request, ct) ActionResult
+        +Approve(id, ct) IActionResult
+        +Reject(id, ct) IActionResult
+    }
+
+    class CreateRestaurantCommand {
+        <<record>>
+        +string Name
+        +string Address
+        +decimal Latitude
+        +decimal Longtitude
+    }
+
+    class CreateRestaurantResult {
+        <<record>>
+        +Guid RestaurantId
+    }
+
+    class CreateRestaurantHandler {
+        <<internal sealed>>
+        -IApplicationDbContext dbContext
+        -IUnitOfWork unitOfWork
+        +Handle(request, ct) Task
+    }
+
+    class CreateRestaurantValidator {
+        <<public sealed>>
+        +Name
+        +Address
+        +Latitude
+        +Longtitude
+    }
+
+    class IApplicationDbContext {
+        <<interface>>
+        +DbSet Restaurants
+        +DbSet MenuCategories
+        +DbSet MenuItems
+    }
+
+    class ValidationBehavior {
+        +Handle(request, next, ct) Task
+    }
+
+    class LoggingBehavior {
+        +Handle(request, next, ct) Task
+    }
+
+    class TransactionBehavior {
+        +Handle(request, next, ct) Task
+    }
+
+    class NotFoundException {
+        <<exception>>
+    }
+
+    class ConflictException {
+        <<exception>>
+    }
+
+    class BusinessRuleException {
+        <<exception mới>>
+    }
+
+    class ForbiddenException {
+        <<exception mới>>
+    }
+
+    class ExceptionHandler {
+        <<middleware>>
+        +TryHandleAsync(context, exception)
+    }
+
+    ApiController ..> CreateRestaurantCommand : ghép từ route và body
+    ApiController ..> CreateRestaurantHandler : MediatR Send
+    CreateRestaurantHandler --> IApplicationDbContext : truy vấn
+    CreateRestaurantHandler ..> ConflictException : ném khi trùng
+    CreateRestaurantValidator ..> ValidationBehavior : được tìm và gọi
+    ValidationBehavior ..> CreateRestaurantCommand : kiểm tra
+    TransactionBehavior --> IApplicationDbContext : mở transaction
+    ExceptionHandler ..> NotFoundException : bắt thành 404
+    ExceptionHandler ..> ConflictException : bắt thành 409
+    ExceptionHandler ..> BusinessRuleException : bắt thành 422
+    ExceptionHandler ..> ForbiddenException : bắt thành 403

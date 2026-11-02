@@ -15,6 +15,11 @@ $plan = @{
     'SEQ-DIAGRAMS.md' = @(
         '01-create-update-menu-item', '02-get-menu-by-restaurant', '03-outbox-dispatcher'
     )
+    'CLASS-DIAGRAMS.md' = @(
+        '20-shared-kernel', '21-domain-restaurants', '22-domain-order',
+        '23-cqrs-and-pipeline', '24-request-flow', '25-order-state-machine',
+        '26-database-schema'
+    )
 }
 
 $utf8NoBom = New-Object System.Text.UTF8Encoding $false

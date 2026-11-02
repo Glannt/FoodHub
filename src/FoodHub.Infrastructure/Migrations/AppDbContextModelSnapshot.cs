@@ -121,7 +121,7 @@ namespace FoodHub.Infrastructure.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("AddressText")
+                    b.Property<string>("Address")
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
@@ -141,9 +141,9 @@ namespace FoodHub.Infrastructure.Migrations
                         .HasColumnType("numeric(9,6)")
                         .HasColumnName("latitude");
 
-                    b.Property<decimal>("Longitude")
+                    b.Property<decimal>("Longtitude")
                         .HasColumnType("numeric(9,6)")
-                        .HasColumnName("longitude");
+                        .HasColumnName("longtitude");
 
                     b.Property<string>("Name")
                         .IsRequired()

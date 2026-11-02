@@ -1,0 +1,70 @@
+flowchart TD
+    %% ═══ LUỒNG 1 REQUEST ═══
+    subgraph API["TẦNG API"]
+        AC["Controller<br/>đọc route + body<br/>ghép thành Command"]
+        EH1["ExceptionHandler<br/>404 · 409 · 422 · 403"]
+        AC -->|"ISender.Send(command, ct)"| MB
+    end
+
+    subgraph APP["TẦNG APPLICATION - MediatR pipeline"]
+        MB["MediatR<br/>dựng pipeline theo đúng thứ tự đăng ký"]
+        VB["① ValidationBehavior<br/>→ thấy lỗi thì dừng luôn"]
+        LB["② LoggingBehavior<br/>→ Stopwatch, ghi log trước/sau"]
+        TB["③ TransactionBehavior<br/>→ mới thêm<br/>BEGIN + COMMIT, chỉ Command"]
+        CB["④ CachingBehavior<br/>→ GĐ4"]
+        MB --> VB --> LB --> TB --> CB
+    end
+
+    subgraph HAND["HANDLER - Application"]
+        H["Handle(request, ct)"]
+        H -->|"AnyAsync chặn trùng"| CHK{"Trùng?"}
+        CHK -->|"có"| CE["throw ConflictException"]
+        CHK -->|"không"| DOM
+    end
+
+    subgraph DOMAIN["TẦNG DOMAIN - luật nghiệp vụ"]
+        DOM["new Restaurant(...)<br/>Guard chạy ở đây:<br/>tên/địa chỉ không rỗng"]
+        EVT["Raise(MenuItemAddedEvent)<br/>ghi vào _domainEvents trong RAM"]
+        DOM --> EVT
+    end
+
+    subgraph INFRA["TẦNG INFRASTRUCTURE"]
+        CTX["AppDbContext<br/>ChangeTracker giữ thay đổi trong RAM"]
+        UOW["AppDbContextUnitOfWork<br/>bọc AppDbContext"]
+        PG[("PostgreSQL")]
+        H --> CTX
+        CTX --> UOW
+        UOW --> PG
+    end
+
+    %% ═══ ĐƯỜNG GHI ═══
+    DOM -.->|"Add(entity)"| CTX
+    TB -.->|"bao SaveChangesAsync"| H
+
+    %% ═══ KẾT QUẢ ═══
+    UOW -->|"int rows affected"| H
+    H -->|"CreateRestaurantResult"| CTX2["kết quả đi ngược lại<br/>Transaction → Cache → Logging → Validation"]
+    CTX2 --> AC
+    AC -->|"201 Created + Location"| CLI["Client"]
+
+    %% ═══ ĐƯỜNG ĐỌC ═══
+    CLI2["Client"] -->|"GET"| QC["Query Handler"]
+    QC -->|"AsNoTracking + Skip/Take<br/>+ Select projection"| PG
+    PG -->|"chỉ đọc, không BEGIN"| QC
+    QC -->|"200 OK"| CLI2
+
+    %% ═══ LỖI ═══
+    CE -.-> EH1
+    DOM -.->|"Guard fail → ArgumentException"| EH1
+    EH1 -->|"400 · 404 · 409 · 422 · 403"| CLI
+
+    classDef api fill:#eaf1ff,stroke:#4aa8ff,color:#0f1115
+    classDef app fill:#e8f7ed,stroke:#3ecf8e,color:#0f1115
+    classDef dom fill:#fff8e1,stroke:#f5b544,color:#0f1115
+    classDef inf fill:#fcebf5,stroke:#d47ab0,color:#0f1115
+    classDef err fill:#ffe8e9,stroke:#f2555a,color:#0f1115
+    class AC,EH1,CLI,CLI2 api
+    class MB,VB,LB,TB,CB,H,CHK,CTX2 app
+    class DOM,EVT dom
+    class CTX,UOW,PG,QC inf
+    class CE err

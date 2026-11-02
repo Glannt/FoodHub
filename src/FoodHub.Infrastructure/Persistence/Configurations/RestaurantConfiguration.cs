@@ -24,14 +24,14 @@ public sealed class RestaurantConfiguration : IEntityTypeConfiguration<Restauran
 
         builder.Property(r => r.Id).HasColumnName("id");
         builder.Property(r => r.Name).HasColumnName("name").HasMaxLength(200).IsRequired();
-        builder.Property(r => r.AddressText).HasColumnName("address_text").HasMaxLength(500).IsRequired();
+        builder.Property(r => r.Address).HasColumnName("address_text").HasMaxLength(500).IsRequired();
 
         // Toạ độ dùng numeric chứ không dùng float/double: Postgres không có kiểu float thật sự,
         // và float làm sai số ở mức km — không chấp nhận được với tọa độ địa lý.
         // numeric(9,6): tối đa 999.999999 — đủ cho mọi vĩ độ/tọa độ trên thế giới,
         // đồng thời giữ được 6 chữ số thập phân (~11 cm).
         builder.Property(r => r.Latitude).HasColumnName("latitude").HasColumnType("numeric(9,6)");
-        builder.Property(r => r.Longitude).HasColumnName("longitude").HasColumnType("numeric(9,6)");
+        builder.Property(r => r.Longtitude).HasColumnName("longtitude").HasColumnType("numeric(9,6)");
 
         // Default ở tầng database: nhà hàng mới luôn ở trạng thái chờ duyệt (false),
         // kể cả khi có câu lệnh INSERT thiếu cột này thì cũng không tự ý thành "đã duyệt".

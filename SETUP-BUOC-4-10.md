@@ -2,12 +2,12 @@
 
 Trạng thái hiện tại: Bước 0–3 **đã xong** (`dotnet build` sạch 0 warning / 0 error).
 
-| Đã xong | Nội dung |
-|---|---|
-| Bước 0 | `git init`, `.gitignore` |
-| Bước 1 | 5 project + `FoodHub.slnx` + project references |
-| Bước 2 | `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `.editorconfig` |
-| Bước 3 | Package references (không version, CPM lo version) |
+| Đã xong | Nội dung                                                                            |
+| ------- | ----------------------------------------------------------------------------------- |
+| Bước 0  | `git init`, `.gitignore`                                                            |
+| Bước 1  | 5 project + `FoodHub.slnx` + project references                                     |
+| Bước 2  | `global.json`, `Directory.Build.props`, `Directory.Packages.props`, `.editorconfig` |
+| Bước 3  | Package references (không version, CPM lo version)                                  |
 
 File này làm tiếp: **Bước 4 → 10**.
 
@@ -16,16 +16,16 @@ File này làm tiếp: **Bước 4 → 10**.
 
 ### 4 lỗi trong bản gốc đã được sửa (đã kiểm chứng bằng build thật)
 
-| # | Vị trí | Lỗi | Sửa thành |
-|---|---|---|---|
-| ① | §7.5 | `UseSnakeCaseNamingConvention()` thuộc package `EFCore.NamingConventions` không có trong `Directory.Packages.props` → `CS1061` | Bỏ hẳn, dùng `HasColumnName(...)` tường minh trong từng `Configuration` |
-| ② | §7.5 | `AppDbContext` không implement `IUnitOfWork` → `sp.GetRequiredService<AppDbContext>()` không ép được → `CS0266` | Bọc: `new AppDbContextUnitOfWork(sp.GetRequiredService<AppDbContext>())` |
-| ③ | §8.3 | `ProblemDetails` không có thuộc tính `Errors` → `CS0117`; dùng `ValidationProblemDetails` thì `errors` bị mất khi serialize | `HttpValidationProblemDetails(errors)` |
-| ④ | §10.2 | `MenuItem : Entity<Guid>` nhưng constructor gọi `Raise(...)` → `CS0103` | `MenuItem : AggregateRoot<Guid>` |
+| #   | Vị trí | Lỗi                                                                                                                            | Sửa thành                                                                |
+| --- | ------ | ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| ①   | §7.5   | `UseSnakeCaseNamingConvention()` thuộc package `EFCore.NamingConventions` không có trong `Directory.Packages.props` → `CS1061` | Bỏ hẳn, dùng `HasColumnName(...)` tường minh trong từng `Configuration`  |
+| ②   | §7.5   | `AppDbContext` không implement `IUnitOfWork` → `sp.GetRequiredService<AppDbContext>()` không ép được → `CS0266`                | Bọc: `new AppDbContextUnitOfWork(sp.GetRequiredService<AppDbContext>())` |
+| ③   | §8.3   | `ProblemDetails` không có thuộc tính `Errors` → `CS0117`; dùng `ValidationProblemDetails` thì `errors` bị mất khi serialize    | `HttpValidationProblemDetails(errors)`                                   |
+| ④   | §10.2  | `MenuItem : Entity<Guid>` nhưng constructor gọi `Raise(...)` → `CS0103`                                                        | `MenuItem : AggregateRoot<Guid>`                                         |
 
 Mỗi lỗi đều được ghi chú ngay tại chỗ trong tài liệu, kèm giải thích vì sao.
 
-> **Bài học rút ra:** 4 lỗi trên đều là lỗi *"viết trông đúng nhưng không chạy được"*.
+> **Bài học rút ra:** 4 lỗi trên đều là lỗi _"viết trông đúng nhưng không chạy được"_.
 > Chỉ có `dotnet build` mới bắt được — không có tài liệu nào bắt được.
 
 ---
@@ -67,6 +67,7 @@ cd D:\WorkSpace\project\FoodHub\src\BuildingBlocks\FoodHub.SharedKernel
 ```
 
 ### `IDomainEvent.cs`
+
 ```csharp
 namespace FoodHub.SharedKernel;
 
@@ -77,6 +78,7 @@ public interface IDomainEvent
 ```
 
 ### `Entity.cs`
+
 ```csharp
 namespace FoodHub.SharedKernel;
 
@@ -100,6 +102,7 @@ public abstract class Entity<TId> where TId : IEquatable<TId>
 ```
 
 ### `AggregateRoot.cs`
+
 ```csharp
 namespace FoodHub.SharedKernel;
 
@@ -116,6 +119,7 @@ public abstract class AggregateRoot<TId> : Entity<TId> where TId : IEquatable<TI
 ```
 
 ### `Result.cs`
+
 ```csharp
 namespace FoodHub.SharedKernel;
 
@@ -384,31 +388,66 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
 }
 ```
 
-## 7.3 `Persistence/IDesignTimeDbContextFactory.cs`
+## 7.3 Chuỗi kết nối — User Secrets, KHÔNG hardcode
 
-Dùng cho `dotnet ef` khi không cần chạy app:
+> **Không tạo file nào ở tầng Infrastructure cho chuỗi kết nối.**
 
-```csharp
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
+Có 3 chỗ EF có thể lấy `AppDbContext`, và nó thử theo thứ tự:
 
-namespace FoodHub.Infrastructure.Persistence;
+```text
+① IDesignTimeDbContextFactory<T> trong target project (-p)
+      ↓ không có
+② Dựng host từ STARTUP project (-s), lấy AppDbContext trong DI   ← ĐANG DÙNG CÁCH NÀY
+      ↓ không có
+③ Tìm AppDbContext có OnConfiguring() tự dựng được
+```
 
-public sealed class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
-{
-    public AppDbContext CreateDbContext(string[] args)
-    {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
-            .UseNpgsql("Host=localhost;Database=foodhub;Username=postgres;Password=postgres")
-            .Options;
+Ta **cố ý bỏ cách ①**. Lý do: cách ① buộc phải hardcode chuỗi kết nối vào source code
+(vì nó không chạy app, không có DI, không đọc được config) → mật khẩu nằm trong git.
 
-        return new AppDbContext(options);
-    }
+Cách ② cho **1 nguồn sự thật duy nhất**: `AddInfrastructure(builder.Configuration)` trong
+`Program.cs` đọc `ConnectionStrings:Default` từ `appsettings.json` + User Secrets — đúng
+một nơi với lúc chạy thật.
+
+### Lưu secret vào User Secrets (ngoài repo)
+
+```powershell
+dotnet user-secrets init -p src\FoodHub.Api
+dotnet user-secrets set "ConnectionStrings:Default" "Host=<host>;Port=5432;Database=FoodHub;Username=<user>;Password=<pass>" -p src\FoodHub.Api
+```
+
+Lệnh `init` ghi `<UserSecretsId>` vào `FoodHub.Api.csproj`. Secret lưu ở
+`%APPDATA%\Microsoft\UserSecrets\<guid>\secrets.json` — **ngoài repo hoàn toàn**.
+
+Trong `src\FoodHub.Api\appsettings.json` chỉ để node **rỗng**, để file này an toàn khi commit:
+
+```json
+"ConnectionStrings": {
+  "Default": ""
 }
 ```
 
-> Chuỗi kết nối ở đây **chỉ dùng lúc ghi migration**. Lúc chạy thật, `Program.cs` đọc từ `appsettings.json`.
-> **Sửa thành Postgres của bạn** khi tới lúc chạy `dotnet ef`.
+> `Default` là **tên khóa**, phải khớp chính xác. Ghi sai tên không ai báo lỗi — chỉ đơn giản
+> là không đọc được.
+>
+> User Secrets **chỉ được load ở môi trường `Development`**. `launchSettings.json` đã đặt
+> sẵn `ASPNETCORE_ENVIRONMENT=Development` cho cả hai profile nên `dotnet run` và `dotnet ef`
+> đều đọc được.
+
+### Kiểm chứng EF thực sự đọc được secret (không cần DB sống)
+
+```powershell
+dotnet ef dbcontext info -p src\FoodHub.Infrastructure -s src\FoodHub.Api
+```
+
+Phải in ra tên DB thật, **không** phải rỗng:
+
+```text
+Type: FoodHub.Infrastructure.Persistence.AppDbContext
+Provider name: Npgsql.EntityFrameworkCore.PostgreSQL
+Database name: FoodHub              ← đọc được từ User Secrets
+Data source: tcp://localhost:5432
+```
 
 ## 7.4 `Persistence/AppDbContextUnitOfWork.cs`
 
@@ -670,11 +709,11 @@ dotnet run --project src\FoodHub.Api
 
 Console sẽ in URL, thường là `https://localhost:7xxx`. Mở bằng trình duyệt:
 
-| URL | Kỳ vọng |
-|---|---|
-| `https://localhost:7xxx/health/live` | `Healthy` |
-| `https://localhost:7xxx/health/ready` | `Healthy` (chưa check DB vì connection string rỗng) |
-| `https://localhost:7xxx/openapi/v1.json` | JSON mô tả API |
+| URL                                      | Kỳ vọng                                             |
+| ---------------------------------------- | --------------------------------------------------- |
+| `https://localhost:7xxx/health/live`     | `Healthy`                                           |
+| `https://localhost:7xxx/health/ready`    | `Healthy` (chưa check DB vì connection string rỗng) |
+| `https://localhost:7xxx/openapi/v1.json` | JSON mô tả API                                      |
 
 > Phải dùng **https**. `UseHttpsRedirection()` sẽ đổi hướng mọi request `http://` sang `https://`.
 > Nếu trình duyệt báo cảnh báo chứng thư → chọn "Advanced" → "Proceed".
@@ -714,6 +753,7 @@ New-Item -ItemType Directory -Force src\FoodHub.Domain\Restaurants
 ```
 
 ### `src\FoodHub.Domain\Restaurants\Restaurant.cs`
+
 ```csharp
 using FoodHub.SharedKernel;
 
@@ -725,25 +765,25 @@ public sealed class Restaurant : AggregateRoot<Guid>
     {
     }
 
-    public Restaurant(string name, string addressText, decimal latitude, decimal longitude)
+    public Restaurant(string name, string Address, decimal latitude, decimal Longtitude)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
-        ArgumentException.ThrowIfNullOrWhiteSpace(addressText);
+        ArgumentException.ThrowIfNullOrWhiteSpace(Address);
 
         Name = name;
-        AddressText = addressText;
+        Address = Address;
         Latitude = latitude;
-        Longitude = longitude;
+        Longtitude = Longtitude;
         IsApproved = false;
     }
 
     public string Name { get; private set; } = string.Empty;
 
-    public string AddressText { get; private set; } = string.Empty;
+    public string Address { get; private set; } = string.Empty;
 
     public decimal Latitude { get; private set; }
 
-    public decimal Longitude { get; private set; }
+    public decimal Longtitude { get; private set; }
 
     public bool IsApproved { get; private set; }
 
@@ -756,6 +796,7 @@ public sealed class Restaurant : AggregateRoot<Guid>
 > Ctor `private` rỗng là bắt buộc cho EF Core. Kế từ đây **mọi object này chỉ được tạo qua method/factory** — không có `new Restaurant()` rải rác trong code.
 
 ### `src\FoodHub.Domain\Restaurants\MenuCategory.cs`
+
 ```csharp
 using FoodHub.SharedKernel;
 
@@ -788,6 +829,7 @@ public sealed class MenuCategory : Entity<Guid>
 ```
 
 ### `src\FoodHub.Domain\Restaurants\MenuItem.cs`
+
 ```csharp
 using FoodHub.SharedKernel;
 
@@ -866,6 +908,7 @@ public sealed class MenuItem : AggregateRoot<Guid>
 > `MenuCategory` thì giữ nguyên `Entity<Guid>` — nhóm món không tồn tại ý nghĩa nếu nhà hàng bị xoá.
 
 ### `src\FoodHub.Domain\Restaurants\MenuItemAddedEvent.cs`
+
 ```csharp
 using FoodHub.SharedKernel;
 
@@ -895,6 +938,7 @@ New-Item -ItemType Directory -Force "$root\Queries\GetMenuByRestaurant"
 > Thư mục cấu trúc **chính là tài liệu** — đọc cây thư mục là hiểu hệ thống.
 
 ### `Commands\CreateMenuItem\CreateMenuItemCommand.cs`
+
 ```csharp
 using MediatR;
 
@@ -912,6 +956,7 @@ public sealed record CreateMenuItemResult(Guid MenuItemId);
 ```
 
 ### `Commands\CreateMenuItem\CreateMenuItemValidator.cs`
+
 ```csharp
 using FluentValidation;
 
@@ -946,6 +991,7 @@ public sealed class CreateMenuItemValidator : AbstractValidator<CreateMenuItemCo
 ```
 
 ### `Commands\CreateMenuItem\CreateMenuItemHandler.cs`
+
 ```csharp
 using FoodHub.Application.Abstractions;
 using FoodHub.Domain.Persistence;
@@ -996,6 +1042,7 @@ internal sealed class CreateMenuItemHandler(
 > Handler `internal` là an toàn: DI của .NET dùng reflection nên vẫn tạo được, nhưng code ngoài không thể `new` trực tiếp. Đây là cách giữ API public nhỏ gọn.
 
 ### `Commands\UpdateMenuItem\UpdateMenuItemCommand.cs`
+
 ```csharp
 using MediatR;
 
@@ -1012,6 +1059,7 @@ public sealed record UpdateMenuItemResult(Guid MenuItemId);
 ```
 
 ### `Commands\UpdateMenuItem\UpdateMenuItemValidator.cs`
+
 ```csharp
 using FluentValidation;
 
@@ -1043,6 +1091,7 @@ public sealed class UpdateMenuItemValidator : AbstractValidator<UpdateMenuItemCo
 ```
 
 ### `Commands\UpdateMenuItem\UpdateMenuItemHandler.cs`
+
 ```csharp
 using FoodHub.Application.Abstractions;
 using FoodHub.Domain.Persistence;
@@ -1080,6 +1129,7 @@ internal sealed class UpdateMenuItemHandler(
 ```
 
 ### `Commands\SetMenuItemAvailability\SetMenuItemAvailabilityCommand.cs`
+
 ```csharp
 using MediatR;
 
@@ -1095,6 +1145,7 @@ public sealed record Unit;
 > Tái sử dụng `System.Unit` cho các command **không trả dữ liệu về**. Tránh phải bịa `EmptyResult` riêng.
 
 ### `Commands\SetMenuItemAvailability\SetMenuItemAvailabilityValidator.cs`
+
 ```csharp
 using FluentValidation;
 
@@ -1111,6 +1162,7 @@ public sealed class SetMenuItemAvailabilityValidator : AbstractValidator<SetMenu
 ```
 
 ### `Commands\SetMenuItemAvailability\SetMenuItemAvailabilityHandler.cs`
+
 ```csharp
 using FoodHub.Application.Abstractions;
 using FoodHub.Domain.Persistence;
@@ -1144,6 +1196,7 @@ internal sealed class SetMenuItemAvailabilityHandler(
 ```
 
 ### `Queries\GetMenuByRestaurant\GetMenuByRestaurantQuery.cs`
+
 ```csharp
 using MediatR;
 
@@ -1172,6 +1225,7 @@ public sealed record MenuItemDto(
 ```
 
 ### `Queries\GetMenuByRestaurant\GetMenuByRestaurantHandler.cs`
+
 ```csharp
 using FoodHub.Application.Abstractions;
 using MediatR;
@@ -1245,6 +1299,7 @@ New-Item -ItemType Directory -Force src\FoodHub.Api\Controllers\MenuItems
 ```
 
 ### `src\FoodHub.Api\Controllers\MenuItems\MenuItemsController.cs`
+
 ```csharp
 using FoodHub.Application.Restaurants.MenuItems.Commands.CreateMenuItem;
 using FoodHub.Application.Restaurants.MenuItems.Commands.SetMenuItemAvailability;
@@ -1346,6 +1401,7 @@ New-Item -ItemType Directory -Force src\FoodHub.Infrastructure\Persistence\Confi
 ```
 
 ### `RestaurantConfiguration.cs`
+
 ```csharp
 using FoodHub.Domain.Restaurants;
 using Microsoft.EntityFrameworkCore;
@@ -1362,9 +1418,9 @@ public sealed class RestaurantConfiguration : IEntityTypeConfiguration<Restauran
 
         builder.Property(r => r.Id).HasColumnName("id");
         builder.Property(r => r.Name).HasColumnName("name").HasMaxLength(200).IsRequired();
-        builder.Property(r => r.AddressText).HasColumnName("address_text").HasMaxLength(500).IsRequired();
+        builder.Property(r => r.Address).HasColumnName("address_text").HasMaxLength(500).IsRequired();
         builder.Property(r => r.Latitude).HasColumnName("latitude").HasColumnType("numeric(9,6)");
-        builder.Property(r => r.Longitude).HasColumnName("longitude").HasColumnType("numeric(9,6)");
+        builder.Property(r => r.Longtitude).HasColumnName("Longtitude").HasColumnType("numeric(9,6)");
         builder.Property(r => r.IsApproved).HasColumnName("is_approved").HasDefaultValue(false);
         builder.Property(r => r.CreatedAt).HasColumnName("created_at");
         builder.Property(r => r.UpdatedAt).HasColumnName("updated_at");
@@ -1375,6 +1431,7 @@ public sealed class RestaurantConfiguration : IEntityTypeConfiguration<Restauran
 ```
 
 ### `MenuCategoryConfiguration.cs`
+
 ```csharp
 using FoodHub.Domain.Restaurants;
 using Microsoft.EntityFrameworkCore;
@@ -1406,6 +1463,7 @@ public sealed class MenuCategoryConfiguration : IEntityTypeConfiguration<MenuCat
 ```
 
 ### `MenuItemConfiguration.cs`
+
 ```csharp
 using FoodHub.Domain.Restaurants;
 using Microsoft.EntityFrameworkCore;
@@ -1460,12 +1518,12 @@ Kỳ vọng: `0 Warning(s) 0 Error(s)`.
 
 Lỗi thường gặp:
 
-| Lỗi | Nguyên nhân |
-|---|---|
-| `CS0246: The type or namespace name 'ISender' could not be found` | Thiếu `using MediatR;` trong Controller |
-| `CS0122: ... is inaccessible due to its protection level` | Handler `internal` nhưng bạn gọi nó từ chỗ khác — chỉ MediatR được gọi |
-| `NU1008: Projects that use central package version management should not define the version` | Còn sót `Version="..."` trong `.csproj` |
-| `CS8618: Non-nullable property must contain a non-null value` | Dùng `= string.Empty;` cho property chuỗi trong entity |
+| Lỗi                                                                                          | Nguyên nhân                                                            |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `CS0246: The type or namespace name 'ISender' could not be found`                            | Thiếu `using MediatR;` trong Controller                                |
+| `CS0122: ... is inaccessible due to its protection level`                                    | Handler `internal` nhưng bạn gọi nó từ chỗ khác — chỉ MediatR được gọi |
+| `NU1008: Projects that use central package version management should not define the version` | Còn sót `Version="..."` trong `.csproj`                                |
+| `CS8618: Non-nullable property must contain a non-null value`                                | Dùng `= string.Empty;` cho property chuỗi trong entity                 |
 
 ## 10.7 Cấu hình Postgres (bạn tự làm)
 
@@ -1491,25 +1549,67 @@ Lỗi thường gặp:
 >
 > `PrivateAssets="all"` ở đây là đúng — package này chỉ dùng lúc build, **không** được đóng gói
 > lên production. Không khai báo `Version` vì CPM đã lo.
->
-> **Điểm hay:** `dotnet ef migrations add` **không cần database sống**. Nó chỉ dựng model rồi
-> sinh file code. Nên bạn có thể tạo migration ngay cả khi Postgres chưa bật (nhờ
-> `IDesignTimeDbContextFactory` cung cấp chuỗi placeholder). Chỉ `dotnet ef database update`
-> mới thật sự kết nối.
 
-Sau khi Postgres của bạn chạy được, làm 3 việc:
+### Cặp lệnh `dotnet ef` — phân biệt rõ hai giai đoạn
 
-**a)** Điền `ConnectionStrings:Default` trong `src\FoodHub.Api\appsettings.json` (và `appsettings.Development.json` nếu muốn tách môi trường).
+|                | `migrations add <Tên>`                                 | `database update`                     |
+| -------------- | ------------------------------------------------------ | ------------------------------------- |
+| Cần DB sống?   | ❌ **không**                                           | ✅ **có**                             |
+| Đọc gì?        | code C# của bạn (`Restaurant.cs`, `*Configuration.cs`) | file `.cs` trong `Migrations\`        |
+| So với cái gì? | `AppDbContextModelSnapshot.cs` (ảnh chụp lần trước)    | bảng `__EFMigrationsHistory` trong DB |
+| Viết ra gì?    | **file code `.cs`**                                    | **SQL chạy trên DB**                  |
+| Khi nào chạy?  | lúc code, lúc model đổi                                | lúc triển khai, lúc đổi môi trường    |
 
-**b)** Sửa chuỗi kết nối trong `src\FoodHub.Infrastructure\Persistence\IDesignTimeDbContextFactory.cs`.
-
-**c)** Tạo migration và áp dụng:
-```powershell
-dotnet ef migrations add InitialCreate -p src\FoodHub.Infrastructure -s src\FoodHub.Api
-dotnet ef database update -p src\FoodHub.Infrastructure -s src\FoodHub.Api
+```text
+Bạn sửa entity
+      ↓  dotnet ef migrations add InitialCreate   → sinh 2026xxxx_InitialCreate.cs
+Bạn có DB sống
+      ↓  dotnet ef database update                → chạy SQL, tạo __EFMigrationsHistory
+App đọc/ghi được dữ liệu
 ```
 
-Sau đó `/health/ready` sẽ tự động bắt đầu kiểm tra DB (vì `connectionString` không còn rỗng ở Bước 8).
+**Ý nghĩa từng cờ:**
+
+- `-p src\FoodHub.Infrastructure` (`--project`) — project **chứa class `AppDbContext`** và là
+  **nơi ghi file migration ra**. Không phải "init vào assembly khi compile".
+- `-s src\FoodHub.Api` (`--startup-project`) — project **EF sẽ chạy `Program.cs`** để lấy
+  `AppDbContext` từ DI container. Nhờ vậy nó đọc được `appsettings.json` + User Secrets.
+  Không phải "đọc `.csproj`".
+
+> `-s` chính là lý do ta thêm `Microsoft.EntityFrameworkCore.Design` vào `FoodHub.Api`.
+> Package này cung cấp cơ chế `HostFactoryResolver` để EF dựng được host từ minimal hosting.
+
+> Chạy `database update` lần thứ 2 sẽ **không làm gì** — nhờ bảng `__EFMigrationsHistory`.
+> Đây là lý do migration an toàn khi chạy lại, quan trọng cho CI/CD ở Giai đoạn 8.
+
+**a)** Chuỗi kết nối đã nằm trong User Secrets từ Bước 7.3. Trong `appsettings.json` node
+`ConnectionStrings:Default` để rỗng — **đừng** điền mật khẩu thật vào file này.
+
+**b)** Chạy trong `src\FoodHub.Api` để chuỗi được nạp:
+
+```powershell
+dotnet ef migrations add InitialCreate -p src\FoodHub.Infrastructure -s src\FoodHub.Api
+dotnet ef database update    -p src\FoodHub.Infrastructure -s src\FoodHub.Api
+```
+
+> Ép chuỗi mà không sửa file (hữu ích khi deploy, `--connection` **thắng** `appsettings.json`):
+>
+> ```powershell
+> dotnet ef database update -p src\FoodHub.Infrastructure -s src\FoodHub.Api `
+>   --connection "Host=<host>;Database=FoodHub;Username=<user>;Password=<pass>"
+> ```
+
+**⚠️ Đổi hành vi `/health/ready` — đúng, không phải bug:**
+
+```text
+ConnectionStrings:Default = ""   → AddInfrastructure KHÔNG đăng ký AddDbContextCheck
+                                  → /health/ready = Healthy  (chưa hề chạm DB — "Healthy" giả)
+
+Có giá trị (từ User Secrets)     → AddInfrastructure ĐĂNG KÝ AddDbContextCheck
+                                  → /health/ready = Unhealthy nếu Postgres tắt
+```
+
+`/health/live` vẫn `Healthy` như cũ — nó không chạm DB.
 
 ### Kiểm tra thử API
 
@@ -1519,6 +1619,7 @@ $rest = (New-Guid).Guid
 ```
 
 Tạo nhà hàng + nhóm món + món ăn, rồi đọc menu:
+
 ```powershell
 # (nếu đã seed sẵn nhà hàng) — xem danh sách nhà hàng
 Invoke-RestMethod "$base/api/restaurants"
@@ -1564,14 +1665,14 @@ git commit -m "feat: vertical slice menu - domain events, CQRS commands/queries,
 
 # Lỗi dễ mắc — nhớ từ roadmap mục 9
 
-| Sai lầm | Hậu quả | Cách phòng |
-|---|---|---|
-| Thêm `using Microsoft.EntityFrameworkCore` vào Domain | Phá Clean Architecture | Test kiến trúc ở tuần 5 bắt lỗi này |
-| Gửi SignalR/email ngay trong transaction | Rollback nhưng thông báo đã đi | Đã chuẩn bị `IDomainEvent` + sẽ làm Outbox ở Giai đoạn 2 |
-| Query nạp cả entity rồi map tay | Chậm, dễ N+1 | `.AsNoTracking()` + `.Select()` projection |
-| Dùng `double` cho tiền | Lệch 0.01 mỗi đơn | `numeric(18,2)` |
-| Bind thẳng Command từ body | Client ghi đè `RestaurantId` từ route | Tách `Request` record ở Api |
-| Quên `CancellationToken` | Hủy request không dừng query | Truyền xuyên suốt handler |
+| Sai lầm                                               | Hậu quả                               | Cách phòng                                               |
+| ----------------------------------------------------- | ------------------------------------- | -------------------------------------------------------- |
+| Thêm `using Microsoft.EntityFrameworkCore` vào Domain | Phá Clean Architecture                | Test kiến trúc ở tuần 5 bắt lỗi này                      |
+| Gửi SignalR/email ngay trong transaction              | Rollback nhưng thông báo đã đi        | Đã chuẩn bị `IDomainEvent` + sẽ làm Outbox ở Giai đoạn 2 |
+| Query nạp cả entity rồi map tay                       | Chậm, dễ N+1                          | `.AsNoTracking()` + `.Select()` projection               |
+| Dùng `double` cho tiền                                | Lệch 0.01 mỗi đơn                     | `numeric(18,2)`                                          |
+| Bind thẳng Command từ body                            | Client ghi đè `RestaurantId` từ route | Tách `Request` record ở Api                              |
+| Quên `CancellationToken`                              | Hủy request không dừng query          | Truyền xuyên suốt handler                                |
 
 # Giai đoạn tiếp theo
 

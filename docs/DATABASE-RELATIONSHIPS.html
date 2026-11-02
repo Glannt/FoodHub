@@ -1,0 +1,1924 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>FoodHub — Sơ Đồ Quan Hệ Cơ Sở Dữ Liệu (Database Relationships)</title>
+        <style>
+            :root {
+                --bg: #0d1017;
+                --bg-soft: #161b24;
+                --bg-card: #1c222e;
+                --bg-code: #0b0e14;
+                --fg: #e6edf3;
+                --fg-dim: #9aa7b8;
+                --fg-mute: #6a7687;
+                --line: #2a3342;
+                --line-soft: #202735;
+                --accent: #ff6b2c;
+                --accent-dim: #ff8b5c;
+                --accent-soft: rgba(255, 107, 44, 0.12);
+                --ok: #3ecf8e;
+                --ok-soft: rgba(62, 207, 142, 0.12);
+                --warn: #f5b544;
+                --warn-soft: rgba(245, 181, 68, 0.12);
+                --bad: #f2555a;
+                --bad-soft: rgba(242, 85, 90, 0.12);
+                --info: #4aa8ff;
+                --info-soft: rgba(74, 168, 255, 0.12);
+                --purple: #b388ff;
+                --purple-soft: rgba(179, 136, 255, 0.12);
+                --mono: "Cascadia Code", "Fira Code", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+            }
+            * { box-sizing: border-box; }
+            body {
+                margin: 0;
+                background: var(--bg);
+                color: var(--fg);
+                font: 14.5px/1.65 "Segoe UI", system-ui, -apple-system, sans-serif;
+            }
+            .wrap {
+                max-width: 1360px;
+                margin: 0 auto;
+                padding: 0 24px 100px;
+            }
+
+            /* Header */
+            header {
+                border-bottom: 1px solid var(--line);
+                background: linear-gradient(180deg, #181e29 0%, var(--bg) 100%);
+                padding: 44px 24px 34px;
+                margin-bottom: 30px;
+            }
+            .header-inner {
+                max-width: 1360px;
+                margin: 0 auto;
+            }
+            .kicker {
+                font: 600 11px/1 var(--mono);
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--accent);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 14px;
+            }
+            .kicker::before {
+                content: "";
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                background: var(--accent);
+                border-radius: 50%;
+                box-shadow: 0 0 10px var(--accent);
+            }
+            h1 {
+                margin: 0 0 12px;
+                font-size: 30px;
+                line-height: 1.25;
+                letter-spacing: -0.02em;
+                font-weight: 700;
+            }
+            .sub {
+                color: var(--fg-dim);
+                max-width: 840px;
+                margin: 0;
+                font-size: 15px;
+            }
+
+            /* Meta Stats */
+            .meta-bar {
+                margin-top: 22px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .pill {
+                font: 500 12px/1 var(--mono);
+                padding: 6px 12px;
+                border-radius: 999px;
+                border: 1px solid var(--line);
+                background: var(--bg-soft);
+                color: var(--fg-dim);
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .pill b { color: var(--fg); }
+            .pill.accent { border-color: rgba(255,107,44,0.4); background: var(--accent-soft); color: var(--accent); }
+            .pill.ok { border-color: rgba(62,207,142,0.4); background: var(--ok-soft); color: var(--ok); }
+            .pill.info { border-color: rgba(74,168,255,0.4); background: var(--info-soft); color: var(--info); }
+            .pill.purple { border-color: rgba(179,136,255,0.4); background: var(--purple-soft); color: var(--purple); }
+
+            /* Navigation Links */
+            .nav-links {
+                display: flex;
+                gap: 16px;
+                margin-top: 18px;
+                font-size: 13px;
+            }
+            .nav-links a {
+                color: var(--info);
+                text-decoration: none;
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+            }
+            .nav-links a:hover { text-decoration: underline; }
+
+            /* Tabs */
+            .tab-nav {
+                display: flex;
+                gap: 6px;
+                border-bottom: 1px solid var(--line);
+                margin-bottom: 24px;
+                overflow-x: auto;
+            }
+            .tab-btn {
+                background: none;
+                border: none;
+                color: var(--fg-dim);
+                font: 600 13.5px system-ui, sans-serif;
+                padding: 11px 18px;
+                border-radius: 8px 8px 0 0;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                border-bottom: 2px solid transparent;
+                margin-bottom: -1px;
+                transition: all 0.15s ease;
+            }
+            .tab-btn:hover {
+                color: var(--fg);
+                background: rgba(255,255,255,0.03);
+            }
+            .tab-btn.active {
+                color: var(--accent);
+                border-bottom-color: var(--accent);
+                background: var(--bg-soft);
+            }
+            .tab-badge {
+                font-family: var(--mono);
+                font-size: 11px;
+                padding: 2px 7px;
+                border-radius: 999px;
+                background: var(--bg-card);
+                color: var(--fg-dim);
+                border: 1px solid var(--line);
+            }
+            .tab-btn.active .tab-badge {
+                background: var(--accent-soft);
+                color: var(--accent);
+                border-color: rgba(255,107,44,0.3);
+            }
+
+            .tab-content { display: none; }
+            .tab-content.active { display: block; }
+
+            /* Diagram Container */
+            .diagram-box {
+                background: var(--bg-soft);
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                padding: 20px;
+                position: relative;
+                margin-bottom: 30px;
+            }
+            .diagram-toolbar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                padding-bottom: 14px;
+                margin-bottom: 14px;
+                border-bottom: 1px solid var(--line-soft);
+            }
+            .diagram-title {
+                font-size: 15px;
+                font-weight: 650;
+                color: var(--fg);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .toolbar-actions {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .tool-btn {
+                background: var(--bg-card);
+                border: 1px solid var(--line);
+                color: var(--fg-dim);
+                padding: 5px 12px;
+                border-radius: 6px;
+                font: 500 12px var(--mono);
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                transition: all 0.15s;
+            }
+            .tool-btn:hover {
+                background: var(--line);
+                color: var(--fg);
+            }
+
+            .pan-hint {
+                font-size: 11.5px;
+                font-family: var(--mono);
+                color: var(--fg-mute);
+                background: rgba(255, 255, 255, 0.03);
+                border: 1px solid var(--line-soft);
+                padding: 4px 10px;
+                border-radius: 6px;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .diagram-viewport {
+                position: relative;
+                overflow: hidden;
+                min-height: 520px;
+                height: 640px;
+                background: #080a0e;
+                border: 1px solid var(--line-soft);
+                border-radius: 8px;
+                cursor: grab;
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .diagram-viewport:active,
+            .diagram-viewport.is-dragging {
+                cursor: grabbing !important;
+            }
+            .diagram-viewport:fullscreen {
+                height: 100vh !important;
+                max-height: none !important;
+                border-radius: 0;
+                padding: 0;
+                background: #06080b;
+            }
+            .diagram-viewport.fullscreen-fallback {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100vw !important;
+                height: 100vh !important;
+                max-height: none !important;
+                z-index: 99999 !important;
+                border-radius: 0 !important;
+                background: #06080b;
+            }
+            .pan-canvas {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transform-origin: center center;
+                will-change: transform;
+                transition: transform 0.08s ease-out;
+            }
+            .pan-canvas.dragging {
+                transition: none !important;
+            }
+            .pan-canvas svg {
+                max-width: none !important;
+                height: auto !important;
+                display: block;
+                user-select: none;
+                -webkit-user-select: none;
+            }
+
+            /* Fallback & details */
+            details.source-toggle {
+                margin-top: 14px;
+                background: var(--bg-card);
+                border: 1px solid var(--line-soft);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            details.source-toggle summary {
+                padding: 10px 16px;
+                font: 500 12.5px var(--mono);
+                color: var(--fg-dim);
+                cursor: pointer;
+                user-select: none;
+            }
+            details.source-toggle summary:hover { color: var(--accent); }
+            details.source-toggle pre {
+                margin: 0;
+                padding: 14px 18px;
+                background: var(--bg-code);
+                overflow-x: auto;
+                font: 12.5px/1.6 var(--mono);
+                color: #b5c2d4;
+                border-top: 1px solid var(--line-soft);
+            }
+
+            /* Callouts */
+            .callout {
+                border-radius: 10px;
+                padding: 16px 20px;
+                margin: 18px 0;
+                border: 1px solid var(--line);
+                background: var(--bg-soft);
+            }
+            .callout .title {
+                font-weight: 650;
+                font-size: 14px;
+                margin-bottom: 6px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .callout p { margin: 6px 0; font-size: 13.5px; color: var(--fg-dim); }
+            .callout code {
+                font-family: var(--mono);
+                background: var(--bg-code);
+                padding: 2px 5px;
+                border-radius: 4px;
+                color: var(--accent-dim);
+                font-size: 12.5px;
+            }
+            .callout.c-accent { border-color: rgba(255,107,44,0.3); background: rgba(255,107,44,0.05); }
+            .callout.c-accent .title { color: var(--accent); }
+            .callout.c-ok { border-color: rgba(62,207,142,0.3); background: rgba(62,207,142,0.05); }
+            .callout.c-ok .title { color: var(--ok); }
+            .callout.c-warn { border-color: rgba(245,181,68,0.3); background: rgba(245,181,68,0.05); }
+            .callout.c-warn .title { color: var(--warn); }
+            .callout.c-info { border-color: rgba(74,168,255,0.3); background: rgba(74,168,255,0.05); }
+            .callout.c-info .title { color: var(--info); }
+            .callout.c-bad { border-color: rgba(242,85,90,0.3); background: rgba(242,85,90,0.05); }
+            .callout.c-bad .title { color: var(--bad); }
+
+            /* Interactive Data Dictionary */
+            .search-bar {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                margin-bottom: 20px;
+                align-items: center;
+                justify-content: space-between;
+            }
+            .search-input {
+                background: var(--bg-soft);
+                border: 1px solid var(--line);
+                border-radius: 8px;
+                padding: 9px 14px;
+                color: var(--fg);
+                font: 13.5px var(--mono);
+                min-width: 320px;
+                outline: none;
+                transition: border-color 0.15s;
+            }
+            .search-input:focus { border-color: var(--accent); }
+            .filter-chips {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .filter-chip {
+                background: var(--bg-soft);
+                border: 1px solid var(--line);
+                color: var(--fg-dim);
+                padding: 5px 12px;
+                border-radius: 999px;
+                font: 500 12px system-ui, sans-serif;
+                cursor: pointer;
+                transition: all 0.15s;
+            }
+            .filter-chip:hover { border-color: var(--fg-dim); color: var(--fg); }
+            .filter-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+            /* Table Cards Grid */
+            .table-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+                gap: 18px;
+            }
+            .table-card {
+                background: var(--bg-soft);
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 18px;
+                transition: border-color 0.2s, box-shadow 0.2s;
+            }
+            .table-card:hover {
+                border-color: rgba(255,107,44,0.4);
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            }
+            .table-header {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                margin-bottom: 12px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid var(--line-soft);
+            }
+            .table-name {
+                font-family: var(--mono);
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--fg);
+            }
+            .table-badge {
+                font-size: 11px;
+                font-family: var(--mono);
+                padding: 2px 8px;
+                border-radius: 4px;
+                border: 1px solid transparent;
+            }
+            .tb-g1 { background: var(--ok-soft); color: var(--ok); border-color: rgba(62,207,142,0.3); }
+            .tb-g2 { background: var(--info-soft); color: var(--info); border-color: rgba(74,168,255,0.3); }
+            .tb-g4 { background: var(--purple-soft); color: var(--purple); border-color: rgba(179,136,255,0.3); }
+            .tb-domain { background: var(--accent-soft); color: var(--accent); border-color: rgba(255,107,44,0.3); }
+
+            .table-desc {
+                font-size: 13px;
+                color: var(--fg-dim);
+                margin: 0 0 14px;
+                line-height: 1.5;
+            }
+            .table-cols {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 12.5px;
+            }
+            .table-cols th {
+                text-align: left;
+                padding: 6px 8px;
+                color: var(--fg-mute);
+                font-family: var(--mono);
+                font-size: 11px;
+                border-bottom: 1px solid var(--line-soft);
+            }
+            .table-cols td {
+                padding: 6px 8px;
+                border-bottom: 1px solid rgba(255,255,255,0.03);
+            }
+            .col-name {
+                font-family: var(--mono);
+                font-weight: 600;
+                color: var(--fg);
+            }
+            .col-type {
+                font-family: var(--mono);
+                color: var(--info);
+                font-size: 11.5px;
+            }
+            .col-tag {
+                display: inline-block;
+                padding: 1px 5px;
+                border-radius: 3px;
+                font-size: 10px;
+                font-family: var(--mono);
+                font-weight: 600;
+                margin-left: 4px;
+            }
+            .tag-pk { background: rgba(255,107,44,0.2); color: var(--accent); }
+            .tag-fk { background: rgba(74,168,255,0.2); color: var(--info); }
+            .tag-uk { background: rgba(62,207,142,0.2); color: var(--ok); }
+            .tag-ck { background: rgba(245,181,68,0.2); color: var(--warn); }
+
+            .rel-box {
+                margin-top: 14px;
+                padding-top: 10px;
+                border-top: 1px solid var(--line-soft);
+                font-size: 12px;
+            }
+            .rel-title {
+                color: var(--fg-mute);
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                margin-bottom: 6px;
+                font-family: var(--mono);
+            }
+            .rel-item {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                color: var(--fg-dim);
+                margin: 4px 0;
+            }
+            .rel-arrow { color: var(--accent); font-family: var(--mono); }
+            .rel-action {
+                font-family: var(--mono);
+                font-size: 10px;
+                padding: 1px 4px;
+                border-radius: 3px;
+                background: var(--bg-card);
+                color: var(--warn);
+                border: 1px solid var(--line-soft);
+            }
+
+            /* Architecture Playbook Grid */
+            .playbook-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+            .rule-card {
+                background: var(--bg-soft);
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 20px;
+            }
+            .rule-card .num {
+                font-family: var(--mono);
+                color: var(--accent);
+                font-size: 12px;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+            }
+            .rule-card h3 {
+                margin: 6px 0 10px;
+                font-size: 16px;
+                font-weight: 650;
+            }
+            .rule-card p {
+                font-size: 13.5px;
+                color: var(--fg-dim);
+                margin: 8px 0;
+            }
+
+            /* Footer */
+            footer {
+                margin-top: 80px;
+                padding-top: 30px;
+                border-top: 1px solid var(--line);
+                color: var(--fg-mute);
+                font-size: 13px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            footer a { color: var(--fg-dim); }
+
+            /* Status badge */
+            .status-live {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .dot {
+                width: 7px;
+                height: 7px;
+                border-radius: 50%;
+                background: var(--ok);
+                box-shadow: 0 0 8px var(--ok);
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="header-inner">
+                <div class="kicker">FoodHub Architecture Documentation</div>
+                <h1>Sơ Đồ Quan Hệ Cơ Sở Dữ Liệu (Database Relationships)</h1>
+                <p class="sub">
+                    Bản đồ quan hệ đầy đủ từ các <b>Domain Entities hiện tại trong C#</b> (Menu versioning, TPH Products, Restaurants) 
+                    đến <b>Schema 18 bảng mục tiêu ShopeeFood</b> và <b>Migration EF Core thực tế</b>.
+                </p>
+
+                <div class="meta-bar">
+                    <span class="pill accent"><b>18</b> Bảng mục tiêu toàn hệ thống</span>
+                    <span class="pill ok"><span class="dot"></span> <b>10</b> Domain Entities trong C#</span>
+                    <span class="pill info"><b>3</b> Bảng đã có trong Migration</span>
+                    <span class="pill purple">PostgreSQL + EF Core 10</span>
+                </div>
+
+                <div class="nav-links">
+                    <a href="CLASS-DIAGRAMS.html">← Trở về Class Diagrams (CLASS-DIAGRAMS.html)</a>
+                    <a href="PLAN-SHOPEEFOOD.html">📄 Kế hoạch triển khai ShopeeFood (PLAN-SHOPEEFOOD.html)</a>
+                    <a href="../TODO.md">📋 Tiến độ Roadmap (TODO.md)</a>
+                    <a href="../SETUP-BUOC-4-10.md">🛠️ Hướng dẫn Setup (SETUP-BUOC-4-10.md)</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="wrap">
+            <!-- Navigation Tabs -->
+            <div class="tab-nav">
+                <button class="tab-btn active" onclick="switchTab('tab-domain')">
+                    🧱 1. Domain Entities Hiện Tại Trong C#
+                    <span class="tab-badge">10 Entities</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('tab-shopeefood')">
+                    🚀 2. Schema Toàn Hệ Thống (Mục Tiêu ShopeeFood)
+                    <span class="tab-badge">18 Bảng</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('tab-initial')">
+                    🗄️ 3. Migration Ban Đầu (InitialCreate)
+                    <span class="tab-badge">3 Bảng</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('tab-dictionary')">
+                    🔍 4. Tra Cứu Chi Tiết Bảng & Khóa Ngoại
+                    <span class="tab-badge">Data Dictionary</span>
+                </button>
+                <button class="tab-btn" onclick="switchTab('tab-playbook')">
+                    💡 5. Nguyên Tắc Kiến Trúc Database Cần Nhớ
+                    <span class="tab-badge">Core Rules</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: DOMAIN ENTITIES HIỆN TẠI (C#) -->
+            <div id="tab-domain" class="tab-content active">
+                <div class="callout c-accent">
+                    <div class="title">Đặc điểm kiến trúc của Domain C# hiện tại</div>
+                    <p>
+                        Đây là cấu trúc bạn vừa refactor trong thư mục <code>src/FoodHub.Domain/Restaurants/</code> và <code>src/FoodHub.Domain/Users/</code>:
+                        Hỗ trợ <b>Menu đa phiên bản (MenuVersion)</b>, <b>Lịch áp dụng thực đơn theo khung giờ (MenuSchedule)</b>, 
+                        và phân nhóm <b>Sản phẩm nấu trong bếp (Product: Food / Drink - Table Per Hierarchy)</b> tách biệt với <b>Mục bán trên thực đơn (MenuItem)</b>.
+                    </p>
+                </div>
+
+                <div class="diagram-box">
+                    <div class="diagram-toolbar">
+                        <div class="diagram-title">
+                            <span>Sơ đồ E-R: Domain C# Hiện Tại (10 Lớp/Bảng)</span>
+                        </div>
+                        <div class="toolbar-actions">
+                            <span class="pan-hint">🖐️ Kéo chuột để di chuyển canvas · ⚙️ Lăn chuột để zoom</span>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-domain'].zoom(1.2)">🔍 Phóng to (+)</button>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-domain'].zoom(0.8)">🔎 Thu nhỏ (-)</button>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-domain'].reset()">↺ Căn giữa</button>
+                            <button class="tool-btn" onclick="toggleFullscreen('viewport-domain')">⛶ Toàn màn hình</button>
+                            <button class="tool-btn" onclick="copySource('src-domain')">📋 Copy Mermaid</button>
+                        </div>
+                    </div>
+
+                    <div class="diagram-viewport" id="viewport-domain">
+                        <div class="pan-canvas" id="canvas-domain">
+                            <div id="graph-domain"></div>
+                        </div>
+                    </div>
+
+                    <details class="source-toggle">
+                        <summary>Xem mã nguồn Mermaid</summary>
+                        <pre id="src-domain"></pre>
+                    </details>
+                </div>
+
+                <div class="callout c-info">
+                    <div class="title">Vì sao tách riêng Product và MenuItem?</div>
+                    <p>
+                        Trong mô hình F&B chuyên nghiệp: <b>Product</b> là món bếp nấu (công thức, loại đồ uống/thức ăn, thời gian chế biến, calo, vị cay).
+                        <b>MenuItem</b> là sự hiện diện của món đó trong 1 phiên bản menu cụ thể (giá bán cho ca sáng/ca tối, giới hạn số lượng mỗi đơn, gắn cờ món nổi bật).
+                        Điều này cho phép nhà hàng sửa thực đơn draft mà không gây rối loạn bếp, và cùng một món có thể bán ở nhiều menu với giá khác nhau!
+                    </p>
+                </div>
+            </div>
+
+            <!-- TAB 2: SCHEMA MỤC TIÊU SHOPEEFOOD (18 BẢNG) -->
+            <div id="tab-shopeefood" class="tab-content">
+                <div class="callout c-info">
+                    <div class="title">Toàn bộ Schema 18 bảng cho nền tảng ShopeeFood Delivery</div>
+                    <p>
+                        Bao phủ toàn bộ quy trình: Người dùng & Địa chỉ → Nhà hàng & Thực đơn → Giỏ hàng → Đơn hàng & Snapshot → Thanh toán & Giao vận → Đánh giá & Voucher.
+                        Nguồn gốc từ <code>docs/diagrams/26-database-schema.mmd</code>.
+                    </p>
+                </div>
+
+                <div class="diagram-box">
+                    <div class="diagram-toolbar">
+                        <div class="diagram-title">
+                            <span>Sơ đồ E-R: Toàn bộ 18 Bảng Hệ Thống</span>
+                        </div>
+                        <div class="toolbar-actions">
+                            <span class="pan-hint">🖐️ Kéo chuột để di chuyển canvas · ⚙️ Lăn chuột để zoom</span>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-shopeefood'].zoom(1.2)">🔍 Phóng to (+)</button>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-shopeefood'].zoom(0.8)">🔎 Thu nhỏ (-)</button>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-shopeefood'].reset()">↺ Căn giữa</button>
+                            <button class="tool-btn" onclick="toggleFullscreen('viewport-shopeefood')">⛶ Toàn màn hình</button>
+                            <button class="tool-btn" onclick="copySource('src-shopeefood')">📋 Copy Mermaid</button>
+                        </div>
+                    </div>
+
+                    <div class="diagram-viewport" id="viewport-shopeefood">
+                        <div class="pan-canvas" id="canvas-shopeefood">
+                            <div id="graph-shopeefood"></div>
+                        </div>
+                    </div>
+
+                    <details class="source-toggle">
+                        <summary>Xem mã nguồn Mermaid</summary>
+                        <pre id="src-shopeefood"></pre>
+                    </details>
+                </div>
+
+                <div class="callout c-bad">
+                    <div class="title">Quy tắc vàng: MENU_ITEMS ||--o{ ORDER_ITEMS (FK SET NULL)</div>
+                    <p>
+                        Quan hệ giữa <code>menu_items</code> và <code>order_items</code> là <b>ON DELETE SET NULL</b>.
+                        Toàn bộ thông tin giá tiền, tên món, thành tiền lúc khách mua được <b>snapshot trực tiếp</b> vào các cột <code>item_name</code>, <code>unit_price</code>, <code>subtotal</code> của <code>order_items</code>.
+                        Nếu nhà hàng sau này tăng giá từ 35.000đ lên 45.000đ hoặc xóa hẳn món, đơn hàng cũ <b>vẫn giữ nguyên 100% giá trị lịch sử</b>!
+                    </p>
+                </div>
+            </div>
+
+            <!-- TAB 3: MIGRATION BAN ĐẦU -->
+            <div id="tab-initial" class="tab-content">
+                <div class="callout c-ok">
+                    <div class="title">Trạng thái vật lý trong database (Migrations hiện tại)</div>
+                    <p>
+                        Đây là 3 bảng đã được sinh mã trong file migration <code>20261001190418_InitialCreate.cs</code>.
+                        Được thiết kế đơn giản cho Vertical Slice đầu tiên của Giai đoạn 1.
+                    </p>
+                </div>
+
+                <div class="diagram-box">
+                    <div class="diagram-toolbar">
+                        <div class="diagram-title">
+                            <span>Sơ đồ E-R: 3 Bảng InitialCreate</span>
+                        </div>
+                        <div class="toolbar-actions">
+                            <span class="pan-hint">🖐️ Kéo chuột để di chuyển canvas · ⚙️ Lăn chuột để zoom</span>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-initial'].zoom(1.2)">🔍 Phóng to (+)</button>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-initial'].zoom(0.8)">🔎 Thu nhỏ (-)</button>
+                            <button class="tool-btn" onclick="panZoomControllers['viewport-initial'].reset()">↺ Căn giữa</button>
+                            <button class="tool-btn" onclick="toggleFullscreen('viewport-initial')">⛶ Toàn màn hình</button>
+                            <button class="tool-btn" onclick="copySource('src-initial')">📋 Copy Mermaid</button>
+                        </div>
+                    </div>
+
+                    <div class="diagram-viewport" id="viewport-initial">
+                        <div class="pan-canvas" id="canvas-initial">
+                            <div id="graph-initial"></div>
+                        </div>
+                    </div>
+
+                    <details class="source-toggle">
+                        <summary>Xem mã nguồn Mermaid</summary>
+                        <pre id="src-initial"></pre>
+                    </details>
+                </div>
+
+                <div class="callout c-warn">
+                    <div class="title">Hai migration tiếp nối đã sinh nhưng chưa áp:</div>
+                    <p>
+                        1. <code>20261005073338_RenameLongitudeColumn</code>: Sửa lỗi chính tả tên cột từ <code>Longtitude</code> thành <code>longtitude</code>.<br/>
+                        2. <code>20261005132441_AddRestaurantConstraintsAndUnique</code>: Chuẩn bị thêm ràng buộc CHECK cho tọa độ và Unique Index cho <code>(name, address_text)</code>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- TAB 4: DATA DICTIONARY & RELATIONSHIPS -->
+            <div id="tab-dictionary" class="tab-content">
+                <div class="search-bar">
+                    <input type="text" class="search-input" id="tableSearch" placeholder="🔍 Tìm kiếm theo tên bảng hoặc tên cột (vd: price, status, user, order)..." oninput="filterTables()">
+                    <div class="filter-chips">
+                        <button class="filter-chip active" onclick="setChip(this, 'all')">Tất cả (18)</button>
+                        <button class="filter-chip" onclick="setChip(this, 'restaurant')">Nhà hàng & Menu</button>
+                        <button class="filter-chip" onclick="setChip(this, 'order')">Đơn hàng & Giỏ</button>
+                        <button class="filter-chip" onclick="setChip(this, 'user')">Người dùng & Địa chỉ</button>
+                        <button class="filter-chip" onclick="setChip(this, 'delivery')">Vận chuyển & Shipper</button>
+                        <button class="filter-chip" onclick="setChip(this, 'payment')">Thanh toán & Voucher</button>
+                    </div>
+                </div>
+
+                <div class="table-grid" id="tablesContainer">
+                    <!-- Cards will be populated by JS or HTML static -->
+                </div>
+            </div>
+
+            <!-- TAB 5: ARCHITECTURE PLAYBOOK -->
+            <div id="tab-playbook" class="tab-content">
+                <div class="callout c-accent">
+                    <div class="title">5 Nguyên tắc thiết kế Cơ sở dữ liệu cốt lõi của FoodHub</div>
+                    <p>Được tổng hợp từ các quyết định kỹ thuật trong suốt quá trình xây dựng Clean Architecture & Domain-Driven Design.</p>
+                </div>
+
+                <div class="playbook-grid">
+                    <div class="rule-card">
+                        <span class="num">NGUYÊN TẮC 01</span>
+                        <h3>Bắt buộc Snapshot Dữ liệu Đơn hàng</h3>
+                        <p>
+                            Khi một đơn hàng được chốt: <b>tên món, đơn giá, địa chỉ giao hàng, tên người nhận, số điện thoại, tọa độ GPS</b> 
+                            đều phải được copy nguyên trạng vào bảng <code>orders</code> và <code>order_items</code>.
+                        </p>
+                        <p>
+                            Tuyệt đối không JOIN sang <code>customer_addresses</code> hay <code>menu_items</code> để lấy tên/giá lúc xem lại đơn.
+                            Khách hàng đổi địa chỉ hoặc nhà hàng tăng giá sau đó không được phép làm sai lệch số tiền của đơn hàng đã mua.
+                        </p>
+                    </div>
+
+                    <div class="rule-card">
+                        <span class="num">NGUYÊN TẮC 02</span>
+                        <h3>Phân biệt CASCADE vs RESTRICT</h3>
+                        <p>
+                            - <b>CASCADE:</b> Áp dụng cho thực thể con phụ thuộc hoàn toàn vào Aggregate Root. Ví dụ: Xóa nhà hàng → Xóa menu, xóa danh mục sản phẩm của quán.
+                        </p>
+                        <p>
+                            - <b>RESTRICT:</b> Áp dụng cho dữ liệu giao dịch tài chính! Xóa nhà hàng khi đã có <code>orders</code> là <b>RESTRICT (chặn đứng)</b>.
+                            Không bao giờ cho phép xóa nhà hàng nếu quán đó đã từng bán đơn hàng, vì sẽ phá hủy dữ liệu kiểm toán và khiếu nại của khách.
+                        </p>
+                    </div>
+
+                    <div class="rule-card">
+                        <span class="num">NGUYÊN TẮC 03</span>
+                        <h3>Tiền dùng `numeric(18,2)`, không bao giờ dùng `double`</h3>
+                        <p>
+                            Kiểu số thực <code>float</code> / <code>double</code> bị sai số làm tròn nhị phân (binary floating point arithmetic).
+                            Sai số 0.01đ nhân với hàng trăm ngàn đơn hàng sẽ làm lệch sổ cái kế toán.
+                        </p>
+                        <p>
+                            Trong database và code C#, toàn bộ trường tiền tệ (giá món, giảm giá, phí ship, tổng tiền) bắt buộc là kiểu <b><code>decimal</code> / <code>numeric(18,2)</code></b>.
+                        </p>
+                    </div>
+
+                    <div class="rule-card">
+                        <span class="num">NGUYÊN TẮC 04</span>
+                        <h3>Phòng thủ chiều sâu: CHECK Constraint & Unique</h3>
+                        <p>
+                            FluentValidation ở tầng Application chỉ bảo vệ khi request đi qua API HTTP.
+                            Nếu có script SQL chạy trực tiếp, import CSV, hay job nền thao tác DB thì không qua validator.
+                        </p>
+                        <p>
+                            Do đó tầng Database cấu hình sẵn:
+                            <br/>• <code>ck_restaurants_latitude</code>: tọa độ vĩ độ <code>-90 đến 90</code>.
+                            <br/>• <code>ck_menu_items_price</code>: giá bán <code>price &gt; 0</code>.
+                            <br/>• <code>ux_restaurants_name_address</code>: chặn race condition tạo trùng nhà hàng.
+                        </p>
+                    </div>
+
+                    <div class="rule-card">
+                        <span class="num">NGUYÊN TẮC 05</span>
+                        <h3>Menu Scheduling & Versioning</h3>
+                        <p>
+                            Hệ thống tách <code>Menu</code> (Aggregate gốc) thành các <code>MenuVersion</code>. Nhà hàng có thể chỉnh sửa thực đơn ở trạng thái <b>Draft</b>, kiểm tra xong mới bấm <b>Publish</b>.
+                        </p>
+                        <p>
+                            Kèm theo bảng <code>menu_schedules</code>: hỗ trợ gán menu theo thứ trong tuần và khung giờ (hỗ trợ cả khung giờ qua đêm ví dụ <code>22:00 → 02:00</code> bằng logic <code>EndTime &lt; StartTime</code>).
+                        </p>
+                    </div>
+
+                    <div class="rule-card">
+                        <span class="num">NGUYÊN TẮC 06</span>
+                        <h3>Audit Trail: Bảng `order_status_history`</h3>
+                        <p>
+                            Mỗi lần đơn hàng đổi trạng thái (từ <code>PendingPayment → Placed → Accepted → Preparing → Ready → PickedUp → Delivered</code> hoặc <code>Cancelled</code>),
+                            một dòng mới bắt buộc được ghi vào <code>order_status_history</code> cùng với: <b>Người đổi</b> (Khách/Nhà hàng/Admin/Shipper), <b>Lý do</b>, và <b>Thời điểm chính xác</b>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <footer>
+                <div>FoodHub Clean Architecture & Domain-Driven Design System</div>
+                <div class="status-live"><span class="dot"></span> Database Schema Spec — Đã đồng bộ với Codebase</div>
+            </footer>
+        </div>
+
+        <!-- MERMAID SCRIPT DEFINITIONS (PLAIN TEXT) -->
+
+        <!-- 1. DOMAIN MODEL IN C# -->
+        <script type="text/plain" id="raw-domain">
+erDiagram
+    USERS ||--o{ RESTAURANTS : "sở hữu (owner_id)"
+    RESTAURANTS ||--o{ PRODUCT_CATEGORIES : "tạo danh mục sản phẩm"
+    PRODUCT_CATEGORIES ||--o{ PRODUCT_CATEGORIES : "danh mục cha-con"
+    RESTAURANTS ||--o{ PRODUCTS : "sản xuất"
+    PRODUCT_CATEGORIES ||--o{ PRODUCTS : "phân loại"
+    
+    RESTAURANTS ||--o{ MENUS : "thiết lập thực đơn"
+    MENUS ||--o{ MENU_VERSIONS : "lịch sử phiên bản"
+    MENUS ||--o{ MENU_SCHEDULES : "lịch bán (khung giờ)"
+    
+    MENU_VERSIONS ||--o{ MENU_CATEGORIES : "phân nhóm hiển thị"
+    MENU_CATEGORIES ||--o{ MENU_ITEMS : "chứa món"
+    PRODUCTS ||--o{ MENU_ITEMS : "đưa vào bán (product_id)"
+
+    USERS {
+        uuid id PK
+        string full_name
+        string email UK
+        string phone_number
+        bool is_active
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    RESTAURANTS {
+        uuid id PK
+        uuid owner_id FK "Users.id"
+        string name
+        string slug UK
+        string address
+        double latitude "CHECK -90 to 90"
+        double longitude "CHECK -180 to 180"
+        string phone_number
+        string email
+        time opening_time
+        time closing_time
+        decimal min_order_amount
+        int status "Pending/Approved/Suspended/Closed"
+        bool is_accepting_orders
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    PRODUCT_CATEGORIES {
+        uuid id PK
+        uuid restaurant_id FK "Restaurants.id"
+        uuid parent_category_id FK "Tự tham chiếu"
+        string name
+        string description
+        int sort_order
+    }
+
+    PRODUCTS {
+        uuid id PK
+        uuid restaurant_id FK "Restaurants.id"
+        uuid product_category_id FK "ProductCategories.id"
+        string name
+        string description
+        decimal base_price "CHECK > 0"
+        string image_url
+        string sku
+        int preparation_time_minutes
+        bool is_active
+        int product_type "1=Food, 2=Drink (TPH)"
+        string food_spice_level "Food: Mild/Medium/Hot"
+        bool food_is_vegetarian "Food"
+        int food_calories "Food"
+        int drink_volume_ml "Drink"
+        bool drink_is_alcoholic "Drink"
+        bool drink_is_served_cold "Drink"
+    }
+
+    MENUS {
+        uuid id PK
+        uuid restaurant_id FK "Restaurants.id"
+        string name
+        string description
+        bool is_default
+        bool is_active
+        uuid current_version_id FK
+    }
+
+    MENU_VERSIONS {
+        uuid id PK
+        uuid menu_id FK "Menus.id"
+        int version_number
+        int status "1=Draft, 2=Published, 3=Archived"
+        timestamptz published_at
+        uuid published_by
+        string change_note
+    }
+
+    MENU_SCHEDULES {
+        uuid id PK
+        uuid menu_id FK "Menus.id"
+        int day_of_week "0=CN .. 6=Thứ 7"
+        time start_time
+        time end_time "Hỗ trợ qua đêm (vd 22h-02h)"
+        date valid_from
+        date valid_to
+        int priority
+    }
+
+    MENU_CATEGORIES {
+        uuid id PK
+        uuid menu_version_id FK "MenuVersions.id"
+        string name
+        string description
+        int sort_order
+        bool is_visible
+    }
+
+    MENU_ITEMS {
+        uuid id PK
+        uuid menu_category_id FK "MenuCategories.id"
+        uuid product_id FK "Products.id"
+        decimal price "CHECK > 0"
+        string display_name
+        bool is_available
+        bool is_featured
+        int sort_order
+        int max_quantity_per_order
+    }
+        </script>
+
+        <!-- 2. FULL 18 TABLES TARGET SHOPEEFOOD -->
+        <script type="text/plain" id="raw-shopeefood">
+erDiagram
+    APP_USERS ||--o{ CUSTOMER_ADDRESSES : "có sổ địa chỉ"
+    APP_USERS ||--o{ RESTAURANTS : "sở hữu"
+    APP_USERS ||--o{ CARTS : "có giỏ hàng"
+    APP_USERS ||--o{ ORDERS : "đặt"
+    APP_USERS ||--o{ REVIEWS : "viết"
+    APP_USERS ||--o{ ORDER_DELIVERIES : "giao"
+
+    RESTAURANTS ||--o{ MENU_CATEGORIES : "chia danh mục"
+    RESTAURANTS ||--o{ MENU_ITEMS : "có món"
+    RESTAURANTS ||--o{ CARTS : "có giỏ"
+    RESTAURANTS ||--o{ ORDERS : "nhận đơn"
+    RESTAURANTS ||--o{ RESTAURANT_HOURS : "mở cửa"
+    RESTAURANTS ||--o{ RESTAURANT_CLOSURES : "nghỉ lễ"
+    RESTAURANTS ||--o{ REVIEWS : "được đánh giá"
+    RESTAURANTS }o--o| CUISINES : "phục vụ"
+
+    MENU_CATEGORIES ||--o{ MENU_ITEMS : "gồm"
+
+    CARTS ||--o{ CART_ITEMS : "chứa"
+    MENU_ITEMS ||--o{ CART_ITEMS : "được thêm"
+
+    ORDERS ||--|{ ORDER_ITEMS : "chốt"
+    ORDERS ||--o{ ORDER_STATUS_HISTORY : "ghi lại từng bước"
+    ORDERS ||--o| PAYMENTS : "thanh toán"
+    ORDERS ||--o| ORDER_DELIVERIES : "giao hàng"
+    ORDERS ||--o{ REVIEWS : "được đánh giá"
+    ORDERS ||--o{ ORDER_VOUCHERS : "dùng voucher"
+    VOUCHERS ||--o{ ORDER_VOUCHERS : "được dùng"
+
+    MENU_ITEMS ||--o{ ORDER_ITEMS : "nguồn - FK SET NULL"
+    MENU_ITEMS ||--o{ REVIEWS : "được đánh giá"
+
+    APP_USERS {
+        uuid id PK
+        string user_name
+        string email
+        string phone_number
+        string password_hash
+        string full_name "cột thêm"
+    }
+
+    CUSTOMER_ADDRESSES {
+        uuid id PK
+        uuid user_id FK "app_users.id"
+        string recipient_name
+        string phone_number
+        string address_text
+        decimal latitude
+        decimal longitude
+        bool is_default
+    }
+
+    CUISINES {
+        uuid id PK
+        string name UK
+        string slug UK
+        int sort_order
+    }
+
+    RESTAURANTS {
+        uuid id PK
+        uuid owner_user_id FK "app_users.id"
+        uuid cuisine_id FK "cuisines.id"
+        string name
+        string address_text
+        decimal latitude
+        decimal longitude
+        bool is_approved
+        bool is_active
+        string phone_number
+        string image_url
+        decimal delivery_fee
+        decimal min_order_value
+        int preparation_minutes
+        decimal rating_avg
+        int rating_count
+    }
+
+    RESTAURANT_HOURS {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id"
+        int day_of_week "0 đến 6"
+        time opens_at
+        time closes_at
+        bool is_closed
+    }
+
+    RESTAURANT_CLOSURES {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id"
+        date from_date
+        date to_date
+        string reason
+    }
+
+    MENU_CATEGORIES {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id"
+        string name
+    }
+
+    MENU_ITEMS {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id"
+        uuid category_id FK "menu_categories.id"
+        string name
+        decimal price "CHECK > 0"
+        bool is_available
+    }
+
+    CARTS {
+        uuid id PK
+        uuid user_id FK "app_users.id"
+        uuid restaurant_id FK "restaurants.id"
+    }
+
+    CART_ITEMS {
+        uuid id PK
+        uuid cart_id FK "carts.id"
+        uuid menu_item_id FK "menu_items.id"
+        int quantity
+        string note
+    }
+
+    ORDERS {
+        uuid id PK
+        string order_no UK
+        uuid user_id FK "app_users.id"
+        uuid restaurant_id FK "restaurants.id"
+        int status "8 trạng thái"
+        string recipient_name "snapshot"
+        string phone_number "snapshot"
+        string address_text "snapshot"
+        decimal latitude "snapshot"
+        decimal longitude "snapshot"
+        decimal subtotal
+        decimal delivery_fee
+        decimal discount_amount
+        decimal total_amount
+        string idempotency_key UK
+        timestamptz placed_at
+        timestamptz accepted_at
+        timestamptz delivered_at
+        timestamptz cancelled_at
+    }
+
+    ORDER_ITEMS {
+        uuid id PK
+        uuid order_id FK "orders.id"
+        uuid menu_item_id FK "menu_items.id SET NULL"
+        string item_name "SNAPSHOT"
+        decimal unit_price "SNAPSHOT"
+        int quantity
+        decimal subtotal "SNAPSHOT"
+        string note
+    }
+
+    ORDER_STATUS_HISTORY {
+        uuid id PK
+        uuid order_id FK "orders.id"
+        int from_status "có thể rỗng"
+        int to_status
+        uuid changed_by_user_id FK "app_users.id"
+        string reason
+        timestamptz changed_at
+    }
+
+    PAYMENTS {
+        uuid id PK
+        uuid order_id FK "orders.id"
+        string provider "Momo/VNPay/COD"
+        int status
+        decimal amount
+        string provider_txn_id UK
+        jsonb raw_payload
+    }
+
+    REVIEWS {
+        uuid id PK
+        uuid order_id FK "orders.id UNIQUE"
+        uuid restaurant_id FK "restaurants.id"
+        uuid user_id FK "app_users.id"
+        uuid menu_item_id FK "menu_items.id"
+        int rating "1 đến 5"
+        string comment
+    }
+
+    SHIPPER_PROFILES {
+        uuid user_id PK "app_users.id"
+        bool is_available
+        string vehicle_type
+        decimal latitude
+        decimal longitude
+    }
+
+    ORDER_DELIVERIES {
+        uuid id PK
+        uuid order_id FK "orders.id UNIQUE"
+        uuid shipper_user_id FK "app_users.id"
+        timestamptz assigned_at
+        timestamptz delivered_at
+        string proof_image_url
+    }
+
+    VOUCHERS {
+        uuid id PK
+        string code UK
+        int discount_type
+        decimal discount_value
+        decimal max_discount
+        int usage_limit
+        int used_count
+        bool is_active
+    }
+
+    ORDER_VOUCHERS {
+        uuid order_id PK "orders.id"
+        uuid voucher_id PK "vouchers.id"
+        decimal discount_amount
+    }
+        </script>
+
+        <!-- 3. INITIAL CREATE (PHYSICAL MIGRATION) -->
+        <script type="text/plain" id="raw-initial">
+erDiagram
+    RESTAURANTS ||--o{ MENU_CATEGORIES : "FK Cascade (restaurant_id)"
+    RESTAURANTS ||--o{ MENU_ITEMS : "FK Cascade (restaurant_id)"
+    MENU_CATEGORIES ||--o{ MENU_ITEMS : "FK Cascade (category_id)"
+
+    RESTAURANTS {
+        uuid id PK
+        string name "MaxLength 200"
+        string address_text "MaxLength 500"
+        decimal latitude "numeric(9,6)"
+        decimal longtitude "numeric(9,6)"
+        bool is_approved "Default false"
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    MENU_CATEGORIES {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id"
+        string name "MaxLength 200, Unique với restaurant_id"
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    MENU_ITEMS {
+        uuid id PK
+        uuid restaurant_id FK "restaurants.id"
+        uuid category_id FK "menu_categories.id"
+        string name "MaxLength 200"
+        string description "MaxLength 1000"
+        decimal price "numeric(18,2)"
+        bool is_available "Default true"
+        string image_url "MaxLength 500"
+        timestamptz created_at
+        timestamptz updated_at
+    }
+        </script>
+
+        <!-- TABLE DICTIONARY DATA IN JS -->
+        <script>
+            var TABLES_DATA = [
+                {
+                    name: "restaurants",
+                    module: "restaurant",
+                    stage: "GĐ 1 / Đang mở rộng",
+                    badgeClass: "tb-g1",
+                    desc: "Lõi quản lý nhà hàng / quán ăn: định danh, tên, slug URL, địa chỉ, tọa độ GPS và trạng thái hoạt động.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "owner_id / owner_user_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang Users / AppUsers" },
+                        { name: "name", type: "varchar(200)", tag: "", desc: "Tên quán ăn" },
+                        { name: "slug", type: "varchar(200)", tag: "tag-uk", desc: "Đường dẫn URL thân thiện (Unique)" },
+                        { name: "address / address_text", type: "varchar(500)", tag: "tag-uk", desc: "Địa chỉ cụ thể (kết hợp với name tạo Unique)" },
+                        { name: "latitude", type: "numeric(9,6) / double", tag: "tag-ck", desc: "Vĩ độ (CHECK >= -90 AND <= 90)" },
+                        { name: "longitude", type: "numeric(9,6) / double", tag: "tag-ck", desc: "Kinh độ (CHECK >= -180 AND <= 180)" },
+                        { name: "phone_number", type: "varchar(20)", tag: "", desc: "Số điện thoại liên hệ của quán" },
+                        { name: "email", type: "varchar(255)", tag: "", desc: "Email liên hệ (tuỳ chọn)" },
+                        { name: "opening_time", type: "time", tag: "", desc: "Giờ mở cửa hàng ngày" },
+                        { name: "closing_time", type: "time", tag: "", desc: "Giờ đóng cửa hàng ngày" },
+                        { name: "min_order_amount", type: "numeric(18,2)", tag: "", desc: "Giá trị đơn hàng tối thiểu" },
+                        { name: "status / is_approved", type: "int / bool", tag: "", desc: "Trạng thái: 0=Pending, 1=Approved, 2=Suspended, 3=Closed" },
+                        { name: "is_accepting_orders", type: "boolean", tag: "", desc: "Quán có đang bật nhận đơn hay không" },
+                        { name: "created_at / updated_at", type: "timestamptz", tag: "", desc: "Thời điểm tạo và sửa đổi" }
+                    ],
+                    relations: [
+                        { text: "Được sở hữu bởi", target: "users / app_users", type: "owner_id", action: "RESTRICT" },
+                        { text: "Sở hữu", target: "menus / menu_categories", type: "1 → N", action: "CASCADE" },
+                        { text: "Sở hữu", target: "products", type: "1 → N", action: "CASCADE" },
+                        { text: "Được đặt đơn bởi", target: "orders", type: "1 → N", action: "RESTRICT (Không cho xoá quán khi đã có đơn)" }
+                    ]
+                },
+                {
+                    name: "products",
+                    module: "restaurant",
+                    stage: "Domain C# Mới",
+                    badgeClass: "tb-domain",
+                    desc: "Món ăn / thức uống do quán chế biến (Table Per Hierarchy: Phân lớp Food và Drink). Quản lý công thức, calo, dị ứng, mức đá đường.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "restaurant_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang restaurants" },
+                        { name: "product_category_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang product_categories" },
+                        { name: "name", type: "varchar(200)", tag: "", desc: "Tên món gốc" },
+                        { name: "base_price", type: "numeric(18,2)", tag: "tag-ck", desc: "Giá bán cơ bản (CHECK > 0)" },
+                        { name: "preparation_time_minutes", type: "int", tag: "", desc: "Thời gian làm món (phút)" },
+                        { name: "product_type", type: "int", tag: "", desc: "1 = Food, 2 = Drink (Discriminator TPH)" },
+                        { name: "food_spice_level", type: "varchar(50)", tag: "", desc: "Độ cay (Mild / Medium / Hot)" },
+                        { name: "food_is_vegetarian", type: "boolean", tag: "", desc: "Món chay hay mặn" },
+                        { name: "drink_volume_ml", type: "int", tag: "", desc: "Dung tích cốc (ml)" },
+                        { name: "drink_is_alcoholic", type: "boolean", tag: "", desc: "Có cồn hay không" }
+                    ],
+                    relations: [
+                        { text: "Thuộc về nhà hàng", target: "restaurants", type: "restaurant_id", action: "CASCADE" },
+                        { text: "Thuộc danh mục", target: "product_categories", type: "product_category_id", action: "RESTRICT" },
+                        { text: "Được đưa vào bán tại", target: "menu_items", type: "1 → N", action: "RESTRICT" }
+                    ]
+                },
+                {
+                    name: "menus",
+                    module: "restaurant",
+                    stage: "Domain C# Mới",
+                    badgeClass: "tb-domain",
+                    desc: "Thực đơn của quán: Có thể có nhiều menu (Menu sáng, Menu trưa, Menu tiệc, Menu cuối tuần).",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "restaurant_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang restaurants" },
+                        { name: "name", type: "varchar(200)", tag: "", desc: "Tên thực đơn" },
+                        { name: "is_default", type: "boolean", tag: "", desc: "Thực đơn mặc định" },
+                        { name: "is_active", type: "boolean", tag: "", desc: "Đang bật hay tắt" },
+                        { name: "current_version_id", type: "uuid", tag: "tag-fk", desc: "Phiên bản đang phát hành hiện tại" }
+                    ],
+                    relations: [
+                        { text: "Thuộc nhà hàng", target: "restaurants", type: "restaurant_id", action: "CASCADE" },
+                        { text: "Có các phiên bản", target: "menu_versions", type: "1 → N", action: "CASCADE" },
+                        { text: "Có lịch áp dụng", target: "menu_schedules", type: "1 → N", action: "CASCADE" }
+                    ]
+                },
+                {
+                    name: "menu_versions",
+                    module: "restaurant",
+                    stage: "Domain C# Mới",
+                    badgeClass: "tb-domain",
+                    desc: "Phiên bản của thực đơn: Cho phép soạn nháp (Draft), phát hành (Published), lưu trữ (Archived) mà không ảnh hưởng thực đơn đang chạy.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "menu_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang menus" },
+                        { name: "version_number", type: "int", tag: "", desc: "Số thứ tự phiên bản (v1, v2, v3...)" },
+                        { name: "status", type: "int", tag: "", desc: "1=Draft, 2=Published, 3=Archived" },
+                        { name: "published_at", type: "timestamptz", tag: "", desc: "Thời điểm phát hành" },
+                        { name: "change_note", type: "text", tag: "", desc: "Ghi chú thay đổi giữa các phiên bản" }
+                    ],
+                    relations: [
+                        { text: "Thuộc thực đơn", target: "menus", type: "menu_id", action: "CASCADE" },
+                        { text: "Chứa các nhóm món", target: "menu_categories", type: "1 → N", action: "CASCADE" }
+                    ]
+                },
+                {
+                    name: "menu_schedules",
+                    module: "restaurant",
+                    stage: "Domain C# Mới",
+                    badgeClass: "tb-domain",
+                    desc: "Lịch hẹn giờ áp dụng thực đơn theo ngày trong tuần và khung giờ (hỗ trợ cả khung giờ xuyên đêm vd 22:00 -> 02:00).",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "menu_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang menus" },
+                        { name: "day_of_week", type: "int", tag: "", desc: "0 = Chủ nhật, 1 = Thứ 2 ... 6 = Thứ 7" },
+                        { name: "start_time", type: "time", tag: "", desc: "Giờ bắt đầu" },
+                        { name: "end_time", type: "time", tag: "", desc: "Giờ kết thúc" },
+                        { name: "valid_from / valid_to", type: "date", tag: "", desc: "Khoảng ngày hiệu lực (tùy chọn)" },
+                        { name: "priority", type: "int", tag: "", desc: "Độ ưu tiên khi trùng khung giờ" }
+                    ],
+                    relations: [
+                        { text: "Thuộc thực đơn", target: "menus", type: "menu_id", action: "CASCADE" }
+                    ]
+                },
+                {
+                    name: "menu_categories",
+                    module: "restaurant",
+                    stage: "GĐ 1",
+                    badgeClass: "tb-g1",
+                    desc: "Danh mục nhóm món trên giao diện thực đơn (ví dụ: Món khai vị, Cơm phần, Trà sữa, Topping).",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "restaurant_id / menu_version_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ về nhà hàng hoặc phiên bản menu" },
+                        { name: "name", type: "varchar(200)", tag: "tag-uk", desc: "Tên nhóm món" },
+                        { name: "sort_order", type: "int", tag: "", desc: "Thứ tự sắp xếp trên giao diện khách" },
+                        { name: "is_visible", type: "boolean", tag: "", desc: "Đang hiển thị hay ẩn" }
+                    ],
+                    relations: [
+                        { text: "Thuộc nhà hàng/version", target: "restaurants / menu_versions", type: "FK", action: "CASCADE" },
+                        { text: "Chứa các món ăn", target: "menu_items", type: "1 → N", action: "CASCADE" }
+                    ]
+                },
+                {
+                    name: "menu_items",
+                    module: "restaurant",
+                    stage: "GĐ 1",
+                    badgeClass: "tb-g1",
+                    desc: "Món ăn hiển thị để bán trên menu: Gồm tên, giá bán, cờ còn hàng/hết hàng (is_available).",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "restaurant_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang restaurants" },
+                        { name: "category_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang menu_categories" },
+                        { name: "product_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang products (nếu dùng mô hình mới)" },
+                        { name: "name / display_name", type: "varchar(200)", tag: "", desc: "Tên món hiển thị" },
+                        { name: "price", type: "numeric(18,2)", tag: "tag-ck", desc: "Giá bán của món (CHECK > 0)" },
+                        { name: "is_available", type: "boolean", tag: "", desc: "Còn hàng (true) hay hết hàng (false)" },
+                        { name: "image_url", type: "varchar(500)", tag: "", desc: "Ảnh đại diện món ăn" }
+                    ],
+                    relations: [
+                        { text: "Thuộc nhóm món", target: "menu_categories", type: "category_id", action: "CASCADE" },
+                        { text: "Thuộc nhà hàng", target: "restaurants", type: "restaurant_id", action: "CASCADE" },
+                        { text: "Được đặt trong đơn", target: "order_items", type: "1 → N", action: "SET NULL (Không làm hỏng đơn khi xóa món)" }
+                    ]
+                },
+                {
+                    name: "orders",
+                    module: "order",
+                    stage: "GĐ 2 (Sắp viết)",
+                    badgeClass: "tb-g2",
+                    desc: "Lõi đơn hàng: Quản lý vòng đời qua 8 trạng thái, snapshot toàn bộ tên/địa chỉ/tọa độ khách, kiểm toán tài chính.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "order_no", type: "varchar(32)", tag: "tag-uk", desc: "Mã đơn hàng hiển thị (vd: ORD-20261029-XXXX)" },
+                        { name: "user_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang app_users" },
+                        { name: "restaurant_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang restaurants" },
+                        { name: "status", type: "int", tag: "", desc: "0=PendingPayment .. 7=Delivered, 8=Cancelled" },
+                        { name: "recipient_name", type: "varchar(200)", tag: "", desc: "Snapshot tên người nhận" },
+                        { name: "phone_number", type: "varchar(20)", tag: "", desc: "Snapshot số điện thoại người nhận" },
+                        { name: "address_text", type: "varchar(500)", tag: "", desc: "Snapshot địa chỉ giao hàng" },
+                        { name: "latitude / longitude", type: "numeric(9,6)", tag: "", desc: "Snapshot tọa độ GPS giao hàng" },
+                        { name: "subtotal", type: "numeric(18,2)", tag: "", desc: "Tổng tiền món ăn" },
+                        { name: "delivery_fee", type: "numeric(18,2)", tag: "", desc: "Phí giao hàng" },
+                        { name: "discount_amount", type: "numeric(18,2)", tag: "", desc: "Số tiền giảm từ voucher" },
+                        { name: "total_amount", type: "numeric(18,2)", tag: "", desc: "Tổng tiền thanh toán cuối cùng" },
+                        { name: "idempotency_key", type: "varchar(100)", tag: "tag-uk", desc: "Khóa chống trùng lặp khi đặt đơn" }
+                    ],
+                    relations: [
+                        { text: "Người đặt", target: "app_users", type: "user_id", action: "RESTRICT" },
+                        { text: "Quán nhận", target: "restaurants", type: "restaurant_id", action: "RESTRICT" },
+                        { text: "Chi tiết món", target: "order_items", type: "1 → N", action: "CASCADE" },
+                        { text: "Lịch sử trạng thái", target: "order_status_history", type: "1 → N", action: "CASCADE" },
+                        { text: "Thanh toán", target: "payments", type: "1 → 1", action: "RESTRICT" }
+                    ]
+                },
+                {
+                    name: "order_items",
+                    module: "order",
+                    stage: "GĐ 2 (Sắp viết)",
+                    badgeClass: "tb-g2",
+                    desc: "Chi tiết món ăn trong đơn hàng: Snapshot toàn bộ tên món, đơn giá, số lượng tại thời điểm khách bấm đặt mua.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "order_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang orders" },
+                        { name: "menu_item_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang menu_items (Cho phép NULL - ON DELETE SET NULL)" },
+                        { name: "item_name", type: "varchar(200)", tag: "", desc: "Snapshot tên món lúc đặt mua" },
+                        { name: "unit_price", type: "numeric(18,2)", tag: "", desc: "Snapshot đơn giá lúc đặt mua" },
+                        { name: "quantity", type: "int", tag: "tag-ck", desc: "Số lượng đặt (CHECK > 0)" },
+                        { name: "subtotal", type: "numeric(18,2)", tag: "", desc: "Thành tiền = unit_price * quantity" },
+                        { name: "note", type: "varchar(255)", tag: "", desc: "Ghi chú của khách (vd: không hành, ít đường)" }
+                    ],
+                    relations: [
+                        { text: "Thuộc đơn hàng", target: "orders", type: "order_id", action: "CASCADE" },
+                        { text: "Nguồn gốc món ăn", target: "menu_items", type: "menu_item_id", action: "SET NULL" }
+                    ]
+                },
+                {
+                    name: "order_status_history",
+                    module: "order",
+                    stage: "GĐ 2 (Sắp viết)",
+                    badgeClass: "tb-g2",
+                    desc: "Audit trail: Ghi nhận từng bước chuyển trạng thái của đơn hàng (ai đổi, lý do gì, vào lúc nào).",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "order_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang orders" },
+                        { name: "from_status", type: "int", tag: "", desc: "Trạng thái trước (nullable cho bước tạo đơn)" },
+                        { name: "to_status", type: "int", tag: "", desc: "Trạng thái mới chuyển sang" },
+                        { name: "changed_by_user_id", type: "uuid", tag: "tag-fk", desc: "Ai thực hiện (Khách, Nhà hàng, Shipper, Admin)" },
+                        { name: "reason", type: "varchar(500)", tag: "", desc: "Lý do hủy đơn hoặc từ chối đơn" },
+                        { name: "changed_at", type: "timestamptz", tag: "", desc: "Thời điểm ghi nhận sự kiện" }
+                    ],
+                    relations: [
+                        { text: "Thuộc đơn hàng", target: "orders", type: "order_id", action: "CASCADE" }
+                    ]
+                },
+                {
+                    name: "carts & cart_items",
+                    module: "order",
+                    stage: "GĐ 2",
+                    badgeClass: "tb-g2",
+                    desc: "Giỏ hàng tạm: Mỗi khách có 1 giỏ hàng tại một thời điểm, và một giỏ chỉ thuộc đúng 1 nhà hàng duy nhất.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "user_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang app_users" },
+                        { name: "restaurant_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang restaurants (Chặn mua nhiều quán cùng lúc)" },
+                        { name: "cart_items.menu_item_id", type: "uuid", tag: "tag-fk", desc: "FK món ăn được thêm vào giỏ" },
+                        { name: "cart_items.quantity", type: "int", tag: "", desc: "Số lượng" },
+                        { name: "cart_items.note", type: "varchar(255)", tag: "", desc: "Ghi chú món ăn" }
+                    ],
+                    relations: [
+                        { text: "Thuộc người dùng", target: "app_users", type: "user_id", action: "CASCADE" },
+                        { text: "Thuộc nhà hàng", target: "restaurants", type: "restaurant_id", action: "CASCADE" }
+                    ]
+                },
+                {
+                    name: "app_users & customer_addresses",
+                    module: "user",
+                    stage: "GĐ 2 (Auth)",
+                    badgeClass: "tb-g2",
+                    desc: "Tài khoản người dùng (ASP.NET Core Identity) và sổ địa chỉ giao hàng định vị GPS.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK) dùng Guid" },
+                        { name: "email / user_name", type: "varchar(256)", tag: "tag-uk", desc: "Định danh đăng nhập (Unique)" },
+                        { name: "full_name", type: "varchar(200)", tag: "", desc: "Họ và tên người dùng" },
+                        { name: "phone_number", type: "varchar(20)", tag: "", desc: "Số điện thoại xác thực OTP" },
+                        { name: "customer_addresses.address_text", type: "varchar(500)", tag: "", desc: "Địa chỉ giao hàng (Nhà, Công ty...)" },
+                        { name: "customer_addresses.latitude / longitude", type: "numeric(9,6)", tag: "", desc: "Tọa độ GPS điểm nhận hàng" }
+                    ],
+                    relations: [
+                        { text: "Sở hữu địa chỉ", target: "customer_addresses", type: "1 → N", action: "CASCADE" },
+                        { text: "Đặt đơn hàng", target: "orders", type: "1 → N", action: "RESTRICT" }
+                    ]
+                },
+                {
+                    name: "payments",
+                    module: "payment",
+                    stage: "GĐ 5",
+                    badgeClass: "tb-g4",
+                    desc: "Giao dịch thanh toán: Hỗ trợ VNPay, MoMo, ZaloPay, Tiền mặt (COD). Lưu Idempotency và raw payload webhook.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "order_id", type: "uuid", tag: "tag-fk", desc: "FK trỏ sang orders" },
+                        { name: "provider", type: "varchar(50)", tag: "", desc: "Cổng thanh toán: Momo, VNPay, COD" },
+                        { name: "status", type: "int", tag: "", desc: "0=Pending, 1=Success, 2=Failed, 3=Refunded" },
+                        { name: "amount", type: "numeric(18,2)", tag: "", desc: "Số tiền giao dịch thực tế" },
+                        { name: "provider_txn_id", type: "varchar(100)", tag: "tag-uk", desc: "Mã giao dịch từ phía cổng đối tác (Unique)" }
+                    ],
+                    relations: [
+                        { text: "Thanh toán cho đơn", target: "orders", type: "order_id", action: "RESTRICT" }
+                    ]
+                },
+                {
+                    name: "shipper_profiles & order_deliveries",
+                    module: "delivery",
+                    stage: "GĐ 4",
+                    badgeClass: "tb-g4",
+                    desc: "Phân công tài xế, theo dõi vị trí shipper qua GPS thời gian thực, lưu ảnh bằng chứng đã giao hàng.",
+                    cols: [
+                        { name: "user_id", type: "uuid", tag: "tag-pk", desc: "Khóa chính kiêm FK sang app_users" },
+                        { name: "vehicle_type", type: "varchar(50)", tag: "", desc: "Loại xe (Xe máy, Xe điện)" },
+                        { name: "latitude / longitude", type: "numeric(9,6)", tag: "", desc: "Vị trí GPS cập nhật từ app Shipper" },
+                        { name: "order_deliveries.proof_image_url", type: "varchar(500)", tag: "", desc: "Ảnh chụp bằng chứng giao tận tay" }
+                    ],
+                    relations: [
+                        { text: "Tài xế giao đơn", target: "orders", type: "order_id", action: "CASCADE" }
+                    ]
+                },
+                {
+                    name: "vouchers & order_vouchers",
+                    module: "payment",
+                    stage: "GĐ 4",
+                    badgeClass: "tb-g4",
+                    desc: "Mã giảm giá khuyến mãi (giảm %, giảm tiền trực tiếp, freeship) và liên kết voucher đã dùng cho đơn hàng.",
+                    cols: [
+                        { name: "id", type: "uuid", tag: "tag-pk", desc: "Khóa chính (PK)" },
+                        { name: "code", type: "varchar(50)", tag: "tag-uk", desc: "Mã nhập (vd: FREESHIP50, FOODHUB10)" },
+                        { name: "discount_type", type: "int", tag: "", desc: "1=Phần trăm (%), 2=Cố định (đ), 3=Freeship" },
+                        { name: "discount_value", type: "numeric(18,2)", tag: "", desc: "Giá trị giảm" },
+                        { name: "max_discount", type: "numeric(18,2)", tag: "", desc: "Mức giảm tối đa" },
+                        { name: "usage_limit / used_count", type: "int", tag: "", desc: "Giới hạn số lượt dùng và số lượt đã dùng" }
+                    ],
+                    relations: [
+                        { text: "Áp dụng vào đơn", target: "orders", type: "order_vouchers", action: "CASCADE" }
+                    ]
+                }
+            ];
+
+            function renderTables(filterList) {
+                var container = document.getElementById("tablesContainer");
+                container.innerHTML = "";
+                filterList.forEach(function(t) {
+                    var card = document.createElement("div");
+                    card.className = "table-card";
+                    card.setAttribute("data-module", t.module);
+
+                    var colsHtml = t.cols.map(function(c) {
+                        var tagHtml = c.tag ? '<span class="col-tag ' + c.tag + '">' + c.tag.replace("tag-", "").toUpperCase() + '</span>' : '';
+                        return '<tr>' +
+                            '<td><span class="col-name">' + c.name + '</span>' + tagHtml + '</td>' +
+                            '<td class="col-type">' + c.type + '</td>' +
+                            '<td style="color:var(--fg-dim);font-size:12px;">' + c.desc + '</td>' +
+                        '</tr>';
+                    }).join("");
+
+                    var relsHtml = t.relations.map(function(r) {
+                        return '<div class="rel-item">' +
+                            '<span class="rel-arrow">↳</span> ' +
+                            '<span>' + r.text + ' <b>' + r.target + '</b> (' + r.type + ')</span>' +
+                            (r.action ? '<span class="rel-action">' + r.action + '</span>' : '') +
+                        '</div>';
+                    }).join("");
+
+                    card.innerHTML = 
+                        '<div class="table-header">' +
+                            '<div>' +
+                                '<div class="table-name">' + t.name + '</div>' +
+                            '</div>' +
+                            '<span class="table-badge ' + t.badgeClass + '">' + t.stage + '</span>' +
+                        '</div>' +
+                        '<div class="table-desc">' + t.desc + '</div>' +
+                        '<table class="table-cols">' +
+                            '<thead><tr><th>Cột</th><th>Kiểu DL</th><th>Mô tả</th></tr></thead>' +
+                            '<tbody>' + colsHtml + '</tbody>' +
+                        '</table>' +
+                        (relsHtml ? '<div class="rel-box"><div class="rel-title">Khóa ngoại & Quan hệ</div>' + relsHtml + '</div>' : '');
+
+                    container.appendChild(card);
+                });
+            }
+
+            var currentChip = "all";
+            function setChip(el, chip) {
+                document.querySelectorAll(".filter-chip").forEach(function(c) { c.classList.remove("active"); });
+                el.classList.add("active");
+                currentChip = chip;
+                filterTables();
+            }
+
+            function filterTables() {
+                var q = document.getElementById("tableSearch").value.toLowerCase().trim();
+                var filtered = TABLES_DATA.filter(function(t) {
+                    var matchModule = (currentChip === "all") || (t.module === currentChip);
+                    if (!matchModule) return false;
+                    if (!q) return true;
+                    var matchName = t.name.toLowerCase().indexOf(q) !== -1;
+                    var matchDesc = t.desc.toLowerCase().indexOf(q) !== -1;
+                    var matchCol = t.cols.some(function(c) { 
+                        return c.name.toLowerCase().indexOf(q) !== -1 || c.desc.toLowerCase().indexOf(q) !== -1; 
+                    });
+                    return matchName || matchDesc || matchCol;
+                });
+                renderTables(filtered);
+            }
+        </script>
+
+        <!-- MERMAID LOADER & PAN/ZOOM SCRIPT -->
+        <script>
+            class PanZoomController {
+                constructor(viewportId, canvasId) {
+                    this.viewport = document.getElementById(viewportId);
+                    this.canvas = document.getElementById(canvasId);
+                    this.x = 0;
+                    this.y = 0;
+                    this.scale = 1.0;
+                    this.isDragging = false;
+                    this.startX = 0;
+                    this.startY = 0;
+
+                    if (this.viewport && this.canvas) {
+                        this.initEvents();
+                    }
+                }
+
+                update() {
+                    this.canvas.style.transform = "translate(" + this.x + "px, " + this.y + "px) scale(" + this.scale + ")";
+                }
+
+                zoom(factor) {
+                    this.scale = Math.min(Math.max(0.15, this.scale * factor), 4.5);
+                    this.canvas.classList.remove("dragging");
+                    this.update();
+                }
+
+                reset() {
+                    this.x = 0;
+                    this.y = 0;
+                    this.scale = 1.0;
+                    this.canvas.classList.remove("dragging");
+                    this.update();
+                }
+
+                initEvents() {
+                    var self = this;
+                    var vp = this.viewport;
+                    var cv = this.canvas;
+
+                    vp.addEventListener("mousedown", function(e) {
+                        if (e.target.closest("button, a, input, details")) return;
+                        self.isDragging = true;
+                        self.startX = e.clientX - self.x;
+                        self.startY = e.clientY - self.y;
+                        cv.classList.add("dragging");
+                        vp.classList.add("is-dragging");
+                        e.preventDefault();
+                    });
+
+                    window.addEventListener("mousemove", function(e) {
+                        if (!self.isDragging) return;
+                        self.x = e.clientX - self.startX;
+                        self.y = e.clientY - self.startY;
+                        self.update();
+                    });
+
+                    window.addEventListener("mouseup", function() {
+                        if (self.isDragging) {
+                            self.isDragging = false;
+                            cv.classList.remove("dragging");
+                            vp.classList.remove("is-dragging");
+                        }
+                    });
+
+                    // Mouse wheel zoom
+                    vp.addEventListener("wheel", function(e) {
+                        e.preventDefault();
+                        var factor = e.deltaY < 0 ? 1.12 : 0.88;
+                        self.zoom(factor);
+                    }, { passive: false });
+
+                    // Touch support
+                    var touchStartDist = 0;
+                    var touchStartScale = 1;
+                    vp.addEventListener("touchstart", function(e) {
+                        if (e.touches.length === 1) {
+                            self.isDragging = true;
+                            self.startX = e.touches[0].clientX - self.x;
+                            self.startY = e.touches[0].clientY - self.y;
+                            cv.classList.add("dragging");
+                            vp.classList.add("is-dragging");
+                        } else if (e.touches.length === 2) {
+                            self.isDragging = false;
+                            touchStartDist = Math.hypot(
+                                e.touches[0].clientX - e.touches[1].clientX,
+                                e.touches[0].clientY - e.touches[1].clientY
+                            );
+                            touchStartScale = self.scale;
+                        }
+                    }, { passive: true });
+
+                    vp.addEventListener("touchmove", function(e) {
+                        if (self.isDragging && e.touches.length === 1) {
+                            self.x = e.touches[0].clientX - self.startX;
+                            self.y = e.touches[0].clientY - self.startY;
+                            self.update();
+                        } else if (e.touches.length === 2 && touchStartDist > 0) {
+                            var dist = Math.hypot(
+                                e.touches[0].clientX - e.touches[1].clientX,
+                                e.touches[0].clientY - e.touches[1].clientY
+                            );
+                            var factor = dist / touchStartDist;
+                            self.scale = Math.min(Math.max(0.15, touchStartScale * factor), 4.5);
+                            self.update();
+                        }
+                    }, { passive: true });
+
+                    vp.addEventListener("touchend", function() {
+                        self.isDragging = false;
+                        cv.classList.remove("dragging");
+                        vp.classList.remove("is-dragging");
+                    }, { passive: true });
+                }
+            }
+
+            var panZoomControllers = {};
+
+            function initPanZoomControllers() {
+                panZoomControllers["viewport-domain"] = new PanZoomController("viewport-domain", "canvas-domain");
+                panZoomControllers["viewport-shopeefood"] = new PanZoomController("viewport-shopeefood", "canvas-shopeefood");
+                panZoomControllers["viewport-initial"] = new PanZoomController("viewport-initial", "canvas-initial");
+            }
+
+            function toggleFullscreen(viewportId) {
+                var vp = document.getElementById(viewportId);
+                if (!vp) return;
+                if (!document.fullscreenElement) {
+                    if (vp.requestFullscreen) {
+                        vp.requestFullscreen().catch(function() {
+                            vp.classList.toggle("fullscreen-fallback");
+                        });
+                    } else {
+                        vp.classList.toggle("fullscreen-fallback");
+                    }
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            document.addEventListener("fullscreenchange", function() {
+                if (!document.fullscreenElement) {
+                    document.querySelectorAll(".diagram-viewport").forEach(function(vp) {
+                        vp.classList.remove("fullscreen-fallback");
+                    });
+                }
+            });
+
+            function switchTab(tabId) {
+                document.querySelectorAll(".tab-btn").forEach(function(b) { b.classList.remove("active"); });
+                document.querySelectorAll(".tab-content").forEach(function(c) { c.classList.remove("active"); });
+
+                var btn = event.currentTarget;
+                if (btn) btn.classList.add("active");
+                var tab = document.getElementById(tabId);
+                if (tab) tab.classList.add("active");
+
+                // Trigger render if not rendered
+                renderPendingDiagrams();
+            }
+
+            function copySource(srcId) {
+                var el = document.getElementById(srcId);
+                if (!el) return;
+                navigator.clipboard.writeText(el.textContent).then(function() {
+                    alert("Đã sao chép mã nguồn Mermaid vào Clipboard!");
+                });
+            }
+
+            // Sync pre source boxes
+            document.getElementById("src-domain").textContent = document.getElementById("raw-domain").textContent.trim();
+            document.getElementById("src-shopeefood").textContent = document.getElementById("raw-shopeefood").textContent.trim();
+            document.getElementById("src-initial").textContent = document.getElementById("raw-initial").textContent.trim();
+
+            renderTables(TABLES_DATA);
+            initPanZoomControllers();
+
+            // Load Mermaid
+            (function() {
+                var LOCAL = "mermaid.min.js";
+                var CDN = "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js";
+
+                function loadScript(src) {
+                    return new Promise(function(res, rej) {
+                        var s = document.createElement("script");
+                        s.src = src;
+                        s.onload = res;
+                        s.onerror = rej;
+                        document.head.appendChild(s);
+                    });
+                }
+
+                function initMermaid() {
+                    window.mermaid.initialize({
+                        startOnLoad: false,
+                        theme: "dark",
+                        themeVariables: {
+                            darkMode: true,
+                            background: "#080a0e",
+                            primaryColor: "#1c222e",
+                            primaryTextColor: "#e6edf3",
+                            primaryBorderColor: "#ff6b2c",
+                            lineColor: "#4aa8ff",
+                            secondaryColor: "#161b24",
+                            tertiaryColor: "#0f1115"
+                        },
+                        er: { useMaxWidth: false }
+                    });
+                    renderPendingDiagrams();
+                }
+
+                window.renderPendingDiagrams = function() {
+                    if (!window.mermaid) return;
+
+                    var tasks = [
+                        { id: "graph-domain", rawId: "raw-domain", vp: "viewport-domain" },
+                        { id: "graph-shopeefood", rawId: "raw-shopeefood", vp: "viewport-shopeefood" },
+                        { id: "graph-initial", rawId: "raw-initial", vp: "viewport-initial" }
+                    ];
+
+                    tasks.forEach(function(t) {
+                        var target = document.getElementById(t.id);
+                        if (!target || target.getAttribute("data-rendered")) return;
+
+                        // Only render if container is visible or render anyway
+                        var code = document.getElementById(t.rawId).textContent.trim();
+                        window.mermaid.render("svg_" + t.id, code)
+                            .then(function(res) {
+                                target.innerHTML = res.svg;
+                                target.setAttribute("data-rendered", "true");
+                                if (panZoomControllers[t.vp]) {
+                                    panZoomControllers[t.vp].update();
+                                }
+                            })
+                            .catch(function(err) {
+                                console.error("[mermaid error]", t.id, err);
+                                target.innerHTML = "<div style='color:var(--bad);padding:20px;'>Lỗi render diagram. Vui lòng mở rộng mục 'Xem mã nguồn Mermaid' bên dưới.</div>";
+                            });
+                    });
+                };
+
+                window.addEventListener("load", function() {
+                    if (window.mermaid) {
+                        initMermaid();
+                        return;
+                    }
+                    loadScript(LOCAL)
+                        .catch(function() { return loadScript(CDN); })
+                        .then(initMermaid)
+                        .catch(function(e) {
+                            console.warn("Không tải được Mermaid online, hiển thị dạng text/fallback", e);
+                        });
+                });
+            })();
+        </script>
+    </body>
+</html>
+

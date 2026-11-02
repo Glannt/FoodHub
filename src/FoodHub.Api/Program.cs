@@ -43,6 +43,7 @@ if (!string.IsNullOrWhiteSpace(connectionString))
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<NotFoundExceptionHandler>();
 builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+builder.Services.AddExceptionHandler<ConflictExceptionHandler>();
 
 var app = builder.Build();
 

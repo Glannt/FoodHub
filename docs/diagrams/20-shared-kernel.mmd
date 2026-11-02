@@ -1,0 +1,43 @@
+classDiagram
+    direction TB
+
+    class Entity {
+        <<abstract>>
+        +TId Id
+        +DateTimeOffset CreatedAt
+        +DateTimeOffset? UpdatedAt
+        #Touch()
+        +Equals(obj) bool
+        +GetHashCode() int
+    }
+
+    class AggregateRoot {
+        <<abstract>>
+        -List _domainEvents
+        +IReadOnlyCollection DomainEvents
+        #Raise(event)
+        +ClearDomainEvents()
+    }
+
+    class IDomainEvent {
+        <<interface>>
+        +Guid EventId
+        +DateTimeOffset OccurredOn
+    }
+
+    class Result {
+        +bool IsSuccess
+        +bool IsFailure
+        +T Value
+        +string Error
+        +Success(value)
+        +Failure(error)
+    }
+
+    class IUnitOfWork {
+        <<interface>>
+        +SaveChangesAsync(ct) Task
+    }
+
+    Entity <|-- AggregateRoot : kế thừa
+    AggregateRoot o-- IDomainEvent : danh sách sự kiện

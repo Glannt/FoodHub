@@ -1,0 +1,221 @@
+erDiagram
+    APP_USERS ||--o{ CUSTOMER_ADDRESSES : "có sổ địa chỉ"
+    APP_USERS ||--o{ RESTAURANTS : "sở hữu"
+    APP_USERS ||--o{ CARTS : "có giỏ hàng"
+    APP_USERS ||--o{ ORDERS : "đặt"
+    APP_USERS ||--o{ REVIEWS : "viết"
+    APP_USERS ||--o{ ORDER_DELIVERIES : "giao"
+
+    RESTAURANTS ||--o{ MENU_CATEGORIES : "chia danh mục"
+    RESTAURANTS ||--o{ MENU_ITEMS : "có món"
+    RESTAURANTS ||--o{ CARTS : "có giỏ"
+    RESTAURANTS ||--o{ ORDERS : "nhận đơn"
+    RESTAURANTS ||--o{ RESTAURANT_HOURS : "mở cửa"
+    RESTAURANTS ||--o{ RESTAURANT_CLOSURES : "nghỉ lễ"
+    RESTAURANTS ||--o{ REVIEWS : "được đánh giá"
+    RESTAURANTS }o--o| CUISINES : "phục vụ"
+
+    MENU_CATEGORIES ||--o{ MENU_ITEMS : "gồm"
+
+    CARTS ||--o{ CART_ITEMS : "chứa"
+    MENU_ITEMS ||--o{ CART_ITEMS : "được thêm"
+
+    ORDERS ||--|{ ORDER_ITEMS : "chốt"
+    ORDERS ||--o{ ORDER_STATUS_HISTORY : "ghi lại từng bước"
+    ORDERS ||--o| PAYMENTS : "thanh toán"
+    ORDERS ||--o| ORDER_DELIVERIES : "giao hàng"
+    ORDERS ||--o{ REVIEWS : "được đánh giá"
+    ORDERS ||--o{ ORDER_VOUCHERS : "dùng voucher"
+    VOUCHERS ||--o{ ORDER_VOUCHERS : "được dùng"
+
+    MENU_ITEMS ||--o{ ORDER_ITEMS : "nguồn - FK SET NULL"
+    MENU_ITEMS ||--o{ REVIEWS : "được đánh giá"
+
+    APP_USERS {
+        uuid id PK
+        string user_name
+        string email
+        string phone_number
+        string password_hash
+        string full_name "cột thêm"
+    }
+
+    CUSTOMER_ADDRESSES {
+        uuid id PK
+        uuid user_id FK
+        string recipient_name
+        string phone_number
+        string address_text
+        decimal latitude
+        decimal longtitude
+        bool is_default
+    }
+
+    CUISINES {
+        uuid id PK
+        string name UK
+        string slug UK
+        int sort_order
+    }
+
+    RESTAURANTS {
+        uuid id PK
+        uuid owner_user_id FK "MỚI"
+        uuid cuisine_id FK "MỚI"
+        string name
+        string address_text
+        decimal latitude
+        decimal longtitude
+        bool is_approved
+        bool is_active "MỚI"
+        string phone_number "MỚI"
+        string image_url "MỚI"
+        decimal delivery_fee "MỚI"
+        decimal min_order_value "MỚI"
+        int preparation_minutes "MỚI"
+        decimal rating_avg "MỚI"
+        int rating_count "MỚI"
+    }
+
+    RESTAURANT_HOURS {
+        uuid id PK
+        uuid restaurant_id FK
+        int day_of_week "0 đến 6"
+        time opens_at
+        time closes_at
+        bool is_closed
+    }
+
+    RESTAURANT_CLOSURES {
+        uuid id PK
+        uuid restaurant_id FK
+        date from_date
+        date to_date
+        string reason
+    }
+
+    MENU_CATEGORIES {
+        uuid id PK
+        uuid restaurant_id FK
+        string name
+    }
+
+    MENU_ITEMS {
+        uuid id PK
+        uuid restaurant_id FK
+        uuid category_id FK
+        string name
+        decimal price
+        bool is_available
+    }
+
+    CARTS {
+        uuid id PK
+        uuid user_id FK
+        uuid restaurant_id FK
+    }
+
+    CART_ITEMS {
+        uuid id PK
+        uuid cart_id FK
+        uuid menu_item_id FK
+        int quantity
+        string note
+    }
+
+    ORDERS {
+        uuid id PK
+        string order_no UK
+        uuid user_id FK
+        uuid restaurant_id FK
+        int status
+        string recipient_name "snapshot"
+        string phone_number "snapshot"
+        string address_text "snapshot"
+        decimal latitude "snapshot"
+        decimal longtitude "snapshot"
+        decimal subtotal
+        decimal delivery_fee
+        decimal discount_amount
+        decimal total_amount
+        string idempotency_key UK
+        timestamptz placed_at
+        timestamptz accepted_at
+        timestamptz delivered_at
+        timestamptz cancelled_at
+    }
+
+    ORDER_ITEMS {
+        uuid id PK
+        uuid order_id FK
+        uuid menu_item_id FK "SET NULL"
+        string item_name "SNAPSHOT"
+        decimal unit_price "SNAPSHOT"
+        int quantity
+        decimal subtotal "SNAPSHOT"
+        string note
+    }
+
+    ORDER_STATUS_HISTORY {
+        uuid id PK
+        uuid order_id FK
+        int from_status "có thể rỗng"
+        int to_status
+        uuid changed_by_user_id FK
+        string reason
+        timestamptz changed_at
+    }
+
+    PAYMENTS {
+        uuid id PK
+        uuid order_id FK
+        string provider
+        int status
+        decimal amount
+        string provider_txn_id UK
+        jsonb raw_payload
+    }
+
+    REVIEWS {
+        uuid id PK
+        uuid order_id FK "UNIQUE"
+        uuid restaurant_id FK
+        uuid user_id FK
+        uuid menu_item_id FK
+        int rating "1 đến 5"
+        string comment
+    }
+
+    SHIPPER_PROFILES {
+        uuid user_id PK "FK"
+        bool is_available
+        string vehicle_type
+        decimal latitude
+        decimal longtitude
+    }
+
+    ORDER_DELIVERIES {
+        uuid id PK
+        uuid order_id FK "UNIQUE"
+        uuid shipper_user_id FK
+        timestamptz assigned_at
+        timestamptz delivered_at
+        string proof_image_url
+    }
+
+    VOUCHERS {
+        uuid id PK
+        string code UK
+        int discount_type
+        decimal discount_value
+        decimal max_discount
+        int usage_limit
+        int used_count
+        bool is_active
+    }
+
+    ORDER_VOUCHERS {
+        uuid order_id PK "FK"
+        uuid voucher_id PK "FK"
+        decimal discount_amount
+    }

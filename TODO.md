@@ -20,18 +20,18 @@ Giai đoạn 3-9 ░░░░░░░░░░░░░░░░░░░░░
 
 ## Giai đoạn 1 — Nền tảng (Tuần 1–2)
 
-Mục tiêu roadmap: *"Solution Clean Architecture, Domain, EF Core, migration, CRUD nhà hàng/menu bằng CQRS"*
+Mục tiêu roadmap: _"Solution Clean Architecture, Domain, EF Core, migration, CRUD nhà hàng/menu bằng CQRS"_
 
 ### ✅ 1.1 Khung solution
 
-| Việc | Trạng thái | Ghi chú |
-|---|---|---|
-| 5 project + `FoodHub.slnx` | ✅ | `.slnx` thay `.sln` |
-| Chiều tham chiếu | ✅ | `Api → Infrastructure → Application → Domain → SharedKernel` |
-| `global.json` (SDK 10.0.401) | ✅ | |
-| `Directory.Build.props` | ✅ | `Nullable` + `TreatWarningsAsErrors` |
-| `Directory.Packages.props` (CPM) | ✅ | version nằm 1 chỗ duy nhất |
-| `.editorconfig` | ✅ | |
+| Việc                             | Trạng thái | Ghi chú                                                      |
+| -------------------------------- | ---------- | ------------------------------------------------------------ |
+| 5 project + `FoodHub.slnx`       | ✅         | `.slnx` thay `.sln`                                          |
+| Chiều tham chiếu                 | ✅         | `Api → Infrastructure → Application → Domain → SharedKernel` |
+| `global.json` (SDK 10.0.401)     | ✅         |                                                              |
+| `Directory.Build.props`          | ✅         | `Nullable` + `TreatWarningsAsErrors`                         |
+| `Directory.Packages.props` (CPM) | ✅         | version nằm 1 chỗ duy nhất                                   |
+| `.editorconfig`                  | ✅         |                                                              |
 
 ### ✅ 1.2 SharedKernel
 
@@ -39,57 +39,70 @@ Mục tiêu roadmap: *"Solution Clean Architecture, Domain, EF Core, migration, 
 
 ### ✅ 1.3 Domain
 
-| Entity / interface | Trạng thái | Ghi chú |
-|---|---|---|
-| `Restaurant` | ✅ | `Approve()` / `Reject()`, có Guard |
-| `MenuCategory` | ✅ | `Entity<Guid>` — con của aggregate Restaurant |
-| `MenuItem` | ✅ | `AggregateRoot<Guid>`, `Raise(MenuItemAddedEvent)` |
-| `MenuItemAddedEvent` | ✅ | `sealed record` + `OccurredOn` |
-| `IUnitOfWork` | ✅ | chỉ có `SaveChangesAsync` |
-| `Order` (aggregate) | ❌ | thuộc **Giai đoạn 2** |
+| Entity / interface   | Trạng thái | Ghi chú                                            |
+| -------------------- | ---------- | -------------------------------------------------- |
+| `Restaurant`         | ✅         | `Approve()` / `Reject()`, có Guard                 |
+| `MenuCategory`       | ✅         | `Entity<Guid>` — con của aggregate Restaurant      |
+| `MenuItem`           | ✅         | `AggregateRoot<Guid>`, `Raise(MenuItemAddedEvent)` |
+| `MenuItemAddedEvent` | ✅         | `sealed record` + `OccurredOn`                     |
+| `IUnitOfWork`        | ✅         | chỉ có `SaveChangesAsync`                          |
+| `Order` (aggregate)  | ❌         | thuộc **Giai đoạn 2**                              |
 
 ### ✅ 1.4 Application — CQRS cho MenuItem
 
-| Use case | Loại | Handler | Validator |
-|---|---|---|---|
-| `CreateMenuItem` | Command | ✅ | ✅ 6 rule |
-| `UpdateMenuItem` | Command | ✅ | ✅ |
-| `SetMenuItemAvailability` | Command | ✅ | ✅ |
-| `GetMenuByRestaurant` | Query | ✅ 3 truy vấn `AsNoTracking` + projection | không cần |
+| Use case                  | Loại    | Handler                                   | Validator |
+| ------------------------- | ------- | ----------------------------------------- | --------- |
+| `CreateMenuItem`          | Command | ✅                                        | ✅ 6 rule |
+| `UpdateMenuItem`          | Command | ✅                                        | ✅        |
+| `SetMenuItemAvailability` | Command | ✅                                        | ✅        |
+| `GetMenuByRestaurant`     | Query   | ✅ 3 truy vấn `AsNoTracking` + projection | không cần |
 
 Hạ tầng: `IApplicationDbContext` · `NotFoundException` · `ValidationBehavior` · `LoggingBehavior` · `AddApplication()`
 
 ### ✅ 1.5 Infrastructure — EF Core
 
-| Việc | Trạng thái | Ghi chú |
-|---|---|---|
-| `AppDbContext` (3 `DbSet`) | ✅ | |
-| `RestaurantConfiguration` | ✅ | `HasColumnName` tường minh snake_case |
-| `MenuCategoryConfiguration` | ✅ | |
-| `MenuItemConfiguration` | ✅ | |
-| `AppDbContextUnitOfWork` | ✅ | bọc `AppDbContext`, chung `ChangeTracker` |
-| `IDesignTimeDbContextFactory` | ✅ | chuỗi placeholder |
-| `AddInfrastructure(configuration)` | ✅ | |
-| `Microsoft.EntityFrameworkCore.Design` trong **Api** | ✅ | bắt buộc cho startup project, xem ⑤ |
-| **`InitialCreate` migration** | ✅ | **đã sinh code** — 3 bảng, 4 index, 3 FK Cascade |
-| Áp migration lên DB (`database update`) | ❌ | **chờ Postgres** |
+| Việc                                                 | Trạng thái | Ghi chú                                          |
+| ---------------------------------------------------- | ---------- | ------------------------------------------------ |
+| `AppDbContext` (3 `DbSet`)                           | ✅         |                                                  |
+| `RestaurantConfiguration`                            | ✅         | `HasColumnName` tường minh snake_case            |
+| `MenuCategoryConfiguration`                          | ✅         |                                                  |
+| `MenuItemConfiguration`                              | ✅         |                                                  |
+| `AppDbContextUnitOfWork`                             | ✅         | bọc `AppDbContext`, chung `ChangeTracker`        |
+| Chuỗi kết nối qua **User Secrets**                   | ✅         | **không** `IDesignTimeDbContextFactory` — xem ⑥  |
+| `AddInfrastructure(configuration)`                   | ✅         |                                                  |
+| `Microsoft.EntityFrameworkCore.Design` trong **Api** | ✅         | bắt buộc cho startup project, xem ⑤              |
+| **`InitialCreate` migration**                        | ✅         | **đã sinh code** — 3 bảng, 4 index, 3 FK Cascade |
+| Áp migration lên DB (`database update`)              | ❌         | **chờ Postgres**                                 |
 
 > **⑤ `Microsoft.EntityFrameworkCore.Design` phải nằm ở `FoodHub.Api`, không chỉ ở Infrastructure.**
-> Đã mắc lỗi thật: *"Your startup project 'FoodHub.Api' doesn't reference Microsoft.EntityFrameworkCore.Design"*.
+> Đã mắc lỗi thật: _"Your startup project 'FoodHub.Api' doesn't reference Microsoft.EntityFrameworkCore.Design"_.
 > Nguyên nhân: Infrastructure khai báo package này với `PrivateAssets="all"` → **không truyền sang** `FoodHub.Api`.
 > Mà `dotnet ef` phải load `FoodHub.Api.dll` để dựng host rồi gọi design-time service lấy `DbContext`.
 > Chi tiết: `SETUP-BUOC-4-10.md` §10.7.
+>
+> **⑥ Đã BỎ `IDesignTimeDbContextFactory` — EF lấy `DbContext` từ DI của startup project.**
+>
+> Ba chỗ EF có thể lấy `DbContext`, thử theo thứ tự: ① `IDesignTimeDbContextFactory` ② DI của
+> startup project ③ `OnConfiguring`. Ta bỏ ① vì nó **buộc phải hardcode chuỗi kết nối vào source
+> code** → mật khẩu nằm trong git. Dùng ② thì **1 nguồn sự thật duy nhất**: `appsettings.json`
+> (node rỗng) + User Secrets (`%APPDATA%\Microsoft\UserSecrets\` — ngoài repo).
+>
+> Đã kiểm chứng bằng `dotnet ef dbcontext info`: in ra `Database name: FoodHub` — tức `dotnet ef`
+> **đọc được User Secrets** (chỉ load ở môi trường `Development`).
+>
+> Hệ quả: `/health/ready` **đã đổi hành vi** — giờ có chuỗi thật nên `AddDbContextCheck` bật,
+> báo `Unhealthy` khi Postgres tắt. Đúng, không phải bug. Chi tiết: `SETUP-BUOC-4-10.md` §7.3.
 
 ### ✅ 1.6 Api
 
-| Việc | Trạng thái | Ghi chú |
-|---|---|---|
-| `MenuItemsController` (4 endpoint) | ✅ | |
-| `NotFoundExceptionHandler` → 404 | ✅ | đã test thật |
-| `ValidationExceptionHandler` → 400 | ✅ | đã test thật, trả đúng `errors` |
-| `/health/live` | ✅ | **không** chạm DB |
-| `/health/ready` | ✅ | tự bật khi có connection string |
-| OpenAPI built-in (`/openapi/v1.json`) | ✅ | không dùng Swashbuckle |
+| Việc                                  | Trạng thái | Ghi chú                         |
+| ------------------------------------- | ---------- | ------------------------------- |
+| `MenuItemsController` (4 endpoint)    | ✅         |                                 |
+| `NotFoundExceptionHandler` → 404      | ✅         | đã test thật                    |
+| `ValidationExceptionHandler` → 400    | ✅         | đã test thật, trả đúng `errors` |
+| `/health/live`                        | ✅         | **không** chạm DB               |
+| `/health/ready`                       | ✅         | tự bật khi có connection string |
+| OpenAPI built-in (`/openapi/v1.json`) | ✅         | không dùng Swashbuckle          |
 
 ### ⬜ 1.7 Việc còn lại
 
@@ -98,24 +111,27 @@ Hạ tầng: `IApplicationDbContext` · `NotFoundException` · `ValidationBehavi
 Migration `InitialCreate` **đã sinh xong** (không cần DB sống). Chỉ còn áp nó:
 
 ```powershell
-# 1. Điền ConnectionStrings:Default trong src\FoodHub.Api\appsettings.json
-# 2. Sửa chuỗi trong src\FoodHub.Infrastructure\Persistence\IDesignTimeDbContextFactory.cs
+# 1. Bảo đảm Postgres đang chạy
+Test-NetConnection -ComputerName localhost -Port 5432
+
+# 2. Áp migration (đọc chuỗi từ User Secrets — không cần sửa file nào)
 dotnet ef database update -p src\FoodHub.Infrastructure -s src\FoodHub.Api
 ```
 
-Sau đó kiểm tra `/health/ready` phải báo `Healthy` (tự bật DB check vì connection string không còn rỗng).
+Chuỗi kết nối **không** nằm trong `appsettings.json` (node để rỗng) mà lấy từ User Secrets
+đã lưu sẵn. Sau khi áp xong, `/health/ready` phải báo `Healthy`.
 
 **B. CRUD nhà hàng bằng CQRS — viết code**
 
 Hiện `Restaurant` mới chỉ có entity, **chưa có endpoint nào**. Cần:
 
-| Use case | Loại | Ghi chú |
-|---|---|---|
-| `CreateRestaurant` | Command | Validator: name, addressText không rỗng; lat/lng trong khoảng |
-| `UpdateRestaurant` | Command | load thật → `Approve`/`Reject` tách riêng |
-| `ApproveRestaurant` | Command | chỉ Admin — **chưa có auth, để Giai đoạn 2** |
-| `GetRestaurants` | Query | `AsNoTracking` + projection, có phân trang |
-| `GetRestaurantById` | Query | `NotFoundException` nếu không có |
+| Use case            | Loại    | Ghi chú                                                   |
+| ------------------- | ------- | --------------------------------------------------------- |
+| `CreateRestaurant`  | Command | Validator: name, Address không rỗng; lat/lng trong khoảng |
+| `UpdateRestaurant`  | Command | load thật → `Approve`/`Reject` tách riêng                 |
+| `ApproveRestaurant` | Command | chỉ Admin — **chưa có auth, để Giai đoạn 2**              |
+| `GetRestaurants`    | Query   | `AsNoTracking` + projection, có phân trang                |
+| `GetRestaurantById` | Query   | `NotFoundException` nếu không có                          |
 
 Cần thêm `RestaurantController` ở `src\FoodHub.Api\Controllers\Restaurants\`.
 
@@ -126,12 +142,12 @@ Cần thêm `RestaurantController` ở `src\FoodHub.Api\Controllers\Restaurants\
 
 ## Tài liệu đã có
 
-| File | Nội dung |
-|---|---|
-| `docs\ARCHITECTURE.md` | compile-time, assembly, **container vs middleware vs filter vs behavior** |
-| `docs\SEQ-DIAGRAMS.md` | `IUnitOfWork`, `Raise`, đường ghi vs đường đọc |
-| `docs\diagrams\*.mmd` | 9 diagram — flow trước, sequence sau |
-| `docs\sync-mermaid.ps1` | đồng bộ `.mmd` → `.md`, chạy sau mỗi lần sửa diagram |
+| File                    | Nội dung                                                                  |
+| ----------------------- | ------------------------------------------------------------------------- |
+| `docs\ARCHITECTURE.md`  | compile-time, assembly, **container vs middleware vs filter vs behavior** |
+| `docs\SEQ-DIAGRAMS.md`  | `IUnitOfWork`, `Raise`, đường ghi vs đường đọc                            |
+| `docs\diagrams\*.mmd`   | 9 diagram — flow trước, sequence sau                                      |
+| `docs\sync-mermaid.ps1` | đồng bộ `.mmd` → `.md`, chạy sau mỗi lần sửa diagram                      |
 
 ---
 
@@ -163,14 +179,14 @@ Chưa bắt đầu.
 
 ## Giai đoạn 4–9
 
-| Giai đoạn | Tuần | Nội dung |
-|---|---|---|
-| 4. Realtime + Cache | 6–7 | SignalR hubs, Redis cache + backplane + GEO, gán shipper |
-| 5. Nền + Email + Thanh toán | 8–9 | Hangfire, MailKit, VNPay/Momo sandbox, idempotent IPN |
-| 6. Quan sát | 10 | OpenTelemetry, Serilog + Seq, Health Checks |
-| 7. Frontend + Mobile | 11–12 | Blazor (khách, nhà hàng, admin), MAUI cho shipper |
-| 8. Deploy | 13 | Docker, CD, cloud, HTTPS, domain |
-| 9. Microservices (tùy chọn) | 14+ | Tách Payment + Notification, RabbitMQ/MassTransit, YARP |
+| Giai đoạn                   | Tuần  | Nội dung                                                 |
+| --------------------------- | ----- | -------------------------------------------------------- |
+| 4. Realtime + Cache         | 6–7   | SignalR hubs, Redis cache + backplane + GEO, gán shipper |
+| 5. Nền + Email + Thanh toán | 8–9   | Hangfire, MailKit, VNPay/Momo sandbox, idempotent IPN    |
+| 6. Quan sát                 | 10    | OpenTelemetry, Serilog + Seq, Health Checks              |
+| 7. Frontend + Mobile        | 11–12 | Blazor (khách, nhà hàng, admin), MAUI cho shipper        |
+| 8. Deploy                   | 13    | Docker, CD, cloud, HTTPS, domain                         |
+| 9. Microservices (tùy chọn) | 14+   | Tách Payment + Notification, RabbitMQ/MassTransit, YARP  |
 
 > **Cố ý bỏ qua:** Docker Compose (bạn tự cấu hình Postgres + Redis), .NET Aspire.
 > Hai thứ này quay lại ở Giai đoạn 4 và 8.
@@ -179,13 +195,13 @@ Chưa bắt đầu.
 
 ## Ghi chú kỹ thuật đã chốt trong quá trình làm
 
-| Quyết định | Vì sao |
-|---|---|
-| Application **chấp nhận** tham chiếu `Microsoft.EntityFrameworkCore` | Query dùng `DbSet<T>` + `AsNoTracking()`. Domain vẫn sạch tuyệt đối. |
-| `MenuItem : AggregateRoot<Guid>` | Cần `Raise()`. Về DDD cũng đúng — món ăn có vòng đời độc lập. |
-| `IUnitOfWork` **bọc** `AppDbContext` | `AppDbContext` không implement nó → nếu implement thì `Application` phải nhắc tới kiểu của Infrastructure. |
-| Bỏ `UseSnakeCaseNamingConvention()` | Package `EFCore.NamingConventions` không có trong CPM. Dùng `HasColumnName` tường minh. |
-| `HttpValidationProblemDetails` cho lỗi 400 | `ProblemDetails` không có `Errors`; `ValidationProblemDetails` sẽ **mất sạch** `errors` khi serialize. |
-| `ValidationBehavior` đăng ký **trước** `LoggingBehavior` | Đăng ký đầu = bọc ngoài = validate trước. Hệ quả: request lỗi 400 **không có log thời gian xử lý**. Đảo nếu muốn log cả. |
-| `internal sealed` cho Handler | MediatR tạo qua reflection, không cần public. |
-| OpenAPI built-in, không Swashbuckle | Template .NET 10 đã có sẵn. |
+| Quyết định                                                           | Vì sao                                                                                                                   |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Application **chấp nhận** tham chiếu `Microsoft.EntityFrameworkCore` | Query dùng `DbSet<T>` + `AsNoTracking()`. Domain vẫn sạch tuyệt đối.                                                     |
+| `MenuItem : AggregateRoot<Guid>`                                     | Cần `Raise()`. Về DDD cũng đúng — món ăn có vòng đời độc lập.                                                            |
+| `IUnitOfWork` **bọc** `AppDbContext`                                 | `AppDbContext` không implement nó → nếu implement thì `Application` phải nhắc tới kiểu của Infrastructure.               |
+| Bỏ `UseSnakeCaseNamingConvention()`                                  | Package `EFCore.NamingConventions` không có trong CPM. Dùng `HasColumnName` tường minh.                                  |
+| `HttpValidationProblemDetails` cho lỗi 400                           | `ProblemDetails` không có `Errors`; `ValidationProblemDetails` sẽ **mất sạch** `errors` khi serialize.                   |
+| `ValidationBehavior` đăng ký **trước** `LoggingBehavior`             | Đăng ký đầu = bọc ngoài = validate trước. Hệ quả: request lỗi 400 **không có log thời gian xử lý**. Đảo nếu muốn log cả. |
+| `internal sealed` cho Handler                                        | MediatR tạo qua reflection, không cần public.                                                                            |
+| OpenAPI built-in, không Swashbuckle                                  | Template .NET 10 đã có sẵn.                                                                                              |

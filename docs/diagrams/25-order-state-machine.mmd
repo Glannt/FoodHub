@@ -1,0 +1,41 @@
+stateDiagram-v2
+    direction TB
+
+    [*] --> PendingPayment : khách bấm Đặt món
+
+    PendingPayment --> Placed : thanh toán thành công - KHÁCH
+    PendingPayment --> Cancelled : không trả được - KHÁCH
+
+    Placed --> Accepted : quán bấm Nhận đơn - NHÀ HÀNG
+    Placed --> Cancelled : quán từ chối - NHÀ HÀNG
+
+    Accepted --> Preparing : bắt đầu nấu - NHÀ HÀNG
+    Preparing --> ReadyForPickup : nấu xong - NHÀ HÀNG
+    ReadyForPickup --> PickedUp : shipper lấy hàng - SHIPPER
+    PickedUp --> Delivered : giao tới nơi - SHIPPER
+
+    Delivered --> [*]
+    Cancelled --> [*]
+
+    Accepted --> Cancelled : khách đổi ý - KHÁCH
+    ReadyForPickup --> Cancelled : khách huỷ - KHÁCH
+
+    note right of Preparing
+        KHÔNG huỷ được.
+        Đã vào bếp thì món ăn
+        không còn hủy được nữa.
+        Guard trong Domain phải chặn.
+    end note
+
+    note right of PickedUp
+        Chỉ còn đánh dấu Delivered.
+        Shipper đã cầm hàng trên tay.
+    end note
+
+    note right of Cancelled
+        Mỗi lần chuyển ghi một dòng
+        vào order_status_history:
+        from_status, to_status,
+        changed_by_user_id, changed_at.
+        from_status rỗng ở lần đầu.
+    end note

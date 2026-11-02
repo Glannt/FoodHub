@@ -1,0 +1,2953 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>
+            FoodHub — Kế hoạch mở rộng thành food delivery (ShopeeFood)
+        </title>
+        <style>
+            :root {
+                --bg: #0f1115;
+                --bg-soft: #161920;
+                --bg-code: #0b0d11;
+                --fg: #e6e8ec;
+                --fg-dim: #9aa3b2;
+                --fg-mute: #6b7484;
+                --line: #252a34;
+                --line-soft: #1c212a;
+                --accent: #ff6b2c;
+                --accent-dim: #ff8b5c;
+                --ok: #3ecf8e;
+                --warn: #f5b544;
+                --bad: #f2555a;
+                --info: #4aa8ff;
+                --mono:
+                    "Cascadia Code", ui-monospace, "SF Mono", Menlo, Consolas,
+                    monospace;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--bg);
+                color: var(--fg);
+                font:
+                    15px/1.7 "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+            .wrap {
+                max-width: 1180px;
+                margin: 0 auto;
+                padding: 0 28px 120px;
+            }
+
+            header {
+                border-bottom: 1px solid var(--line);
+                background: linear-gradient(180deg, var(--bg-soft), var(--bg));
+                padding: 56px 28px 40px;
+                margin-bottom: 48px;
+            }
+            header .inner {
+                max-width: 1180px;
+                margin: 0 auto;
+            }
+            .kicker {
+                font: 600 11px/1 var(--mono);
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--accent);
+                margin-bottom: 16px;
+            }
+            h1 {
+                margin: 0 0 14px;
+                font-size: 34px;
+                line-height: 1.2;
+                letter-spacing: -0.02em;
+                font-weight: 700;
+            }
+            .sub {
+                color: var(--fg-dim);
+                max-width: 760px;
+                margin: 0;
+                font-size: 16px;
+            }
+            .meta {
+                margin-top: 22px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .pill {
+                font: 500 12px/1 var(--mono);
+                padding: 7px 12px;
+                border-radius: 999px;
+                border: 1px solid var(--line);
+                background: var(--bg-soft);
+                color: var(--fg-dim);
+            }
+            .pill b {
+                color: var(--fg);
+            }
+
+            h2 {
+                font-size: 23px;
+                letter-spacing: -0.01em;
+                margin: 64px 0 8px;
+                font-weight: 650;
+                padding-top: 8px;
+                border-top: 1px solid var(--line-soft);
+            }
+            h2 .num {
+                color: var(--accent);
+                font-family: var(--mono);
+                font-size: 17px;
+                margin-right: 12px;
+            }
+            h3 {
+                font-size: 17px;
+                margin: 34px 0 10px;
+                font-weight: 640;
+                color: var(--fg);
+            }
+            h4 {
+                font-size: 14px;
+                margin: 22px 0 8px;
+                font-weight: 640;
+                color: var(--fg-dim);
+                text-transform: uppercase;
+                letter-spacing: 0.09em;
+                font-family: var(--mono);
+            }
+            p {
+                margin: 12px 0;
+            }
+            a {
+                color: var(--info);
+            }
+
+            code {
+                font-family: var(--mono);
+                font-size: 0.88em;
+                background: var(--bg-code);
+                padding: 2px 6px;
+                border-radius: 4px;
+                border: 1px solid var(--line-soft);
+                color: var(--accent-dim);
+            }
+            pre {
+                background: var(--bg-code);
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 16px 18px;
+                overflow-x: auto;
+                margin: 14px 0;
+            }
+            pre code {
+                background: none;
+                border: none;
+                padding: 0;
+                color: var(--fg);
+                font-size: 13px;
+                line-height: 1.65;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 16px 0;
+                font-size: 13.5px;
+            }
+            th,
+            td {
+                border: 1px solid var(--line);
+                padding: 9px 11px;
+                text-align: left;
+                vertical-align: top;
+            }
+            th {
+                background: var(--bg-soft);
+                font-weight: 640;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: var(--fg-dim);
+            }
+            td code {
+                white-space: nowrap;
+            }
+            tbody tr:nth-child(even) {
+                background: rgba(255, 255, 255, 0.014);
+            }
+
+            .card {
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                background: var(--bg-soft);
+                padding: 22px 24px;
+                margin: 22px 0;
+            }
+            .card > h3:first-child {
+                margin-top: 0;
+            }
+
+            .callout {
+                border-left: 3px solid;
+                border-radius: 0 10px 10px 0;
+                padding: 14px 18px;
+                margin: 18px 0;
+                background: var(--bg-soft);
+            }
+            .callout p:first-child {
+                margin-top: 0;
+            }
+            .callout p:last-child {
+                margin-bottom: 0;
+            }
+            .c-bad {
+                border-color: var(--bad);
+            }
+            .c-bad .t {
+                color: var(--bad);
+            }
+            .c-warn {
+                border-color: var(--warn);
+            }
+            .c-warn .t {
+                color: var(--warn);
+            }
+            .c-ok {
+                border-color: var(--ok);
+            }
+            .c-ok .t {
+                color: var(--ok);
+            }
+            .c-info {
+                border-color: var(--info);
+            }
+            .c-info .t {
+                color: var(--info);
+            }
+            .t {
+                font: 700 11px/1 var(--mono);
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                display: block;
+                margin-bottom: 9px;
+            }
+
+            ul,
+            ol {
+                padding-left: 22px;
+            }
+            li {
+                margin: 7px 0;
+            }
+            li::marker {
+                color: var(--fg-mute);
+            }
+
+            .tag {
+                display: inline-block;
+                font: 600 10.5px/1 var(--mono);
+                letter-spacing: 0.08em;
+                padding: 4px 7px;
+                border-radius: 4px;
+                text-transform: uppercase;
+                vertical-align: middle;
+            }
+            .t-now {
+                background: rgba(242, 85, 90, 0.16);
+                color: var(--bad);
+                border: 1px solid rgba(242, 85, 90, 0.35);
+            }
+            .t-g2 {
+                background: rgba(74, 168, 255, 0.16);
+                color: var(--info);
+                border: 1px solid rgba(74, 168, 255, 0.35);
+            }
+            .t-g4 {
+                background: rgba(245, 181, 68, 0.16);
+                color: var(--warn);
+                border: 1px solid rgba(245, 181, 68, 0.35);
+            }
+            .t-skip {
+                background: rgba(155, 163, 178, 0.14);
+                color: var(--fg-mute);
+                border: 1px solid var(--line);
+            }
+
+            pre.tree {
+                font-size: 12.5px;
+                line-height: 1.75;
+                color: var(--fg-dim);
+            }
+            pre.tree .c {
+                color: var(--fg-mute);
+                font-style: italic;
+            }
+            pre.tree .n {
+                color: var(--accent-dim);
+            }
+
+            .chk {
+                list-style: none;
+                padding-left: 0;
+            }
+            .chk li {
+                margin: 0;
+                border-bottom: 1px solid var(--line-soft);
+            }
+            .chk label {
+                display: flex;
+                gap: 12px;
+                align-items: flex-start;
+                padding: 10px 12px;
+                margin: 0 -12px;
+                cursor: pointer;
+                border-radius: 6px;
+            }
+            .chk label:hover {
+                background: rgba(255, 255, 255, 0.035);
+            }
+            .chk input {
+                flex: 0 0 auto;
+                width: 17px;
+                height: 17px;
+                margin-top: 4px;
+                accent-color: var(--accent);
+                cursor: pointer;
+            }
+            .chk .txt {
+                flex: 1;
+                font-size: 14px;
+            }
+            .chk .txt code {
+                font-size: 0.85em;
+            }
+            .chk li:has(input:checked) .txt {
+                color: var(--fg-mute);
+                text-decoration: line-through;
+                text-decoration-color: var(--line);
+            }
+            .chk .hint {
+                display: block;
+                color: var(--fg-mute);
+                font-size: 12.5px;
+                text-decoration: none;
+                margin-top: 3px;
+            }
+
+            /* Mục đã quyết định là KHÔNG làm - gạch ngang, không tick được */
+            .chk li.skip {
+                padding-left: 8px;
+                opacity: 0.72;
+            }
+            .chk li.skip .txt {
+                color: var(--fg-mute);
+                font-size: 13.5px;
+            }
+            .chk li.skip s {
+                text-decoration-color: var(--fg-mute);
+            }
+            .chk li.skip s + strong {
+                color: var(--ok);
+            }
+
+            nav.toc {
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                background: var(--bg-soft);
+                padding: 20px 24px;
+                margin: 0 0 8px;
+            }
+            nav.toc ol {
+                margin: 6px 0 0;
+                columns: 2;
+                column-gap: 34px;
+            }
+            nav.toc li {
+                margin: 5px 0;
+                break-inside: avoid;
+            }
+            nav.toc a {
+                color: var(--fg-dim);
+                text-decoration: none;
+                font-size: 14px;
+            }
+            nav.toc a:hover {
+                color: var(--accent);
+            }
+
+            .grid2 {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+            }
+            @media (max-width: 820px) {
+                .grid2 {
+                    grid-template-columns: 1fr;
+                }
+                nav.toc ol {
+                    columns: 1;
+                }
+                h1 {
+                    font-size: 27px;
+                }
+            }
+            hr {
+                border: none;
+                border-top: 1px solid var(--line-soft);
+                margin: 40px 0;
+            }
+            .muted {
+                color: var(--fg-mute);
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="inner">
+                <div class="kicker">FoodHub · Tài liệu thiết kế</div>
+                <h1>
+                    Mở rộng thành food delivery: những gì còn thiếu và làm theo
+                    thứ tự nào
+                </h1>
+                <p class="sub">
+                    Phân tích schema hiện tại của Postgres so với một ứng dụng
+                    giao đồ ăn kiểu ShopeeFood. Tài liệu này liệt kê đầy đủ bảng
+                    cần thêm, cột và ràng buộc của từng bảng, cây thư mục file
+                    cần tạo, và checklist để tick từng bước.
+                </p>
+                <div class="meta">
+                    <span class="pill"
+                        >Đọc kèm <a href="CLASS-DIAGRAMS.html" style="color:var(--fg);text-decoration:none;"><b>docs/CLASS-DIAGRAMS.html</b></a> · <a href="DATABASE-RELATIONSHIPS.html" style="color:var(--accent);text-decoration:none;"><b>DATABASE-RELATIONSHIPS.html</b></a></span
+                    >
+                    <span class="pill"
+                        >Hiện trạng: <b>3 bảng · 23 cột · 0 CHECK</b></span
+                    >
+                    <span class="pill">Mục tiêu: <b>18 bảng</b></span>
+                    <span class="pill">Ưu tiên: <b>Giai đoạn 1 → 2</b></span>
+                </div>
+            </div>
+        </header>
+
+        <div class="wrap">
+            <nav class="toc">
+                <strong
+                    style="
+                        font: 600 12px/1 var(--mono);
+                        letter-spacing: 0.14em;
+                        text-transform: uppercase;
+                        color: var(--fg-dim);
+                    "
+                    >Mục lục</strong
+                >
+                <ol>
+                    <li>
+                        <a href="#s1">Bốn lỗi tôi đã gọi sai — đính chính</a>
+                    </li>
+                    <li><a href="#s2">Ba thay đổi nên làm ngay</a></li>
+                    <li><a href="#s3">Bảng đầy đủ 15 bảng mới</a></li>
+                    <li><a href="#s4">Cột thêm vào bảng đang có</a></li>
+                    <li><a href="#s5">Cây thư mục file cần tạo</a></li>
+                    <li>
+                        <a href="#s6">Exception · Middleware · Behavior mới</a>
+                    </li>
+                    <li><a href="#s7">Đăng ký trong Program.cs</a></li>
+                    <li><a href="#s8">Checklist theo giai đoạn</a></li>
+                    <li><a href="#s9">Bẫy thường gặp</a></li>
+                </ol>
+            </nav>
+
+            <h2 id="s1">
+                <span class="num">§1</span>Bốn lỗi tôi đã gọi sai — đính chính
+            </h2>
+
+            <p>
+                Ở lần phân tích đầu tôi liệt kê 7 vấn đề. Đọc code thật cho thấy
+                <strong>4 cái không đáng sửa</strong>. Ghi lại ở đây để không ai
+                (kể cả tôi) vấp lại lần sau.
+            </p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 52px">#</th>
+                        <th style="width: 26%">Tôi đã nói</th>
+                        <th>Thực tế</th>
+                        <th style="width: 88px">Kết luận</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5</td>
+                        <td><code>updated_at</code> nên NOT NULL</td>
+                        <td>
+                            <code>Entity.cs:13</code> khai
+                            <code>DateTimeOffset? UpdatedAt</code>, chỉ có giá
+                            trị sau khi gọi <code>Touch()</code>. Giá trị
+                            <code>null</code> mang nghĩa
+                            <em>"chưa sửa lần nào"</em> — đó là thông tin, phá
+                            nó đi thì mất khả năng phân biệt. Vấn đề thật chỉ là
+                            <code>ORDER BY updated_at DESC</code> đưa NULL lên
+                            đầu → xử lý bằng <code>NULLS LAST</code>, không phải
+                            bằng schema.
+                        </td>
+                        <td><span class="tag t-skip">Bỏ</span></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Thêm soft delete</td>
+                        <td>
+                            Đây là <strong>cam kết kiến trúc</strong>, không
+                            phải sửa nhỏ: phải đụng <code>SharedKernel</code>,
+                            cả 3 <code>*Configuration</code>, và mọi đường xoá.
+                            Quan trọng hơn: khi đã có
+                            <code>order_items</code> snapshot tên + giá, việc
+                            xoá món khỏi thực đơn <em>không</em> làm hỏng đơn cũ
+                            → <strong>không cần</strong> soft delete.
+                        </td>
+                        <td><span class="tag t-skip">Bỏ</span></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>
+                            Sửa tên constraint <code>_Longtitude_not_null</code>
+                        </td>
+                        <td>
+                            Đó chỉ là <em>tên</em> của constraint NOT NULL mà
+                            Postgres sinh ra. Khi bạn
+                            <code>ALTER TABLE ... RENAME COLUMN</code>, Postgres
+                            <strong>không</strong> đổi tên constraint. Zero tác
+                            động hành vi. Đụng vào chỉ tốn thêm một migration.
+                        </td>
+                        <td><span class="tag t-skip">Bỏ</span></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Cho <code>description</code> nullable</td>
+                        <td>
+                            Ripple ~8 file: Domain + 2 Command + 2 Validator + 2
+                            Handler + DTO, và phải đổi rule validator từ
+                            <code>NotEmpty()</code> sang
+                            <code>MaximumLength()</code>. Payoff duy nhất: món
+                            không có mô tả khỏi phải gửi <code>""</code>.
+                        </td>
+                        <td><span class="tag t-skip">Để sau</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout c-info">
+                <span class="t">Còn lại</span>
+                <p>
+                    Chỉ <strong>3 lỗi thật</strong> đáng sửa ngay — nằm ở
+                    <a href="#s2">§2</a>.
+                </p>
+            </div>
+
+            <h2 id="s2">
+                <span class="num">§2</span>Ba thay đổi nên làm ngay
+                <span class="tag t-now">Làm luôn</span>
+            </h2>
+
+            <h3>A · Unique index + CHECK constraint</h3>
+
+            <p>
+                <code>CreateRestaurantHandler.cs:22-24</code> đã tự thừa nhận
+                race condition: hai request song song cùng thấy "chưa có" rồi
+                cùng INSERT. Comment ghi <em>"sẽ xử lý ở Giai đoạn 2"</em> —
+                nhưng nó rẻ, làm luôn được.
+            </p>
+
+            <p>
+                <strong
+                    >Thêm vào <code>RestaurantConfiguration.cs</code>:</strong
+                >
+            </p>
+
+            <pre><code>// CHECK: phòng thủ chiều sâu cho tọa độ.
+// FluentValidation ở tầng Application chỉ chặn được request đi qua HTTP.
+// Script SQL, job nền, import CSV đi thẳng vào DB và không qua validator.
+// Dùng ToTable(..., t => ...) chứ không dùng HasCheckConstraint trực tiếp:
+// EF Core 8+ đánh dấu cách thứ hai là obsolete.
+builder.ToTable("restaurants", t =&gt;
+{
+    t.HasCheckConstraint("ck_restaurants_latitude",   "latitude   &gt;= -90  AND latitude   &lt;= 90");
+    t.HasCheckConstraint("ck_restaurants_longtitude", "longtitude &gt;= -180 AND longtitude &lt;= 180");
+});
+
+// UNIQUE: khóa cái race mà comment ở CreateRestaurantHandler tự ghi nhận.
+builder.HasIndex(r =&gt; new { r.Name, r.Address })
+       .IsUnique()
+       .HasDatabaseName("ux_restaurants_name_address");</code></pre>
+
+            <p>
+                <strong>Thêm vào <code>MenuItemConfiguration.cs</code>:</strong>
+            </p>
+
+            <pre><code>builder.ToTable("menu_items", t =&gt;
+    t.HasCheckConstraint("ck_menu_items_price", "price &gt; 0"));</code></pre>
+
+            <div class="callout c-ok">
+                <span class="t">Xoá index thừa</span>
+                <p>
+                    Xoá <code>builder.HasIndex(r =&gt; r.Name)</code> ở dòng 45
+                    của <code>RestaurantConfiguration</code>. Unique index
+                    <code>(name, address_text)</code> đã phục vụ được mọi truy
+                    vấn lọc theo <code>name</code> nhờ
+                    <strong>leftmost prefix</strong> — giữ lại chỉ tốn thêm ghi
+                    mà không tăng tốc gì.
+                </p>
+            </div>
+
+            <div class="callout c-ok">
+                <span class="t"
+                    >Đã chốt: handler giữ nguyên 4 cột, không sửa</span
+                >
+                <p>
+                    Handler tiếp tục check <strong>4 cột</strong> (<code
+                        >name + address_text + latitude + longtitude</code
+                    >). Unique index 2 cột đóng vai trò
+                    <strong>lưới an toàn cuối cùng</strong>, không phải bản sao
+                    logic handler.
+                </p>
+                <p>
+                    <strong
+                        >Hai tầng này không mâu thuẫn, chúng bảo vệ hai thứ khác
+                        nhau:</strong
+                    >
+                </p>
+                <table style="margin: 12px 0">
+                    <thead>
+                        <tr>
+                            <th>Tầng</th>
+                            <th>Chặn trường hợp</th>
+                            <th>Trả về</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>AnyAsync</code> 4 cột</td>
+                            <td>
+                                Người dùng gõ <em>đúng</em> tên + địa chỉ + toạ
+                                độ giống hệt bản cũ
+                            </td>
+                            <td>
+                                <strong>409 Conflict</strong> — thông báo rõ
+                                ràng, có thể hiện form
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Unique index 2 cột</td>
+                            <td>
+                                Hai request <strong>chạy song song</strong>,
+                                cùng thấy "chưa có" rồi cùng INSERT
+                            </td>
+                            <td>
+                                <strong>500</strong> từ Postgres — lỗi hệ thống,
+                                log để điều tra
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p>
+                    Điểm mấu chốt: nếu đưa toạ độ vào unique index, một lần
+                    <strong>đo lại GPS lệch vài chữ số thứ tư</strong>
+                    sẽ tạo bản ghi trùng mà handler không chặn được. Giữ index 2
+                    cột đúng nghĩa là GPS đo lại
+                    <em>vẫn</em> bị chặn — đúng ý. Còn việc hai quán cùng tên
+                    cùng địa chỉ nhưng khác toạ độ là chuyện hiếm, và xử lý bằng
+                    cách sửa tên ở UI quản trị.
+                </p>
+            </div>
+
+            <div class="callout c-bad">
+                <span class="t">Rủi ro btree row size</span>
+                <p>
+                    Unique index trên <code>address_text varchar(500)</code> có
+                    thể vượt giới hạn <strong>2704 byte</strong> của index row
+                    nếu ai nhập địa chỉ 500 ký tự tiếng Việt có dấu (mỗi ký tự
+                    2–3 byte UTF-8). Lỗi sẽ là
+                    <code>index row size exceeds btree version 4 maximum</code>.
+                    Cách thoát: hạ xuống <code>varchar(300)</code>, hoặc tạo cột
+                    sinh tự <code>md5(name || address_text)</code> và unique
+                    index trên cột đó.
+                </p>
+            </div>
+
+            <h3>
+                B · Lọc <code>IsApproved</code> trong
+                <code>GetRestaurantsHandler</code>
+            </h3>
+
+            <p>
+                Hiện tại handler <code>ToListAsync()</code> toàn bảng rồi trả về
+                tất cả,
+                <strong
+                    >không có điều kiện nào về <code>IsApproved</code></strong
+                >. DB có 1 nhà hàng <code>is_approved = false</code> và
+                <code>GET /api/restaurants</code> trả chính nó về cho khách.
+            </p>
+
+            <p>Một dòng, chèn ngay sau <code>.AsNoTracking()</code>:</p>
+
+            <pre><code>.Where(r =&gt; r.IsApproved)   // nhà hàng chưa duyệt không được hiện ra</code></pre>
+
+            <div class="callout c-info">
+                <span class="t">Không sửa riêng lẻ</span>
+                <p>
+                    Handler này đang chờ bạn viết lại cho phân trang. Filter
+                    phải chạy <strong>trong DB</strong> (đặt
+                    <code>Where</code> trước
+                    <code>Skip</code>/<code>Take</code>) chứ không lọc trong RAM
+                    như hiện tại. Đặt sẵn dòng này thì lúc bạn viết lại không
+                    phải nghĩ lại.
+                </p>
+            </div>
+
+            <h3>C · Migration</h3>
+
+            <pre><code>dotnet ef migrations add AddRestaurantConstraintsAndUnique -p src\FoodHub.Infrastructure -s src\FoodHub.Api</code></pre>
+
+            <div class="callout c-warn">
+                <span class="t">Đọc file Up() trước khi áp</span>
+                <p>
+                    Phải xác nhận nó sinh ra
+                    <code>CreateCheckConstraint</code> +
+                    <code>CreateIndex</code> (với <code>isUnique: true</code>),
+                    <strong>không phải</strong> <code>DropColumn</code> +
+                    <code>AddColumn</code>. Cột đang tồn tại; nếu thấy hướng sai
+                    thì xoá file migration và tạo lại.
+                </p>
+            </div>
+
+            <pre><code>dotnet ef database update -p src\FoodHub.Infrastructure -s src\FoodHub.Api</code></pre>
+
+            <p><strong>Kiểm chứng:</strong></p>
+
+            <pre><code>docker exec dev-postgres psql -U glantt -d FoodHub -c "\d restaurants"</code></pre>
+
+            <p>
+                Kỳ vọng thấy <code>ck_restaurants_latitude</code>,
+                <code>ck_restaurants_longtitude</code>, và index
+                <code>ux_restaurants_name_address</code>.
+            </p>
+
+            <h2 id="s3"><span class="num">§3</span>Bảng đầy đủ 15 bảng mới</h2>
+
+            <p class="muted">
+                Cột bắt buộc có mặt ở mọi bảng nghiệp vụ:
+                <code>id uuid PK</code>,
+                <code>created_at timestamptz NOT NULL default now()</code>,
+                <code>updated_at timestamptz NULL</code>. Bảng dưới chỉ liệt kê
+                phần <em>riêng</em> của từng bảng.
+            </p>
+
+            <div class="card">
+                <h3>
+                    3.1 <code>customer_addresses</code> — sổ địa chỉ giao hàng
+                    <span class="tag t-g2">GĐ2</span>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>user_id</code></td>
+                            <td>uuid</td>
+                            <td>
+                                FK → <code>app_users.id</code>, ON DELETE
+                                CASCADE
+                            </td>
+                            <td>Xoá user thì xoá luôn sổ địa chỉ</td>
+                        </tr>
+                        <tr>
+                            <td><code>recipient_name</code></td>
+                            <td>varchar(200)</td>
+                            <td>NOT NULL</td>
+                            <td>Người nhận ≠ người đặt</td>
+                        </tr>
+                        <tr>
+                            <td><code>phone_number</code></td>
+                            <td>varchar(32)</td>
+                            <td>NOT NULL</td>
+                            <td>Shipper gọi số này</td>
+                        </tr>
+                        <tr>
+                            <td><code>address_text</code></td>
+                            <td>varchar(500)</td>
+                            <td>NOT NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>latitude</code></td>
+                            <td>numeric(9,6)</td>
+                            <td>NOT NULL, CHECK −90..90</td>
+                            <td>Tính phí ship theo khoảng cách</td>
+                        </tr>
+                        <tr>
+                            <td><code>longtitude</code></td>
+                            <td>numeric(9,6)</td>
+                            <td>NOT NULL, CHECK −180..180</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>label</code></td>
+                            <td>varchar(50)</td>
+                            <td>NULL</td>
+                            <td>"Nhà", "Văn phòng"</td>
+                        </tr>
+                        <tr>
+                            <td><code>is_default</code></td>
+                            <td>boolean</td>
+                            <td>NOT NULL default false</td>
+                            <td>Xem ghi chò partial index bên dưới</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout c-warn" style="margin-bottom: 0">
+                    <span class="t"
+                        >Partial unique index — 1 địa chỉ mặc định</span
+                    >
+                    <p>
+                        <code
+                            >CREATE UNIQUE INDEX
+                            ux_customer_addresses_one_default ON
+                            customer_addresses (user_id) WHERE is_default;</code
+                        >
+                    </p>
+                    <p>
+                        Index thường <code>(user_id, is_default)</code>
+                        <strong>không</strong> chặn được 2 dòng
+                        <code>is_default = false</code> trùng nhau — nó chỉ chặn
+                        trùng <em>cặp</em> giá trị. Muốn "mỗi user tối đa 1 mặc
+                        định" phải dùng partial index với điều kiện
+                        <code>WHERE</code>.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.2 <code>cuisines</code> — loại ẩm thực
+                    <span class="tag t-g2">GĐ2</span>
+                </h3>
+                <p class="muted">
+                    Trục duyệt chính trên ShopeeFood: "Bún bò", "Lẩu", "Trà
+                    sữa". Thiếu nó thì không có trang danh mục.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>name</code></td>
+                            <td>varchar(100)</td>
+                            <td>NOT NULL, UNIQUE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>slug</code></td>
+                            <td>varchar(120)</td>
+                            <td>NOT NULL, UNIQUE</td>
+                            <td>
+                                Dùng trong URL:
+                                <code>/api/cuisines/bun-bo</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>icon_url</code></td>
+                            <td>varchar(500)</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>sort_order</code></td>
+                            <td>int</td>
+                            <td>NOT NULL default 0</td>
+                            <td>Thứ tự hiển thị, nhỏ lên trước</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.3 <code>restaurant_hours</code> — giờ mở cửa
+                    <span class="tag t-g2">GĐ2</span>
+                </h3>
+                <div class="callout c-bad" style="margin-top: 0">
+                    <span class="t"
+                        >Không có bảng này thì vẫn nhận đơn lúc 3h sáng</span
+                    >
+                    <p>
+                        Đây là ràng buộc nghiệp vụ cơ bản của app đồ ăn, hiện
+                        hoàn toàn vắng mặt.
+                    </p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>restaurant_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>restaurants.id</code>, CASCADE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>day_of_week</code></td>
+                            <td>int</td>
+                            <td>NOT NULL, CHECK 0..6</td>
+                            <td>
+                                0 = Chủ nhật. Dùng
+                                <code>System.DayOfWeek</code> khớp thứ tự
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>opens_at</code></td>
+                            <td>time</td>
+                            <td>NULL</td>
+                            <td>NULL = đóng cửa cả ngày</td>
+                        </tr>
+                        <tr>
+                            <td><code>closes_at</code></td>
+                            <td>time</td>
+                            <td>NULL</td>
+                            <td>Quán mở qua đêm: 18h → 02h</td>
+                        </tr>
+                        <tr>
+                            <td><code>is_closed</code></td>
+                            <td>boolean</td>
+                            <td>NOT NULL default false</td>
+                            <td>Ngày lễ đóng, không xoá dòng</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <strong
+                                    >UNIQUE (restaurant_id, day_of_week)</strong
+                                >
+                                — mỗi ngày đúng một dòng
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.4 <code>restaurant_closures</code> — nghỉ lễ / Tết
+                    <span class="tag t-g4">GĐ4</span>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                        </tr>
+                        <tr>
+                            <td><code>restaurant_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>restaurants.id</code>, CASCADE</td>
+                        </tr>
+                        <tr>
+                            <td><code>from_date</code></td>
+                            <td>date</td>
+                            <td>NOT NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>to_date</code></td>
+                            <td>date</td>
+                            <td>
+                                NOT NULL, CHECK
+                                <code>to_date &gt;= from_date</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>reason</code></td>
+                            <td>varchar(200)</td>
+                            <td>NULL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.5 <code>carts</code> + <code>cart_items</code>
+                    <span class="tag t-g2">GĐ2</span>
+                </h3>
+                <div class="callout c-info" style="margin-top: 0">
+                    <span class="t"
+                        >Ràng buộc quan trọng nhất của giỏ hàng</span
+                    >
+                    <p>
+                        <strong
+                            >Một giỏ chỉ được thuộc đúng một nhà hàng</strong
+                        >
+                        — vì mỗi nhà hàng có phí giao hàng và thời gian chuẩn bị
+                        riêng. Trộn món của 2 quán vào 1 giỏ là sai mô hình
+                        nghiệp vụ.
+                    </p>
+                </div>
+                <h4><code>carts</code></h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                        </tr>
+                        <tr>
+                            <td><code>user_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>app_users.id</code>, CASCADE</td>
+                        </tr>
+                        <tr>
+                            <td><code>restaurant_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>restaurants.id</code>, CASCADE</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                                <strong>UNIQUE (user_id, restaurant_id)</strong>
+                                — 1 giỏ / 1 khách / 1 nhà hàng. Cho phép 1 khách
+                                có giỏ ở nhiều quán khác nhau.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4><code>cart_items</code></h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>cart_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>carts.id</code>, CASCADE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>menu_item_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>menu_items.id</code>, CASCADE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>quantity</code></td>
+                            <td>int</td>
+                            <td>NOT NULL, CHECK &gt; 0</td>
+                            <td>Giỏ lưu <em>số lượng</em>, không lưu tiền</td>
+                        </tr>
+                        <tr>
+                            <td><code>note</code></td>
+                            <td>varchar(500)</td>
+                            <td>NULL</td>
+                            <td>"Ít cay", "không hành"</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <strong>UNIQUE (cart_id, menu_item_id)</strong>
+                                — thêm cùng món thì tăng quantity, không tạo
+                                dòng mới
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.6 <code>orders</code> — bảng lõi
+                    <span class="tag t-g2">GĐ2</span>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>order_no</code></td>
+                            <td>varchar(32)</td>
+                            <td>NOT NULL, <strong>UNIQUE</strong></td>
+                            <td>
+                                Mã hiển thị cho khách:
+                                <code>FH250928-0001</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>user_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → users, <strong>RESTRICT</strong></td>
+                            <td>Không xoá user đã có đơn</td>
+                        </tr>
+                        <tr>
+                            <td><code>restaurant_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → restaurants, <strong>RESTRICT</strong></td>
+                            <td>Nhà hàng nghỉ kinh doanh vẫn giữ đơn cũ</td>
+                        </tr>
+                        <tr>
+                            <td><code>status</code></td>
+                            <td>int</td>
+                            <td>NOT NULL, CHECK 0..6</td>
+                            <td>Map từ enum <code>OrderStatus</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>recipient_name</code></td>
+                            <td>varchar(200)</td>
+                            <td>NOT NULL</td>
+                            <td><strong>snapshot</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>phone_number</code></td>
+                            <td>varchar(32)</td>
+                            <td>NOT NULL</td>
+                            <td><strong>snapshot</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>address_text</code></td>
+                            <td>varchar(500)</td>
+                            <td>NOT NULL</td>
+                            <td><strong>snapshot</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>latitude</code></td>
+                            <td>numeric(9,6)</td>
+                            <td>NOT NULL</td>
+                            <td><strong>snapshot</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>longtitude</code></td>
+                            <td>numeric(9,6)</td>
+                            <td>NOT NULL</td>
+                            <td><strong>snapshot</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>subtotal</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK ≥ 0</td>
+                            <td>Tổng tiền món</td>
+                        </tr>
+                        <tr>
+                            <td><code>delivery_fee</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK ≥ 0</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>discount_amount</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL default 0, CHECK ≥ 0</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>total_amount</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK ≥ 0</td>
+                            <td><code>= subtotal + fee − discount</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>note</code></td>
+                            <td>varchar(500)</td>
+                            <td>NULL</td>
+                            <td>Ghi chú chung cho nhà hàng</td>
+                        </tr>
+                        <tr>
+                            <td><code>placed_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                            <td>Lúc chuyển sang <code>Placed</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>accepted_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>ready_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>picked_up_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>delivered_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>cancelled_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>cancel_reason</code></td>
+                            <td>varchar(200)</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>idempotency_key</code></td>
+                            <td>varchar(64)</td>
+                            <td>NULL, <strong>UNIQUE</strong></td>
+                            <td>Chống double-click tạo 2 đơn</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout c-warn" style="margin-bottom: 0">
+                    <span class="t">Vì sao RESTRICT mà không CASCADE</span>
+                    <p>
+                        Xoá nhà hàng khi đã có đơn là mất lịch sử giao hàng —
+                        khách khiếu nại thì không còn dữ liệu đối chiếu.
+                        <code>RESTRICT</code> buộc phải xử lý có kiểm soát.
+                        <code>CASCADE</code> ở đây sẽ xoá luôn cả
+                        <code>order_items</code> và lịch sử trạng thái.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.7 <code>order_items</code> — bảng quan trọng nhất về kiến
+                    trúc <span class="tag t-g2">GĐ2</span>
+                </h3>
+                <div class="callout c-bad" style="margin-top: 0">
+                    <span class="t"
+                        >Snapshot là bắt buộc, không phải tuỳ chọn</span
+                    >
+                    <p>
+                        Nếu nhà hàng tăng giá món từ 30k lên 50k, đơn cũ
+                        <strong>không được</strong> đổi theo. Vì vậy
+                        <code>item_name</code> và <code>unit_price</code> phải
+                        <strong>chép lại</strong> vào đơn lúc đặt, không đọc từ
+                        <code>menu_items</code> khi hiển thị lịch sử.
+                    </p>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>order_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>orders.id</code>, CASCADE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>menu_item_id</code></td>
+                            <td>uuid</td>
+                            <td>
+                                FK → <code>menu_items.id</code>,
+                                <strong>SET NULL</strong>
+                            </td>
+                            <td>
+                                NULL sau khi nhà hàng xoá món — đơn cũ vẫn còn
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>item_name</code></td>
+                            <td>varchar(200)</td>
+                            <td>NOT NULL</td>
+                            <td><strong>snapshot</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>unit_price</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK ≥ 0</td>
+                            <td><strong>snapshot</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>quantity</code></td>
+                            <td>int</td>
+                            <td>NOT NULL, CHECK &gt; 0</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>subtotal</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK ≥ 0</td>
+                            <td>
+                                <strong>snapshot</strong> =
+                                <code>unit_price × quantity</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>note</code></td>
+                            <td>varchar(500)</td>
+                            <td>NULL</td>
+                            <td>"bỏ hành"</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.8 <code>order_status_history</code> — timeline tra soát
+                    <span class="tag t-g2">GĐ2</span>
+                </h3>
+                <p class="muted">
+                    Khiếu nại "shipper giao trễ 40 phút" mà không có bảng này
+                    thì không chứng minh được gì.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>order_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>orders.id</code>, CASCADE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>from_status</code></td>
+                            <td>int</td>
+                            <td>NULL</td>
+                            <td>NULL = lần khởi tạo đầu tiên</td>
+                        </tr>
+                        <tr>
+                            <td><code>to_status</code></td>
+                            <td>int</td>
+                            <td>NOT NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>changed_by_user_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → users, SET NULL</td>
+                            <td>
+                                Ai đã bấm. NULL = hệ thống tự chuyển (timeout)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>reason</code></td>
+                            <td>varchar(200)</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>changed_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NOT NULL default now()</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.9 <code>payments</code> <span class="tag t-g4">GĐ5</span>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>order_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → <code>orders.id</code>, RESTRICT</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>provider</code></td>
+                            <td>varchar(20)</td>
+                            <td>NOT NULL, CHECK IN ('vnpay','momo','cod')</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>status</code></td>
+                            <td>int</td>
+                            <td>NOT NULL, CHECK 0..3</td>
+                            <td>Pending / Success / Failed / Refunded</td>
+                        </tr>
+                        <tr>
+                            <td><code>amount</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK ≥ 0</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>provider_txn_id</code></td>
+                            <td>varchar(128)</td>
+                            <td>NULL, <strong>UNIQUE</strong></td>
+                            <td>Chống IPN gửi lại 2 lần</td>
+                        </tr>
+                        <tr>
+                            <td><code>idempotency_key</code></td>
+                            <td>varchar(64)</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>paid_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>raw_payload</code></td>
+                            <td>jsonb</td>
+                            <td>NULL</td>
+                            <td>
+                                Lưu nguyên IPN để đối chiếu khi có khiếu nại
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.10 <code>reviews</code> <span class="tag t-g4">GĐ4</span>
+                </h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>order_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → orders, <strong>UNIQUE</strong></td>
+                            <td>1 đơn chỉ đánh giá 1 lần</td>
+                        </tr>
+                        <tr>
+                            <td><code>restaurant_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → restaurants, CASCADE</td>
+                            <td>Denormalize để đếm rating nhanh</td>
+                        </tr>
+                        <tr>
+                            <td><code>user_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → users, CASCADE</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>menu_item_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → menu_items, SET NULL</td>
+                            <td>NULL = đánh giá cả quán</td>
+                        </tr>
+                        <tr>
+                            <td><code>rating</code></td>
+                            <td>int</td>
+                            <td>NOT NULL, CHECK 1..5</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>comment</code></td>
+                            <td>varchar(1000)</td>
+                            <td>NULL</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="muted" style="margin-bottom: 0">
+                    Không có bảng này thì hai cột <code>rating_avg</code> /
+                    <code>rating_count</code> trên <code>restaurants</code> phải
+                    hardcode.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.11 <code>shipper_profiles</code> +
+                    <code>order_deliveries</code>
+                    <span class="tag t-g4">GĐ4</span>
+                </h3>
+                <p class="muted">
+                    Roadmap đặt "gán shipper" ở GĐ4 bằng Redis GEO — nhưng bảng
+                    lưu lịch sử giao vẫn phải có, vì Redis không giữ dữ liệu
+                    vĩnh viễn.
+                </p>
+                <h4><code>shipper_profiles</code></h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>user_id</code></td>
+                            <td>uuid</td>
+                            <td>PK, FK → users, CASCADE</td>
+                        </tr>
+                        <tr>
+                            <td><code>is_available</code></td>
+                            <td>boolean</td>
+                            <td>NOT NULL default false</td>
+                        </tr>
+                        <tr>
+                            <td><code>vehicle_type</code></td>
+                            <td>varchar(20)</td>
+                            <td>NULL, CHECK IN ('bike','car')</td>
+                        </tr>
+                        <tr>
+                            <td><code>latitude</code></td>
+                            <td>numeric(9,6)</td>
+                            <td>NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>longtitude</code></td>
+                            <td>numeric(9,6)</td>
+                            <td>NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>current_order_id</code></td>
+                            <td>uuid</td>
+                            <td>NULL, FK → orders</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4><code>order_deliveries</code></h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                        </tr>
+                        <tr>
+                            <td><code>order_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → orders, <strong>UNIQUE</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>shipper_user_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → users, SET NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>assigned_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>picked_up_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>delivered_at</code></td>
+                            <td>timestamptz</td>
+                            <td>NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>proof_image_url</code></td>
+                            <td>varchar(500)</td>
+                            <td>NULL</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>
+                    3.12 <code>vouchers</code> + <code>order_vouchers</code>
+                    <span class="tag t-g4">GĐ4</span>
+                </h3>
+                <h4><code>vouchers</code></h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                        </tr>
+                        <tr>
+                            <td><code>code</code></td>
+                            <td>varchar(32)</td>
+                            <td>NOT NULL, <strong>UNIQUE</strong></td>
+                        </tr>
+                        <tr>
+                            <td><code>description</code></td>
+                            <td>varchar(200)</td>
+                            <td>NULL</td>
+                        </tr>
+                        <tr>
+                            <td><code>discount_type</code></td>
+                            <td>int</td>
+                            <td>NOT NULL, CHECK 0..1</td>
+                            <td>0 = Percent, 1 = Fixed</td>
+                        </tr>
+                        <tr>
+                            <td><code>discount_value</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK &gt; 0</td>
+                        </tr>
+                        <tr>
+                            <td><code>min_order_value</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL default 0</td>
+                        </tr>
+                        <tr>
+                            <td><code>max_discount</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NULL</td>
+                            <td>Chặn giảm % không trần</td>
+                        </tr>
+                        <tr>
+                            <td><code>usage_limit</code></td>
+                            <td>int</td>
+                            <td>NULL</td>
+                            <td>NULL = không giới hạn</td>
+                        </tr>
+                        <tr>
+                            <td><code>used_count</code></td>
+                            <td>int</td>
+                            <td>NOT NULL default 0</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <code>starts_at</code> / <code>ends_at</code>
+                            </td>
+                            <td>timestamptz</td>
+                            <td>NOT NULL</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>is_active</code></td>
+                            <td>boolean</td>
+                            <td>NOT NULL default true</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h4><code>order_vouchers</code> (bảng nối)</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>order_id</code></td>
+                            <td>uuid</td>
+                            <td>PK, FK → orders, CASCADE</td>
+                        </tr>
+                        <tr>
+                            <td><code>voucher_id</code></td>
+                            <td>uuid</td>
+                            <td>PK, FK → vouchers</td>
+                        </tr>
+                        <tr>
+                            <td><code>discount_amount</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL, CHECK ≥ 0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="muted" style="margin-bottom: 0">
+                    Lưu <code>discount_amount</code> đã áp dụng, không tính lại
+                    từ voucher sau này — voucher có thể bị sửa giảm giá.
+                </p>
+            </div>
+
+            <h2 id="s4">
+                <span class="num">§4</span>Cột thêm vào bảng đang có
+            </h2>
+
+            <div class="card">
+                <h3><code>restaurants</code> — bổ sung 9 cột</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Vì sao</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>owner_user_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → users, NULL lúc đầu</td>
+                            <td>
+                                <strong>Khuyết điểm lớn nhất hiện tại.</strong>
+                                API chưa có <code>[Authorize]</code> — ai cũng
+                                <code>PUT</code>/<code>PATCH /approval</code>
+                                được nhà hàng bất kỳ
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>cuisine_id</code></td>
+                            <td>uuid</td>
+                            <td>FK → cuisines, NULL</td>
+                            <td>Trục duyệt theo loại</td>
+                        </tr>
+                        <tr>
+                            <td><code>phone_number</code></td>
+                            <td>varchar(32)</td>
+                            <td>NULL</td>
+                            <td>Khách cần gọi cho quán khi giao sai</td>
+                        </tr>
+                        <tr>
+                            <td><code>image_url</code></td>
+                            <td>varchar(500)</td>
+                            <td>NULL</td>
+                            <td>Danh sách không có ảnh trông như bảng Excel</td>
+                        </tr>
+                        <tr>
+                            <td><code>delivery_fee</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL default 0, CHECK ≥ 0</td>
+                            <td>Hiện dưới tên quán + input trang thanh toán</td>
+                        </tr>
+                        <tr>
+                            <td><code>min_order_value</code></td>
+                            <td>numeric(18,2)</td>
+                            <td>NOT NULL default 0, CHECK ≥ 0</td>
+                            <td>"Mua thêm 20k nữa đi"</td>
+                        </tr>
+                        <tr>
+                            <td><code>preparation_minutes</code></td>
+                            <td>int</td>
+                            <td>NOT NULL default 20, CHECK &gt; 0</td>
+                            <td>Ước lượng giao tới nhà</td>
+                        </tr>
+                        <tr>
+                            <td><code>rating_avg</code></td>
+                            <td>numeric(3,2)</td>
+                            <td>NOT NULL default 0, CHECK 0..5</td>
+                            <td>Sao hiển thị</td>
+                        </tr>
+                        <tr>
+                            <td><code>rating_count</code></td>
+                            <td>int</td>
+                            <td>NOT NULL default 0, CHECK ≥ 0</td>
+                            <td>"(1.2k)"</td>
+                        </tr>
+                        <tr>
+                            <td><code>is_active</code></td>
+                            <td>boolean</td>
+                            <td>NOT NULL default true</td>
+                            <td>
+                                Chủ quán tự tắt mở cửa, khác với admin duyệt
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="callout c-info" style="margin-bottom: 0">
+                    <span class="t">is_active khác is_approved</span>
+                    <p>
+                        <code>is_approved</code> = quản trị viên duyệt (quyền
+                        vào thị trường). <code>is_active</code> = chủ quán tự
+                        đóng cửa (tạm nghỉ). Một quán đã duyệt nhưng hết nguyên
+                        liệu thì <code>is_approved = true</code>,
+                        <code>is_active = false</code> — không hiện ra nhưng
+                        không mất dữ liệu.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>
+                    <code>app_users</code> — dùng ASP.NET Identity, không tự chế
+                </h3>
+                <p class="muted" style="margin-top: 0">
+                    Identity tự sinh bảng <code>AspNetUsers</code> /
+                    <code>AspNetRoles</code> / <code>AspNetUserRoles</code>. Kế
+                    hoạch:
+                    <code>ApplicationUser : IdentityUser&lt;Guid&gt;</code>, chỉ
+                    thêm cột riêng.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Cột thêm</th>
+                            <th>Kiểu</th>
+                            <th>Ràng buộc</th>
+                            <th>Ghi chú</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>id</code></td>
+                            <td>uuid</td>
+                            <td>PK</td>
+                            <td>
+                                Identity dùng Guid, khớp toàn bộ PK của hệ thống
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>full_name</code></td>
+                            <td>varchar(200)</td>
+                            <td>NOT NULL</td>
+                            <td>
+                                IdentityUser mặc định chỉ có
+                                <code>UserName</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                Cột có sẵn, không cần thêm: <code>email</code>,
+                                <code>phone_number</code>,
+                                <code>password_hash</code>,
+                                <code>lockout_end</code>,
+                                <code>access_failed_count</code>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="muted" style="margin-bottom: 0">
+                    Vai trò lấy từ <code>AspNetUserRoles</code>, không cột
+                    <code>role</code> riêng — đó là cách Identity thiết kế, đừng
+                    tự chế lại.
+                </p>
+            </div>
+
+            <h2 id="s5"><span class="num">§5</span>Cây thư mục file cần tạo</h2>
+
+            <p class="muted">
+                Bám đúng convention hiện có: 1 thư mục con theo module, mỗi use
+                case 1 thư mục riêng gồm Command/Query + Handler + Validator là
+                3 file.
+            </p>
+
+            <pre
+                class="tree"
+            ><span class="c">// ═══ DOMAIN — mỗi aggregate 1 thư mục ═══</span>
+<span class="c">//   Quy ước đang có: Domain/Restaurants/ chứa cả Restaurant lẫn MenuItem.</span>
+<span class="c">//   Giữ nguyên để không phá cấu trúc đang build.</span>
+src/FoodHub.Domain/
+  Orders/
+    <span class="n">Order.cs</span>                          <span class="c">AggregateRoot&lt;Guid&gt;</span>
+    <span class="n">OrderStatus.cs</span>                    <span class="c">enum</span>
+    <span class="n">OrderItem.cs</span>                      <span class="c">Entity&lt;Guid&gt;</span>
+    <span class="n">OrderStatusHistoryEntry.cs</span>        <span class="c">Entity&lt;Guid&gt;</span>
+    <span class="n">OrderPlacedEvent.cs</span>               <span class="c">sealed record : IDomainEvent</span>
+    <span class="n">OrderCancelledEvent.cs</span>            <span class="c">sealed record : IDomainEvent</span>
+  Carts/
+    <span class="n">Cart.cs</span>
+    <span class="n">CartItem.cs</span>
+  Users/
+    <span class="n">CustomerAddress.cs</span>
+    <span class="n">ApplicationUser.cs</span>                <span class="c">cần package Identity</span>
+  Catalog/
+    <span class="n">Cuisine.cs</span>
+    <span class="n">RestaurantHours.cs</span>
+    <span class="n">RestaurantClosure.cs</span>
+  Reviews/
+    <span class="n">Review.cs</span>
+  Payments/
+    <span class="n">Payment.cs</span>
+    <span class="n">PaymentStatus.cs</span>                  <span class="c">enum</span>
+  Delivery/
+    <span class="n">ShipperProfile.cs</span>
+    <span class="n">OrderDelivery.cs</span>
+
+<span class="c">// ═══ APPLICATION ═══</span>
+<span class="c">//   Mỗi use case = 1 thư mục, 3 file. Command trong record kèm result.</span>
+src/FoodHub.Application/
+  Orders/
+    Commands/
+      PlaceOrder/
+        <span class="n">PlaceOrderCommand.cs</span>          <span class="c">IRequest&lt;PlaceOrderResult&gt;</span>
+        <span class="n">PlaceOrderHandler.cs</span>         <span class="c">internal sealed</span>
+        <span class="n">PlaceOrderValidator.cs</span>        <span class="c">public sealed — xem giải thích</span>
+      AcceptOrder/           <span class="c">3 file</span>
+      RejectOrder/           <span class="c">3 file</span>
+      CancelOrder/           <span class="c">3 file</span>
+      MarkOrderPreparing/    <span class="c">3 file</span>
+      MarkOrderReady/        <span class="c">3 file</span>
+      MarkOrderPickedUp/     <span class="c">3 file</span>
+      MarkOrderDelivered/    <span class="c">3 file</span>
+    Queries/
+      GetOrderById/          <span class="c">2 file — Query không cần Validator</span>
+      GetMyOrders/           <span class="c">2 file</span>
+      GetRestaurantOrders/   <span class="c">2 file</span>
+  Carts/
+    Commands/  AddToCart/ UpdateCartItemQuantity/ RemoveFromCart/ ClearCart/
+    Queries/   GetCart/
+  Users/
+    Commands/  Register/ ChangePassword/
+    Queries/   GetMyProfile/ UpdateProfile/
+  Addresses/
+    Commands/  AddAddress/ SetDefaultAddress/ DeleteAddress/
+    Queries/   GetMyAddresses/
+  Catalog/
+    Queries/   GetCuisines/ GetRestaurantsByCuisine/
+  Reviews/
+    Commands/  CreateReview/
+  Payments/
+    Queries/   GetPaymentByOrder/
+
+  Abstractions/
+    <span class="n">ForbiddenException.cs</span>            <span class="c">MỚI → 403</span>
+    <span class="n">BusinessRuleException.cs</span>         <span class="c">MỚI → 422</span>
+  Behaviors/
+    <span class="n">TransactionBehavior.cs</span>           <span class="c">MỚI — chỉ Command</span>
+
+<span class="c">// ═══ INFRASTRUCTURE — 1 file config / 1 entity ═══</span>
+src/FoodHub.Infrastructure/
+  Persistence/
+    <span class="n">AppDbContext.cs</span>                    <span class="c">thêm 15 DbSet</span>
+    Configurations/
+      <span class="n">OrderConfiguration.cs</span>
+      <span class="n">OrderItemConfiguration.cs</span>
+      <span class="n">OrderStatusHistoryConfiguration.cs</span>
+      <span class="n">CartConfiguration.cs</span>
+      <span class="n">CartItemConfiguration.cs</span>
+      <span class="n">CustomerAddressConfiguration.cs</span>
+      <span class="n">CuisineConfiguration.cs</span>
+      <span class="n">RestaurantHoursConfiguration.cs</span>
+      <span class="n">RestaurantClosureConfiguration.cs</span>
+      <span class="n">ReviewConfiguration.cs</span>
+      <span class="n">PaymentConfiguration.cs</span>
+      <span class="n">ShipperProfileConfiguration.cs</span>
+      <span class="n">OrderDeliveryConfiguration.cs</span>
+      <span class="n">VoucherConfiguration.cs</span>
+      <span class="n">OrderVoucherConfiguration.cs</span>
+      <span class="n">RestaurantConfiguration.cs</span>     <span class="c">SỬA</span>
+      <span class="n">MenuItemConfiguration.cs</span>        <span class="c">SỬA</span>
+  Migrations/
+
+<span class="c">// ═══ API ═══</span>
+src/FoodHub.Api/
+  Controllers/
+    Orders/
+      <span class="n">OrdersController.cs</span>
+    Carts/
+      <span class="n">CartsController.cs</span>
+    Auth/
+      <span class="n">AuthController.cs</span>
+    Addresses/
+      <span class="n">AddressesController.cs</span>
+    Catalog/
+      <span class="n">CuisinesController.cs</span>
+    Reviews/
+      <span class="n">ReviewsController.cs</span>
+  Middleware/
+    <span class="n">ForbiddenExceptionHandler.cs</span>      <span class="c">MỚI → 403</span>
+    <span class="n">BusinessRuleExceptionHandler.cs</span>    <span class="c">MỚI → 422</span>
+    <span class="n">UnauthorizedExceptionHandler.cs</span>    <span class="c">MỚI → 401</span>
+</pre>
+
+            <div class="callout c-warn">
+                <span class="t"
+                    >Validator phải public, không phải internal</span
+                >
+                <p>
+                    <code>AddValidatorsFromAssembly()</code> mặc định
+                    <code>includeInternalTypes: false</code>. Validator
+                    <code>internal</code> bị <strong>bỏ qua im lặng</strong> vì
+                    <code>ValidationBehavior</code> làm
+                    <code>if (validators.Any())</code> — không có validator nào
+                    thì coi như hợp lệ. Handler thì <em>được</em>
+                    <code>internal</code> vì MediatR tạo qua reflection.
+                </p>
+            </div>
+
+            <h2 id="s6">
+                <span class="num">§6</span>Exception · Middleware · Behavior mới
+            </h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Loại</th>
+                        <th>File</th>
+                        <th>Status</th>
+                        <th>Khi nào dùng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Exception</td>
+                        <td><code>ForbiddenException</code></td>
+                        <td>403</td>
+                        <td>Sửa nhà hàng không phải của mình</td>
+                    </tr>
+                    <tr>
+                        <td>Exception</td>
+                        <td><code>BusinessRuleException</code></td>
+                        <td>422</td>
+                        <td>
+                            State machine từ chối chuyển trạng thái — "đơn đang
+                            <code>Preparing</code> không huỷ được"
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Middleware</td>
+                        <td><code>ForbiddenExceptionHandler</code></td>
+                        <td>403</td>
+                        <td>
+                            Bọc <code>ForbiddenException</code> thành
+                            <code>ProblemDetails</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Middleware</td>
+                        <td><code>BusinessRuleExceptionHandler</code></td>
+                        <td>422</td>
+                        <td>Idem</td>
+                    </tr>
+                    <tr>
+                        <td>Behavior</td>
+                        <td><code>TransactionBehavior</code></td>
+                        <td>—</td>
+                        <td>
+                            Bọc <code>SaveChangesAsync</code> trong transaction.
+                            <strong>Chỉ Command</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout c-bad">
+                <span class="t">TransactionBehavior — hai cái bẫy</span>
+                <p>
+                    <strong>1.</strong> Phải kiểm tra <code>request</code> là
+                    <code>IRequest</code> (Command) hay
+                    <code>IRequest&lt;T&gt;</code> (Query). Query
+                    <strong>không</strong> mở transaction.
+                </p>
+                <p>
+                    <strong>2.</strong> Nếu handler đã tự gọi
+                    <code>SaveChangesAsync</code> thì transaction đã commit
+                    trước khi behavior kịp bọc. Với <code>PlaceOrder</code> phải
+                    chọn một trong hai: bỏ
+                    <code>unitOfWork.SaveChangesAsync</code> khỏi handler, hoặc
+                    để behavior lo.
+                </p>
+            </div>
+
+            <div class="callout c-info">
+                <span class="t">Thứ tự đăng ký behavior</span>
+                <p>
+                    Đăng ký đầu = bọc ngoài = chạy trước. Thứ tự hiện tại đã
+                    chốt trong
+                    <code>DependencyInjection.cs</code>:
+                    <strong>validation → logging → transaction → cache</strong>.
+                </p>
+            </div>
+
+            <h2 id="s7">
+                <span class="num">§7</span>Đăng ký trong <code>Program.cs</code>
+            </h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Hạng mục</th>
+                        <th>Cần làm gì</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Identity</td>
+                        <td>
+                            Thêm package
+                            <code
+                                >Microsoft.AspNetCore.Identity.EntityFrameworkCore</code
+                            >; <code>AddIdentityApiEndpoints</code> hoặc
+                            <code>AddIdentityCore</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>JWT</td>
+                        <td>
+                            <code>AddAuthentication(JwtBearerDefaults)</code> +
+                            <code>AddJwtBearer</code> trỏ vào
+                            <code>Jwt:Issuer</code> / <code>Jwt:Key</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Authorization</td>
+                        <td>
+                            <code>AddAuthorization</code>; tạo policy
+                            <code>Admin</code>, <code>RestaurantOwner</code>,
+                            <code>Shipper</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Pipeline</td>
+                        <td>
+                            <code>UseAuthentication()</code> trước
+                            <code>UseAuthorization()</code> — sai thứ tự là 401
+                            vô nghĩa
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Exception handler</td>
+                        <td>
+                            Thêm 3 handler mới vào
+                            <code>AddExceptionHandler</code> (dòng 44–46 hiện
+                            tại)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>CORS</td>
+                        <td>
+                            <code>AddCors</code> — Blazor chạy origin khác nếu
+                            không phải Blazor Server
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Rate limit</td>
+                        <td>
+                            <code>AddRateLimiter</code> — nhất thiết cho
+                            <code>/auth/login</code>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="s8"><span class="num">§8</span>Checklist theo giai đoạn</h2>
+
+            <p class="muted">
+                Tick tự động lưu vào trình duyệt. Bấm <em>Xoá tất cả tick</em> ở
+                cuối trang để làm lại từ đầu.
+            </p>
+
+            <h3>
+                ① Giai đoạn 1 — đóng nốt <span class="tag t-now">Ngay</span>
+            </h3>
+            <ul class="chk">
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm 2 CHECK constraint lat/lng vào
+                            <code>RestaurantConfiguration</code>
+                            <span class="hint"
+                                >Dùng
+                                <code
+                                    >builder.ToTable("restaurants", t =&gt; {
+                                    t.HasCheckConstraint(...) })</code
+                                >
+                                — không dùng
+                                <code>HasCheckConstraint</code> trực tiếp
+                                (obsolete ở EF 8+)</span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm CHECK <code>price &gt; 0</code> vào
+                            <code>MenuItemConfiguration</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm unique index
+                            <code>ux_restaurants_name_address</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Xoá
+                            <code>builder.HasIndex(r =&gt; r.Name)</code> cũ (đã
+                            thành thừa)</span
+                        ></label
+                    >
+                </li>
+                <li class="skip">
+                    <span class="txt"
+                        ><s
+                            >Hạ <code>CreateRestaurantHandler</code> từ 4 cột
+                            xuống 2 cột</s
+                        >
+                        — <strong>không làm</strong>
+                        <span class="hint"
+                            >Đã chốt ở §2: handler giữ 4 cột, unique index 2 cột
+                            là lưới an toàn cuối. Không phải lệch logic, là hai
+                            tầng khác nhau.</span
+                        ></span
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm <code>.Where(r =&gt; r.IsApproved)</code> vào
+                            <code>GetRestaurantsHandler</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code
+                                >migrations add
+                                AddRestaurantConstraintsAndUnique</code
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><strong>Đọc file <code>Up()</code> sinh ra</strong>
+                            — xác nhận <code>CreateCheckConstraint</code> +
+                            <code>CreateIndex</code>, không phải Drop/Add
+                            <span class="hint"
+                                >Bỏ qua bước này là dễ gặp nhất trong toàn bộ
+                                luồng EF.</span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>dotnet ef database update</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Verify: <code>\d restaurants</code> thấy
+                            <code>ck_restaurants_latitude</code> +
+                            <code>ux_restaurants_name_address</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Test tay: POST trùng tên+địa chỉ ở 2 request song
+                            song → phải có 1 cái 409</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Viết lại <code>GetRestaurantsHandler</code> cho
+                            phân trang đúng
+                            <span class="hint"
+                                >Filter trong DB → OrderBy → Select projection →
+                                ToPageResultAsync. Xoá
+                                <code>ToListAsync</code> toàn bảng và
+                                <code>throw new Exception</code> chết.</span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm <code>GetRestaurantsValidator</code>:
+                            PageNumber ≥ 1, PageSize 1..100
+                            <span class="hint"
+                                >Chặn Skip âm (Npgsql trả 500) và PageSize = 0 →
+                                <code>(int)Math.Ceiling(Infinity)</code> =
+                                <code>int.MinValue</code></span
+                            ></span
+                        ></label
+                    >
+                </li>
+            </ul>
+
+            <h3>② Giai đoạn 2 — Auth <span class="tag t-g2">GĐ2</span></h3>
+            <ul class="chk">
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm package Identity + JwtBearer vào
+                            <code>Directory.Packages.props</code>
+                            <span class="hint"
+                                >CPM — version nằm đúng 1 chỗ duy nhất</span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code
+                                >ApplicationUser :
+                                IdentityUser&lt;Guid&gt;</code
+                            >
+                            + cột <code>full_name</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Seed 4 vai trò: Admin, Customer, RestaurantOwner,
+                            Shipper</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>migrations add</code> cho Identity +
+                            <code>database update</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Sinh + ký JWT. Khoá đặt trong User Secrets,
+                            <strong>không</strong> vào
+                            <code>appsettings.json</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>/auth/register</code> — tự kiểm tra
+                            <code>PasswordHasher</code> của Identity thay vì tự
+                            băm</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>/auth/login</code> +
+                            <code>/auth/refresh</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>UseAuthentication()</code> trước
+                            <code>UseAuthorization()</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm <code>[Authorize]</code> vào
+                            <code>Approve</code> / <code>Reject</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Rate limit cho <code>/auth/login</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Thêm <code>ForbiddenException</code> +
+                            <code>ForbiddenExceptionHandler</code> → 403</span
+                        ></label
+                    >
+                </li>
+            </ul>
+
+            <h3>
+                ③ Giai đoạn 2 — Danh mục mở rộng
+                <span class="tag t-g2">GĐ2</span>
+            </h3>
+            <ul class="chk">
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>Cuisine</code> entity + configuration +
+                            <code>GetCuisines</code> query</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>RestaurantHours</code> entity. UNIQUE
+                            <code>(restaurant_id, day_of_week)</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>CustomerAddress</code> entity + 4 use case
+                            (thêm / sửa / đặt mặc định / xoá)</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Partial unique index cho 1 địa chỉ mặc định
+                            <span class="hint"
+                                ><code>WHERE is_default</code> — index thường
+                                không chặn được</span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Migration cho 3 bảng trên.
+                            <strong
+                                >Đọc <code>Up()</code> trước khi áp.</strong
+                            ></span
+                        ></label
+                    >
+                </li>
+            </ul>
+
+            <h3>④ Giai đoạn 2 — Giỏ hàng <span class="tag t-g2">GĐ2</span></h3>
+            <ul class="chk">
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>Cart</code> +
+                            <code>CartItem</code> entity</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >UNIQUE <code>(user_id, restaurant_id)</code> trên
+                            carts
+                            <span class="hint"
+                                >1 giỏ chỉ thuộc 1 nhà hàng</span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >UNIQUE <code>(cart_id, menu_item_id)</code> trên
+                            cart_items</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>AddToCart</code> — thêm cùng món thì tăng
+                            quantity, không tạo dòng mới</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>GetCart</code> query — giá tính lúc hiển thị,
+                            không lưu trong giỏ</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Chặn thêm món của nhà hàng khác vào giỏ đang có →
+                            <code>ConflictException</code> 409</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>UpdateCartItemQuantity</code> +
+                            <code>RemoveFromCart</code> +
+                            <code>ClearCart</code></span
+                        ></label
+                    >
+                </li>
+            </ul>
+
+            <h3>
+                ⑤ Giai đoạn 2 — Đơn hàng <span class="tag t-g2">GĐ2</span> phần
+                khó nhất
+            </h3>
+            <ul class="chk">
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>OrderStatus</code> enum —
+                            <strong>7 trạng thái, 3 vai trò</strong>
+                            <span class="hint"
+                                ><code
+                                    >PendingPayment → Placed → Accepted →
+                                    Preparing → ReadyForPickup → PickedUp →
+                                    Delivered</code
+                                >, nhánh <code>Cancelled</code>/<code
+                                    >Refunded</code
+                                ></span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>Order</code> aggregate + method chuyển trạng
+                            thái
+                            <span class="hint"
+                                >Mỗi method
+                                <strong>guard trạng thái hiện tại</strong>, sai
+                                là ném <code>BusinessRuleException</code></span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>OrderItem</code> — nhớ 3 cột snapshot:
+                            <code>item_name</code>, <code>unit_price</code>,
+                            <code>subtotal</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>OrderStatusHistoryEntry</code> — ghi lại mọi
+                            lần chuyển</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Migration <code>orders</code> +
+                            <code>order_items</code> +
+                            <code>order_status_history</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>PlaceOrder</code> command
+                            <span class="hint"
+                                >Đọc giỏ → chụp snapshot món + địa chỉ → tính
+                                tiền → tạo order → xoá giỏ.
+                                <strong
+                                    >Tất cả trong 1 transaction.</strong
+                                ></span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>TransactionBehavior</code>
+                            <span class="hint"
+                                >Chỉ bọc Command. Chọn rõ: behavior lo
+                                <code>SaveChangesAsync</code> hay handler tự
+                                gọi.</span
+                            ></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>BusinessRuleException</code> + handler →
+                            422</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >7 use case chuyển trạng thái còn lại, mỗi cái một
+                            thư mục 3 file</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>idempotency_key</code> UNIQUE trên orders —
+                            chống double-click</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >Test: 2 request <code>PlaceOrder</code> cùng key →
+                            chỉ 1 đơn tồn tại</span
+                        ></label
+                    >
+                </li>
+            </ul>
+
+            <h3>⑥ Giai đoạn 4–5 <span class="tag t-g4">Sau</span></h3>
+            <ul class="chk">
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>Review</code> — UNIQUE
+                            <code>order_id</code> (1 đơn 1 đánh giá)</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>ShipperProfile</code> +
+                            <code>OrderDelivery</code> + gán shipper (Redis
+                            GEO)</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>Voucher</code> +
+                            <code>OrderVoucher</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>Payment</code> + IPN idempotent. UNIQUE
+                            <code>provider_txn_id</code></span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            >SignalR hub — nhà hàng nhận đơn, shipper cập nhật
+                            vị trí</span
+                        ></label
+                    >
+                </li>
+                <li>
+                    <label
+                        ><input type="checkbox" /><span class="txt"
+                            ><code>OutboxMessages</code> + dispatcher — ghi
+                            event cùng transaction với đơn</span
+                        ></label
+                    >
+                </li>
+            </ul>
+
+            <h2 id="s9"><span class="num">§9</span>Bẫy thường gặp</h2>
+
+            <div class="grid2">
+                <div class="card" style="margin: 0">
+                    <h4 style="margin-top: 0">Bẫy đã mắc rồi</h4>
+                    <ul>
+                        <li>
+                            Validator <code>internal</code> → bị bỏ qua im lặng
+                        </li>
+                        <li>
+                            <code>CreatedAtAction(nameof(Create))</code> → 500
+                            <em>sau khi</em> đã insert
+                        </li>
+                        <li>
+                            <code>[property: Required]</code> trên positional
+                            record → MVC ném exception
+                        </li>
+                        <li>
+                            <code>decimal</code> cho toạ độ + client bỏ field →
+                            ghi <code>0.000000</code>
+                        </li>
+                        <li>
+                            Chạy <code>dotnet ef</code> khi build đang lỗi →
+                            scaffold từ DLL cũ
+                        </li>
+                        <li>
+                            Indexer <code>(user_id, is_default)</code> không
+                            thay thế partial unique index
+                        </li>
+                    </ul>
+                </div>
+                <div class="card" style="margin: 0">
+                    <h4 style="margin-top: 0">Bẫy sẽ gặp ở GĐ2</h4>
+                    <ul>
+                        <li>
+                            Query cũng bị bọc transaction nếu không kiểm tra
+                            Command/Query
+                        </li>
+                        <li>
+                            Handler tự <code>SaveChangesAsync</code> làm
+                            transaction của behavior vô hiệu
+                        </li>
+                        <li><code>CASCADE</code> xoá luôn lịch sử đơn hàng</li>
+                        <li>Trộn món 2 nhà hàng vào 1 giỏ</li>
+                        <li>
+                            Đọc giá từ <code>menu_items</code> khi hiển thị đơn
+                            cũ
+                        </li>
+                        <li>
+                            <code>UseAuthentication</code> sau
+                            <code>UseAuthorization</code>
+                        </li>
+                        <li>
+                            Vote <code>task.WhenAll</code> trên cùng một
+                            <code>AppDbContext</code>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <hr />
+            <p class="muted" style="font-size: 13px">
+                Đọc tiếp:
+                <a href="CLASS-DIAGRAMS.html">docs/CLASS-DIAGRAMS.html</a> —
+                class diagram và luồng gọi của từng lớp.
+            </p>
+
+            <div style="margin-top: 36px; display: flex; gap: 12px">
+                <button id="clear">Xoá tất cả tick</button>
+                <span
+                    id="count"
+                    class="muted"
+                    style="font-size: 13px; align-self: center"
+                ></span>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var boxes = Array.prototype.slice.call(
+                    document.querySelectorAll(".chk input"),
+                );
+                var KEY = "foodhub-plan-checklist-v2";
+
+                function save() {
+                    var state = {};
+                    boxes.forEach(function (b, i) {
+                        if (b.checked) state[i] = 1;
+                    });
+                    try {
+                        localStorage.setItem(KEY, JSON.stringify(state));
+                    } catch (e) {}
+                    render();
+                }
+                function render() {
+                    var done = boxes.filter(function (b) {
+                        return b.checked;
+                    }).length;
+                    document.getElementById("count").textContent =
+                        done + " / " + boxes.length + " đã tick";
+                }
+                function load() {
+                    var raw = null;
+                    try {
+                        raw = localStorage.getItem(KEY);
+                    } catch (e) {}
+                    if (!raw) return;
+                    var state;
+                    try {
+                        state = JSON.parse(raw);
+                    } catch (e) {
+                        return;
+                    }
+                    boxes.forEach(function (b, i) {
+                        b.checked = !!state[i];
+                    });
+                }
+
+                boxes.forEach(function (b) {
+                    b.addEventListener("change", save);
+                });
+
+                document
+                    .getElementById("clear")
+                    .addEventListener("click", function () {
+                        boxes.forEach(function (b) {
+                            b.checked = false;
+                        });
+                        try {
+                            localStorage.removeItem(KEY);
+                        } catch (e) {}
+                        render();
+                    });
+
+                load();
+                render();
+            })();
+        </script>
+
+        <style>
+            button {
+                background: var(--bg-soft);
+                color: var(--fg-dim);
+                border: 1px solid var(--line);
+                padding: 9px 16px;
+                border-radius: 8px;
+                font: 500 13px/1 inherit;
+                cursor: pointer;
+            }
+            button:hover {
+                color: var(--fg);
+                border-color: var(--fg-mute);
+            }
+        </style>
+    </body>
+</html>

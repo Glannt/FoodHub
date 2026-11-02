@@ -1,0 +1,1617 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>FoodHub — Class diagram và luồng gọi từng lớp</title>
+        <style>
+            :root {
+                --bg: #0f1115;
+                --bg-soft: #161920;
+                --bg-code: #0b0d11;
+                --fg: #e6e8ec;
+                --fg-dim: #9aa3b2;
+                --fg-mute: #6b7484;
+                --line: #252a34;
+                --line-soft: #1c212a;
+                --accent: #ff6b2c;
+                --accent-dim: #ff8b5c;
+                --ok: #3ecf8e;
+                --warn: #f5b544;
+                --bad: #f2555a;
+                --info: #4aa8ff;
+                --mono:
+                    "Cascadia Code", ui-monospace, "SF Mono", Menlo, Consolas,
+                    monospace;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                margin: 0;
+                background: var(--bg);
+                color: var(--fg);
+                font:
+                    15px/1.7 "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+            }
+            .wrap {
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: 0 28px 120px;
+            }
+
+            header {
+                border-bottom: 1px solid var(--line);
+                background: linear-gradient(180deg, var(--bg-soft), var(--bg));
+                padding: 56px 28px 40px;
+                margin-bottom: 44px;
+            }
+            header .inner {
+                max-width: 1280px;
+                margin: 0 auto;
+            }
+            .kicker {
+                font: 600 11px/1 var(--mono);
+                letter-spacing: 0.18em;
+                text-transform: uppercase;
+                color: var(--accent);
+                margin-bottom: 16px;
+            }
+            h1 {
+                margin: 0 0 14px;
+                font-size: 34px;
+                line-height: 1.2;
+                letter-spacing: -0.02em;
+                font-weight: 700;
+            }
+            .sub {
+                color: var(--fg-dim);
+                max-width: 800px;
+                margin: 0;
+                font-size: 16px;
+            }
+            .meta {
+                margin-top: 22px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .pill {
+                font: 500 12px/1 var(--mono);
+                padding: 7px 12px;
+                border-radius: 999px;
+                border: 1px solid var(--line);
+                background: var(--bg-soft);
+                color: var(--fg-dim);
+            }
+            .pill b {
+                color: var(--fg);
+            }
+
+            h2 {
+                font-size: 23px;
+                letter-spacing: -0.01em;
+                margin: 60px 0 8px;
+                font-weight: 650;
+                padding-top: 8px;
+                border-top: 1px solid var(--line-soft);
+            }
+            h2 .num {
+                color: var(--accent);
+                font-family: var(--mono);
+                font-size: 17px;
+                margin-right: 12px;
+            }
+            h3 {
+                font-size: 17px;
+                margin: 30px 0 10px;
+                font-weight: 640;
+            }
+            h4 {
+                font-size: 14px;
+                margin: 22px 0 8px;
+                font-weight: 640;
+                color: var(--fg-dim);
+                text-transform: uppercase;
+                letter-spacing: 0.09em;
+                font-family: var(--mono);
+            }
+            p {
+                margin: 12px 0;
+            }
+            a {
+                color: var(--info);
+            }
+            code {
+                font-family: var(--mono);
+                font-size: 0.88em;
+                background: var(--bg-code);
+                padding: 2px 6px;
+                border-radius: 4px;
+                border: 1px solid var(--line-soft);
+                color: var(--accent-dim);
+            }
+            pre {
+                background: var(--bg-code);
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                padding: 16px 18px;
+                overflow-x: auto;
+                margin: 14px 0;
+            }
+            pre code {
+                background: none;
+                border: none;
+                padding: 0;
+                color: var(--fg);
+                font-size: 13px;
+                line-height: 1.65;
+            }
+            ul,
+            ol {
+                padding-left: 22px;
+            }
+            li {
+                margin: 7px 0;
+            }
+            li::marker {
+                color: var(--fg-mute);
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 16px 0;
+                font-size: 13.5px;
+            }
+            th,
+            td {
+                border: 1px solid var(--line);
+                padding: 9px 11px;
+                text-align: left;
+                vertical-align: top;
+            }
+            th {
+                background: var(--bg-soft);
+                font-weight: 640;
+                font-size: 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+                color: var(--fg-dim);
+            }
+            tbody tr:nth-child(even) {
+                background: rgba(255, 255, 255, 0.014);
+            }
+
+            .card {
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                background: var(--bg-soft);
+                padding: 22px 24px;
+                margin: 22px 0;
+            }
+            .card > h3:first-child,
+            .card > h4:first-child {
+                margin-top: 0;
+            }
+            .callout {
+                border-left: 3px solid;
+                border-radius: 0 10px 10px 0;
+                padding: 14px 18px;
+                margin: 18px 0;
+                background: var(--bg-soft);
+            }
+            .callout p:first-child {
+                margin-top: 0;
+            }
+            .callout p:last-child {
+                margin-bottom: 0;
+            }
+            .c-bad {
+                border-color: var(--bad);
+            }
+            .c-bad .t {
+                color: var(--bad);
+            }
+            .c-warn {
+                border-color: var(--warn);
+            }
+            .c-warn .t {
+                color: var(--warn);
+            }
+            .c-ok {
+                border-color: var(--ok);
+            }
+            .c-ok .t {
+                color: var(--ok);
+            }
+            .c-info {
+                border-color: var(--info);
+            }
+            .c-info .t {
+                color: var(--info);
+            }
+            .t {
+                font: 700 11px/1 var(--mono);
+                letter-spacing: 0.14em;
+                text-transform: uppercase;
+                display: block;
+                margin-bottom: 9px;
+            }
+
+            figure {
+                margin: 22px 0;
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                background: #fff;
+                padding: 20px;
+                overflow: auto;
+                min-height: 80px;
+            }
+            figure.pending {
+                background: var(--bg-soft);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: var(--fg-mute);
+                font: 500 13px/1.6 var(--mono);
+            }
+            figcaption {
+                font: 500 12px/1.5 var(--mono);
+                color: var(--fg-mute);
+                padding: 12px 4px 0;
+                border-top: 1px solid var(--line);
+                margin-top: 16px;
+            }
+            figcaption b {
+                color: var(--fg-dim);
+            }
+
+            details.src {
+                margin: 10px 0 26px;
+                border: 1px solid var(--line);
+                border-radius: 10px;
+                background: var(--bg-code);
+            }
+            details.src summary {
+                cursor: pointer;
+                padding: 11px 16px;
+                font: 500 12px/1 var(--mono);
+                color: var(--fg-mute);
+                user-select: none;
+            }
+            details.src summary:hover {
+                color: var(--fg-dim);
+            }
+            details.src pre {
+                border: none;
+                margin: 0;
+                border-radius: 0 0 10px 10px;
+            }
+
+            nav.toc {
+                border: 1px solid var(--line);
+                border-radius: 12px;
+                background: var(--bg-soft);
+                padding: 20px 24px;
+            }
+            nav.toc ol {
+                margin: 6px 0 0;
+                columns: 2;
+                column-gap: 34px;
+            }
+            nav.toc li {
+                margin: 5px 0;
+                break-inside: avoid;
+            }
+            nav.toc a {
+                color: var(--fg-dim);
+                text-decoration: none;
+                font-size: 14px;
+            }
+            nav.toc a:hover {
+                color: var(--accent);
+            }
+            .grid2 {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 18px;
+            }
+            .muted {
+                color: var(--fg-mute);
+            }
+            hr {
+                border: none;
+                border-top: 1px solid var(--line-soft);
+                margin: 40px 0;
+            }
+            @media (max-width: 820px) {
+                nav.toc ol {
+                    columns: 1;
+                }
+                h1 {
+                    font-size: 27px;
+                }
+                .grid2 {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="inner">
+                <div class="kicker">FoodHub · Class diagram</div>
+                <h1>Mỗi lớp làm gì, ai gọi ai, dữ liệu chảy thế nào</h1>
+                <p class="sub">
+                    7 diagram theo thứ tự đọc: từ lớp nền tảng trong
+                    SharedKernel, qua Domain, tới pipeline CQRS, rồi đến luồng
+                    chạy thật của một request và state machine của đơn hàng.
+                    Cuối cùng là sơ đồ quan hệ toàn bộ 18 bảng.
+                </p>
+                <div class="meta">
+                    <span class="pill">Nguồn <b>docs/diagrams/2*.mmd</b></span>
+                    <span class="pill"
+                        >Bản markdown: <b>docs/CLASS-DIAGRAMS.md</b></span
+                    >
+                    <span class="pill"
+                        >Đọc kèm
+                        <a href="PLAN-SHOPEEFOOD.html"
+                            >PLAN-SHOPEEFOOD.html</a
+                        >
+                        ·
+                        <a href="DATABASE-RELATIONSHIPS.html"
+                            >DATABASE-RELATIONSHIPS.html</a
+                        ></span
+                    >
+                </div>
+            </div>
+        </header>
+
+        <div class="wrap">
+            <nav class="toc">
+                <strong
+                    style="
+                        font: 600 12px/1 var(--mono);
+                        letter-spacing: 0.14em;
+                        text-transform: uppercase;
+                        color: var(--fg-dim);
+                    "
+                    >Mục lục</strong
+                >
+                <ol>
+                    <li><a href="#d1">SharedKernel — 4 lớp nền</a></li>
+                    <li>
+                        <a href="#d2">Domain hiện tại — Restaurant / Menu</a>
+                    </li>
+                    <li><a href="#d3">Order aggregate — phần sắp viết</a></li>
+                    <li>
+                        <a href="#d4"
+                            >CQRS — Command, Handler, Validator, Behavior</a
+                        >
+                    </li>
+                    <li><a href="#d5">Luồng chạy thật của một request</a></li>
+                    <li><a href="#d6">State machine của đơn hàng</a></li>
+                    <li><a href="#d7">Quan hệ 18 bảng</a></li>
+                    <li><a href="#d8">Đọc diagram như nào</a></li>
+                </ol>
+            </nav>
+
+            <h2 id="d1"><span class="num">§1</span>SharedKernel — 4 lớp nền</h2>
+
+            <p>
+                Không thuộc domain nào cụ thể, dùng chung cho toàn hệ thống. Nếu
+                không có tầng này, mỗi module sẽ phải tự viết lại
+                <code>Entity</code> và <code>IUnitOfWork</code> của riêng mình.
+            </p>
+
+            <figure class="pending" id="f1">
+                <div id="c1"></div>
+                <figcaption>
+                    <b>20-shared-kernel.mmd</b> — nền của mọi aggregate
+                </figcaption>
+            </figure>
+
+            <details class="src" data-for="c1">
+                <summary>Xem source Mermaid</summary>
+                <pre><code data-role="src"></code></pre>
+            </details>
+
+            <div class="callout c-info">
+                <span class="t">Ba điều dễ nhầm ở tầng này</span>
+                <p>
+                    <strong>1.</strong> <code>Equals</code> so sánh bằng
+                    <code>Id</code>, không so sánh thuộc tính. Hai
+                    <code>Restaurant</code> khác <code>Id</code> là hai đối
+                    tượng khác nhau kể cả khi tên và địa chỉ giống hệt — đó là
+                    lý do <code>CreateRestaurantHandler</code> phải hỏi database
+                    thay vì so sánh trong RAM.
+                </p>
+                <p>
+                    <strong>2.</strong> <code>UpdatedAt</code> là
+                    <code>DateTimeOffset?</code> và
+                    <strong
+                        >chỉ có giá trị sau khi gọi <code>Touch()</code></strong
+                    >. Nó được set trong ctor của <code>Restaurant</code> — vì
+                    vậy bảng cho phép <code>updated_at</code> NULL. NULL nghĩa
+                    là "chưa sửa lần nào", không phải lỗi.
+                </p>
+                <p>
+                    <strong>3.</strong> <code>ClearDomainEvents()</code> phải
+                    được gọi <strong>sau khi</strong>
+                    <code>SaveChangesAsync</code> thành công. Gọi sớm thì mất sự
+                    kiện khi transaction rollback.
+                </p>
+            </div>
+
+            <h2 id="d2">
+                <span class="num">§2</span>Domain hiện tại — Restaurant và thực
+                đơn
+            </h2>
+
+            <figure class="pending" id="f2">
+                <div id="c2"></div>
+                <figcaption>
+                    <b>21-domain-restaurants.mmd</b> — 3 entity đang có trong
+                    code
+                </figcaption>
+            </figure>
+
+            <details class="src" data-for="c2">
+                <summary>Xem source Mermaid</summary>
+                <pre><code data-role="src"></code></pre>
+            </details>
+
+            <div class="callout c-warn">
+                <span class="t"
+                    >Vì sao MenuItem là AggregateRoot chứ không phải
+                    Entity</span
+                >
+                <p>
+                    Vì nó cần <code>Raise()</code> để bắn
+                    <code>MenuItemAddedEvent</code>. Về mặt DDD cũng đúng: món
+                    ăn có vòng đời độc lập và đổi rất thường xuyên — nếu gộp vào
+                    aggregate <code>Restaurant</code>, mỗi lần bật/tắt món sẽ
+                    kéo theo việc nạp và kiểm soát toàn bộ thực đơn của nhà
+                    hàng.
+                </p>
+            </div>
+
+            <div class="callout c-bad">
+                <span class="t">Còn thiếu trong diagram này</span>
+                <p>
+                    Không có mảnh nào chỉ ra
+                    <strong>ai sở hữu nhà hàng</strong>. Không có
+                    <code>owner_user_id</code>, không có
+                    <code>cuisine_id</code>, không có giờ mở cửa. Đó chính là
+                    danh sách bổ sung ở
+                    <a href="PLAN-SHOPEEFOOD.html">PLAN-SHOPEEFOOD.html §4</a>.
+                </p>
+            </div>
+
+            <h2 id="d3">
+                <span class="num">§3</span>Order aggregate — phần sắp viết
+            </h2>
+
+            <div class="callout c-info">
+                <span class="t">Đây là lớp khó nhất của cả app</span>
+                <p>
+                    8 trạng thái, <strong>3 vai trò khác nhau</strong> (khách,
+                    nhà hàng, shipper), mỗi vai trò được phép chuyển những trạng
+                    thái riêng. Hiện <code>TODO.md</code> mới chỉ ghi nó trong
+                    một dòng bullet.
+                </p>
+            </div>
+
+            <figure class="pending" id="f3">
+                <div id="c3"></div>
+                <figcaption>
+                    <b>22-domain-order.mmd</b> — Order, OrderItem,
+                    OrderStatusHistoryEntry
+                </figcaption>
+            </figure>
+
+            <details class="src" data-for="c3">
+                <summary>Xem source Mermaid</summary>
+                <pre><code data-role="src"></code></pre>
+            </details>
+
+            <div class="callout c-bad">
+                <span class="t"
+                    >Ba cột không được bỏ: ItemName, UnitPrice, Subtotal</span
+                >
+                <p>
+                    Chúng là <strong>snapshot</strong>. Nếu nhà hàng tăng giá
+                    món từ 30k lên 50k, đơn cũ <strong>không được</strong> đổi
+                    theo — nếu không, hệ thống sẽ in ra tổng tiền sai cho một
+                    đơn đã giao xong mà khách vẫn còn giữ.
+                </p>
+                <p>
+                    Vì vậy <code>menu_item_id</code> được để
+                    <strong>NULL</strong> khi món bị xoá khỏi thực đơn (<code
+                        >ON DELETE SET NULL</code
+                    >), chứ không phải xoá luôn dòng đơn.
+                </p>
+            </div>
+
+            <div class="callout c-ok">
+                <span class="t"
+                    >Guard trạng thái đặt trong Domain, không đặt trong
+                    Handler</span
+                >
+                <p>
+                    Mỗi method chuyển trạng thái tự kiểm tra trạng thái hiện
+                    tại. Nếu không hợp lệ thì ném
+                    <code>BusinessRuleException</code> → 422. Handler chỉ gọi
+                    <code>order.Cancel(reason)</code>, không tự kiểm tra "đơn có
+                    đang nấu không".
+                </p>
+                <p>
+                    Lý do: có 8 endpoint chuyển trạng thái và một SignalR hub tự
+                    chuyển theo timeout. Nếu rải điều kiện ra handler, sẽ có 10
+                    chỗ phải giữ cho đúng. Để trong Domain thì
+                    <strong>một chỗ duy nhất, không thể bỏ sót</strong>.
+                </p>
+            </div>
+
+            <h2 id="d4">
+                <span class="num">§4</span>CQRS — Command, Handler, Validator,
+                Behavior
+            </h2>
+
+            <figure class="pending" id="f4">
+                <div id="c4"></div>
+                <figcaption>
+                    <b>23-cqrs-and-pipeline.mmd</b> — một use case đầy đủ, từ
+                    controller đến middleware
+                </figcaption>
+            </figure>
+
+            <details class="src" data-for="c4">
+                <summary>Xem source Mermaid</summary>
+                <pre><code data-role="src"></code></pre>
+            </details>
+
+            <div class="callout c-bad">
+                <span class="t"
+                    >Validator phải public, Handler thì internal</span
+                >
+                <p>
+                    <code>AddValidatorsFromAssembly()</code> mặc định
+                    <code>includeInternalTypes: false</code>. Validator
+                    <code>internal</code> bị bỏ qua <strong>im lặng</strong> —
+                    vì <code>ValidationBehavior</code> làm
+                    <code>if (validators.Any())</code>: không tìm thấy validator
+                    nào thì coi như hợp lệ. Không có lỗi, không cảnh báo, chỉ có
+                    dữ liệu rác lọt vào DB.
+                </p>
+                <p>
+                    Handler thì <strong>được</strong> <code>internal</code> vì
+                    MediatR tạo qua reflection.
+                </p>
+            </div>
+
+            <h2 id="d5">
+                <span class="num">§5</span>Luồng chạy thật của một request
+            </h2>
+
+            <p>
+                Diagram này ghép tất cả những gì ở trên thành một luồng duy
+                nhất.
+            </p>
+
+            <figure class="pending" id="f5">
+                <div id="c5"></div>
+                <figcaption>
+                    <b>24-request-flow.mmd</b> — từ HTTP request đến INSERT, và
+                    đường đọc Query
+                </figcaption>
+            </figure>
+
+            <details class="src" data-for="c5">
+                <summary>Xem source Mermaid</summary>
+                <pre><code data-role="src"></code></pre>
+            </details>
+
+            <div class="callout c-info">
+                <span class="t"
+                    >Đường ghi và đường đọc khác nhau ở chỗ nào</span
+                >
+                <p>
+                    <strong>Command</strong> đi qua
+                    <code>TransactionBehavior</code> mở <code>BEGIN</code>, rồi
+                    <code>SaveChangesAsync</code> đẩy xuống PostgreSQL.
+                    <strong>Query</strong> không mở transaction — chỉ
+                    <code>SELECT</code> với
+                    <code>AsNoTracking + Skip/Take + Select</code>. Đó là lý do
+                    <code>TransactionBehavior</code>
+                    <strong>phải kiểm tra Command hay Query</strong> trước khi
+                    mở transaction.
+                </p>
+            </div>
+
+            <div class="callout c-warn">
+                <span class="t">Cửa sổ tranh chấp nằm ở đâu</span>
+                <p>
+                    <code>AnyAsync</code> chặn trùng và <code>INSERT</code> là
+                    <strong>hai câu lệnh riêng biệt</strong>. Hai request song
+                    song cùng chạy <code>AnyAsync</code> → cùng thấy "chưa có" →
+                    cùng <code>INSERT</code>. Chỉ unique index ở database mới
+                    đóng được lỗ hổng này.
+                </p>
+            </div>
+
+            <h2 id="d6">
+                <span class="num">§6</span>State machine của đơn hàng
+            </h2>
+
+            <figure class="pending" id="f6">
+                <div id="c6"></div>
+                <figcaption>
+                    <b>25-order-state-machine.mmd</b> — 8 trạng thái, 3 vai trò
+                </figcaption>
+            </figure>
+
+            <details class="src" data-for="c6">
+                <summary>Xem source Mermaid</summary>
+                <pre><code data-role="src"></code></pre>
+            </details>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Vai trò</th>
+                        <th style="width: 38%">Được chuyển sang</th>
+                        <th>Endpoint dự kiến</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Khách</strong></td>
+                        <td><code>Placed</code>, <code>Cancelled</code></td>
+                        <td>
+                            <code>POST /api/orders</code> ·
+                            <code>PATCH /api/orders/{id}/cancellation</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nhà hàng</strong></td>
+                        <td>
+                            <code>Accepted</code>, <code>Cancelled</code>,
+                            <code>Preparing</code>, <code>ReadyForPickup</code>
+                        </td>
+                        <td>
+                            <code>PATCH /api/orders/{id}/acceptance</code> ·
+                            <code>/rejection</code> ·
+                            <code>/preparation</code> · <code>/readiness</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shipper</strong></td>
+                        <td><code>PickedUp</code>, <code>Delivered</code></td>
+                        <td>
+                            <code>PATCH /api/orders/{id}/pickup</code> ·
+                            <code>/delivery</code>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hệ thống</strong></td>
+                        <td><code>Cancelled</code></td>
+                        <td>Job quét đơn quá hạn không ai nhận</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout c-bad">
+                <span class="t"
+                    >Mỗi hàng trong bảng trên là một authorization
+                    requirement</span
+                >
+                <p>
+                    Khách gọi <code>.../acceptance</code> phải bị từ chối 403.
+                    Nhà hàng gọi <code>.../delivery</code> cũng vậy. Đây là chỗ
+                    <code>[Authorize]</code> + <code>owner_user_id</code> ở
+                    <code>restaurants</code> mới đủ sức phân biệt — mà cả hai
+                    đều chưa có trong hệ thống.
+                </p>
+            </div>
+
+            <h2 id="d7"><span class="num">§7</span>Quan hệ 18 bảng</h2>
+
+            <p>
+                Diagram này bao phủ toàn bộ schema mục tiêu. Ba bảng gốc hiện có
+                (<code>restaurants</code>, <code>menu_categories</code>,
+                <code>menu_items</code>) nằm ở phía trên; 15 bảng mới là phần
+                còn lại.
+            </p>
+
+            <figure class="pending" id="f7">
+                <div id="c7"></div>
+                <figcaption>
+                    <b>26-database-schema.mmd</b> — toàn bộ schema mục tiêu, đọc
+                    từ trên xuống
+                </figcaption>
+            </figure>
+
+            <details class="src" data-for="c7">
+                <summary>Xem source Mermaid (đầy đủ 18 bảng)</summary>
+                <pre><code data-role="src"></code></pre>
+            </details>
+
+            <div class="callout c-bad">
+                <span class="t"
+                    >Đọc kỹ dòng này: MENU_ITEMS ||--o{ ORDER_ITEMS</span
+                >
+                <p>
+                    Quan hệ này <strong>không giữ tính toàn vẹn</strong> — cột
+                    <code>menu_item_id</code> trong
+                    <code>order_items</code> được khai <code>NULL</code> và FK
+                    là <code>SET NULL</code>. Khi nhà hàng xoá món khỏi thực
+                    đơn, dòng đơn hàng vẫn còn nguyên, chỉ mất liên kết. Đó là
+                    hệ quả trực tiếp của việc snapshot giá.
+                </p>
+            </div>
+
+            <div class="callout c-warn">
+                <span class="t">FK nào CASCADE, FK nào không</span>
+                <p>
+                    <code>orders.user_id</code> và
+                    <code>orders.restaurant_id</code> là
+                    <strong>RESTRICT</strong>, không phải CASCADE. Xoá nhà hàng
+                    khi đã có đơn là mất lịch sử giao hàng — khách khiếu nại thì
+                    không còn dữ liệu đối chiếu.
+                </p>
+            </div>
+
+            <h2 id="d8"><span class="num">§8</span>Đọc diagram như nào</h2>
+
+            <div class="grid2">
+                <div class="card" style="margin: 0">
+                    <h4 style="margin-top: 0">Ký hiệu trong class diagram</h4>
+                    <table style="margin: 0">
+                        <thead>
+                            <tr>
+                                <th>Ký hiệu</th>
+                                <th>Nghĩa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <code>&lt;&lt;AggregateRoot&gt;&gt;</code>
+                                </td>
+                                <td>
+                                    Có <code>Raise()</code>, là ranh giới giao
+                                    dịch
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;&lt;Entity&gt;&gt;</code></td>
+                                <td>Chỉ có Id, không bắn sự kiện</td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;&lt;enum&gt;&gt;</code></td>
+                                <td>Kiểu liệt kê</td>
+                            </tr>
+                            <tr>
+                                <td><code>+</code> / <code>-</code></td>
+                                <td>public / private</td>
+                            </tr>
+                            <tr>
+                                <td><code>#</code></td>
+                                <td>protected</td>
+                            </tr>
+                            <tr>
+                                <td><code>--&gt;</code></td>
+                                <td>có quan hệ, hướng đọc</td>
+                            </tr>
+                            <tr>
+                                <td><code>..&gt;</code></td>
+                                <td>phụ thuộc, không giữ tham chiếu</td>
+                            </tr>
+                            <tr>
+                                <td><code>*--</code></td>
+                                <td>thành phần, xoá chung</td>
+                            </tr>
+                            <tr>
+                                <td><code>&lt;|--</code></td>
+                                <td>kế thừa</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card" style="margin: 0">
+                    <h4 style="margin-top: 0">Nếu diagram không hiện</h4>
+                    <p>
+                        Mỗi diagram có nút <em>Xem source Mermaid</em> ngay bên
+                        dưới — nội dung luôn ở đó ngay cả khi render lỗi.
+                    </p>
+                    <p>Dùng renderer khác:</p>
+                    <ol>
+                        <li>
+                            Dán source vào
+                            <a href="https://mermaid.live">mermaid.live</a>
+                        </li>
+                        <li>
+                            Hoặc mở <code>docs/CLASS-DIAGRAMS.md</code> — GitHub
+                            tự render Mermaid
+                        </li>
+                        <li>
+                            Không có mạng: tải <code>mermaid.min.js</code> đặt
+                            cạnh file HTML này, script tự phát hiện và không cần
+                            CDN
+                        </li>
+                    </ol>
+                    <p class="muted" style="margin-bottom: 0">
+                        Danh sách cột đầy đủ của từng bảng xem ở
+                        <a href="PLAN-SHOPEEFOOD.html"
+                            >PLAN-SHOPEEFOOD.html §3</a
+                        >.
+                    </p>
+                </div>
+            </div>
+
+            <hr />
+            <p class="muted" style="font-size: 13px">
+                Bước làm cụ thể cho từng entity, cây thư mục file và checklist:
+                <a href="PLAN-SHOPEEFOOD.html">docs/PLAN-SHOPEEFOOD.html</a>.
+            </p>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════
+     Nguồn Mermaid. Đặt trong script[type=text/plain] để không phải
+     escape ký tự < >, và để đồng thời là nguồn duy nhất cho cả
+     diagram lẫn khối fallback.
+     ═══════════════════════════════════════════════════════════ -->
+
+        <script type="text/plain" data-mm="c1">
+            classDiagram
+                direction TB
+
+                class Entity {
+                    <<abstract>>
+                    +TId Id
+                    +DateTimeOffset CreatedAt
+                    +DateTimeOffset? UpdatedAt
+                    #Touch()
+                    +Equals(obj) bool
+                    +GetHashCode() int
+                }
+
+                class AggregateRoot {
+                    <<abstract>>
+                    -List _domainEvents
+                    +IReadOnlyCollection DomainEvents
+                    #Raise(event)
+                    +ClearDomainEvents()
+                }
+
+                class IDomainEvent {
+                    <<interface>>
+                    +Guid EventId
+                    +DateTimeOffset OccurredOn
+                }
+
+                class Result {
+                    +bool IsSuccess
+                    +bool IsFailure
+                    +T Value
+                    +string Error
+                    +Success(value)
+                    +Failure(error)
+                }
+
+                class IUnitOfWork {
+                    <<interface>>
+                    +SaveChangesAsync(ct) Task
+                }
+
+                Entity <|-- AggregateRoot : kế thừa
+                AggregateRoot o-- IDomainEvent : danh sách sự kiện
+        </script>
+
+        <script type="text/plain" data-mm="c2">
+            classDiagram
+                direction TB
+
+                class Restaurant {
+                    <<AggregateRoot>>
+                    +string Name
+                    +string Address
+                    +decimal Latitude
+                    +decimal Longtitude
+                    +bool IsApproved
+                    +Restaurant(name, addr, lat, lng)
+                    +Approve()
+                    +Reject()
+                    +UpdateDetails(name, addr, lat, lng)
+                }
+
+                class MenuCategory {
+                    <<Entity>>
+                    +Guid RestaurantId
+                    +string Name
+                    +MenuCategory(restaurantId, name)
+                }
+
+                class MenuItem {
+                    <<AggregateRoot>>
+                    +Guid RestaurantId
+                    +Guid CategoryId
+                    +string Name
+                    +string Description
+                    +decimal Price
+                    +bool IsAvailable
+                    +string ImageUrl
+                    +MenuItem(restaurantId, categoryId, name, desc, price, img)
+                    +UpdateDetails(name, desc, price, img)
+                    +SetAvailability(bool)
+                }
+
+                class MenuItemAddedEvent {
+                    <<record>>
+                    +Guid MenuItemId
+                    +Guid RestaurantId
+                    +string Name
+                    +DateTimeOffset OccurredOn
+                }
+
+                Restaurant "1" --> "*" MenuCategory : chứa
+                Restaurant "1" --> "*" MenuItem : sở hữu
+                MenuCategory "1" --> "*" MenuItem : nhóm
+                MenuItem ..> MenuItemAddedEvent : Raise khi tạo
+                MenuItemAddedEvent ..|> IDomainEvent : implements
+        </script>
+
+        <script type="text/plain" data-mm="c3">
+            classDiagram
+                direction TB
+
+                class Order {
+                    <<AggregateRoot>>
+                    +string OrderNo
+                    +Guid CustomerId
+                    +Guid RestaurantId
+                    +OrderStatus Status
+                    +string RecipientName
+                    +string PhoneNumber
+                    +string Address
+                    +decimal Latitude
+                    +decimal Longtitude
+                    +decimal Subtotal
+                    +decimal DeliveryFee
+                    +decimal DiscountAmount
+                    +decimal TotalAmount
+                    +string Note
+                    +DateTimeOffset? PlacedAt
+                    +DateTimeOffset? AcceptedAt
+                    +DateTimeOffset? CancelledAt
+                    +Place()
+                    +Accept()
+                    +Reject(reason)
+                    +StartPreparing()
+                    +MarkReady()
+                    +MarkPickedUp()
+                    +Complete()
+                    +Cancel(reason)
+                }
+
+                class OrderItem {
+                    <<Entity>>
+                    +Guid OrderId
+                    +Guid MenuItemId
+                    +string ItemName
+                    +decimal UnitPrice
+                    +int Quantity
+                    +decimal Subtotal
+                    +string Note
+                    +OrderItem(orderId, menuItemId, name, price, qty, note)
+                }
+
+                class OrderStatusHistoryEntry {
+                    <<Entity>>
+                    +Guid OrderId
+                    +OrderStatus FromStatus
+                    +OrderStatus ToStatus
+                    +Guid ChangedByUserId
+                    +string Reason
+                    +DateTimeOffset ChangedAt
+                }
+
+                class OrderStatus {
+                    <<enum>>
+                    PendingPayment
+                    Placed
+                    Accepted
+                    Preparing
+                    ReadyForPickup
+                    PickedUp
+                    Delivered
+                    Cancelled
+                }
+
+                class OrderPlacedEvent {
+                    <<record>>
+                    +Guid OrderId
+                    +Guid RestaurantId
+                }
+
+                class OrderCancelledEvent {
+                    <<record>>
+                    +Guid OrderId
+                    +string Reason
+                }
+
+                class IDomainEvent {
+                    <<interface>>
+                }
+
+                Order "1" *-- "*" OrderItem : snapshot giá lúc đặt
+                Order "1" --> "*" OrderStatusHistoryEntry : mỗi lần chuyển một dòng
+                Order --> OrderStatus : trạng thái hiện tại
+                Order ..> OrderPlacedEvent : Raise khi Place
+                Order ..> OrderCancelledEvent : Raise khi Cancel
+                OrderStatusHistoryEntry --> OrderStatus : from và to
+                OrderPlacedEvent ..|> IDomainEvent : implements
+                OrderCancelledEvent ..|> IDomainEvent : implements
+        </script>
+
+        <script type="text/plain" data-mm="c4">
+            classDiagram
+                direction TB
+
+                class ApiController {
+                    <<RestaurantsController>>
+                    +Create(request, ct) ActionResult
+                    +Update(id, request, ct) ActionResult
+                    +Approve(id, ct) IActionResult
+                    +Reject(id, ct) IActionResult
+                }
+
+                class CreateRestaurantCommand {
+                    <<record>>
+                    +string Name
+                    +string Address
+                    +decimal Latitude
+                    +decimal Longtitude
+                }
+
+                class CreateRestaurantResult {
+                    <<record>>
+                    +Guid RestaurantId
+                }
+
+                class CreateRestaurantHandler {
+                    <<internal sealed>>
+                    -IApplicationDbContext dbContext
+                    -IUnitOfWork unitOfWork
+                    +Handle(request, ct) Task
+                }
+
+                class CreateRestaurantValidator {
+                    <<public sealed>>
+                    +Name
+                    +Address
+                    +Latitude
+                    +Longtitude
+                }
+
+                class IApplicationDbContext {
+                    <<interface>>
+                    +DbSet Restaurants
+                    +DbSet MenuCategories
+                    +DbSet MenuItems
+                }
+
+                class ValidationBehavior {
+                    +Handle(request, next, ct) Task
+                }
+
+                class LoggingBehavior {
+                    +Handle(request, next, ct) Task
+                }
+
+                class TransactionBehavior {
+                    +Handle(request, next, ct) Task
+                }
+
+                class NotFoundException {
+                    <<exception>>
+                }
+
+                class ConflictException {
+                    <<exception>>
+                }
+
+                class BusinessRuleException {
+                    <<exception mới>>
+                }
+
+                class ForbiddenException {
+                    <<exception mới>>
+                }
+
+                class ExceptionHandler {
+                    <<middleware>>
+                    +TryHandleAsync(context, exception)
+                }
+
+                ApiController ..> CreateRestaurantCommand : ghép từ route và body
+                ApiController ..> CreateRestaurantHandler : MediatR Send
+                CreateRestaurantHandler --> IApplicationDbContext : truy vấn
+                CreateRestaurantHandler ..> ConflictException : ném khi trùng
+                CreateRestaurantValidator ..> ValidationBehavior : được tìm và gọi
+                ValidationBehavior ..> CreateRestaurantCommand : kiểm tra
+                TransactionBehavior --> IApplicationDbContext : mở transaction
+                ExceptionHandler ..> NotFoundException : bắt thành 404
+                ExceptionHandler ..> ConflictException : bắt thành 409
+                ExceptionHandler ..> BusinessRuleException : bắt thành 422
+                ExceptionHandler ..> ForbiddenException : bắt thành 403
+        </script>
+
+        <script type="text/plain" data-mm="c5">
+            flowchart TD
+                subgraph API["TẦNG API"]
+                    AC["Controller<br/>đọc route + body<br/>ghép thành Command"]
+                    EH1["ExceptionHandler<br/>404 · 409 · 422 · 403"]
+                    AC -->|"ISender.Send(command, ct)"| MB
+                end
+
+                subgraph APP["TẦNG APPLICATION - pipeline MediatR"]
+                    MB["MediatR<br/>dựng pipeline theo thứ tự đăng ký"]
+                    VB["① ValidationBehavior<br/>thấy lỗi thì dừng luôn"]
+                    LB["② LoggingBehavior<br/>Stopwatch, ghi log trước và sau"]
+                    TB["③ TransactionBehavior - MỚI<br/>BEGIN + COMMIT, chỉ Command"]
+                    CB["④ CachingBehavior - GĐ4"]
+                    MB --> VB --> LB --> TB --> CB
+                end
+
+                subgraph HAND["HANDLER - Application"]
+                    H["Handle(request, ct)"]
+                    H -->|"AnyAsync chặn trùng"| CHK{"Trùng?"}
+                    CHK -->|"có"| CE["throw ConflictException"]
+                    CHK -->|"không"| DOM
+                end
+
+                subgraph DOMAIN["TẦNG DOMAIN - luật nghiệp vụ"]
+                    DOM["new Restaurant(...)<br/>Guard chạy ở đây:<br/>tên và địa chỉ không rỗng"]
+                    EVT["Raise(MenuItemAddedEvent)<br/>ghi vào _domainEvents trong RAM"]
+                    DOM --> EVT
+                end
+
+                subgraph INFRA["TẦNG INFRASTRUCTURE"]
+                    CTX["AppDbContext<br/>ChangeTracker giữ thay đổi trong RAM"]
+                    UOW["AppDbContextUnitOfWork<br/>bọc AppDbContext"]
+                    PG[("PostgreSQL")]
+                    H --> CTX
+                    CTX --> UOW
+                    UOW --> PG
+                end
+
+                DOM -.->|"Add(entity)"| CTX
+                TB -.->|"bọc SaveChangesAsync"| H
+
+                UOW -->|"int rows affected"| H
+                H -->|result| CTX2["kết quả đi ngược lại<br/>Transaction → Cache → Logging → Validation"]
+                CTX2 --> AC
+                AC -->|"201 Created + Location"| CLI["Client"]
+
+                CLI2["Client"] -->|"GET"| QC["Query Handler"]
+                QC -->|"AsNoTracking + Skip/Take<br/>+ Select projection"| PG
+                PG -->|"chỉ đọc, không BEGIN"| QC
+                QC -->|"200 OK"| CLI2
+
+                CE -.-> EH1
+                DOM -.->|"Guard fail"| EH1
+                EH1 -->|"400 · 404 · 409 · 422 · 403"| CLI
+
+                classDef api fill:#eaf1ff,stroke:#4aa8ff,color:#0f1115
+                classDef app fill:#e8f7ed,stroke:#3ecf8e,color:#0f1115
+                classDef dom fill:#fff8e1,stroke:#f5b544,color:#0f1115
+                classDef inf fill:#fcebf5,stroke:#d47ab0,color:#0f1115
+                classDef err fill:#ffe8e9,stroke:#f2555a,color:#0f1115
+                class AC,EH1,CLI,CLI2 api
+                class MB,VB,LB,TB,CB,H,CHK,CTX2 app
+                class DOM,EVT dom
+                class CTX,UOW,PG,QC inf
+                class CE err
+        </script>
+
+        <script type="text/plain" data-mm="c6">
+            stateDiagram-v2
+                direction TB
+
+                [*] --> PendingPayment : khách bấm Đặt món
+
+                PendingPayment --> Placed : thanh toán thành công - KHÁCH
+                PendingPayment --> Cancelled : không trả được - KHÁCH
+
+                Placed --> Accepted : quán bấm Nhận đơn - NHÀ HÀNG
+                Placed --> Cancelled : quán từ chối - NHÀ HÀNG
+
+                Accepted --> Preparing : bắt đầu nấu - NHÀ HÀNG
+                Preparing --> ReadyForPickup : nấu xong - NHÀ HÀNG
+                ReadyForPickup --> PickedUp : shipper lấy hàng - SHIPPER
+                PickedUp --> Delivered : giao tới nơi - SHIPPER
+
+                Delivered --> [*]
+                Cancelled --> [*]
+
+                Accepted --> Cancelled : khách đổi ý - KHÁCH
+                ReadyForPickup --> Cancelled : khách huỷ - KHÁCH
+
+                note right of Preparing
+                    KHÔNG huỷ được.
+                    Đã vào bếp thì món ăn
+                    không còn hủy được nữa.
+                    Guard trong Domain phải chặn.
+                end note
+
+                note right of PickedUp
+                    Chỉ còn đánh dấu Delivered.
+                    Shipper đã cầm hàng trên tay.
+                end note
+
+                note right of Cancelled
+                    Mỗi lần chuyển ghi một dòng
+                    vào order_status_history:
+                    from_status, to_status,
+                    changed_by_user_id, changed_at.
+                    from_status rỗng ở lần đầu.
+                end note
+        </script>
+
+        <script type="text/plain" data-mm="c7">
+            erDiagram
+                APP_USERS ||--o{ CUSTOMER_ADDRESSES : "có sổ địa chỉ"
+                APP_USERS ||--o{ RESTAURANTS : "sở hữu"
+                APP_USERS ||--o{ CARTS : "có giỏ hàng"
+                APP_USERS ||--o{ ORDERS : "đặt"
+                APP_USERS ||--o{ REVIEWS : "viết"
+                APP_USERS ||--o{ ORDER_DELIVERIES : "giao"
+
+                RESTAURANTS ||--o{ MENU_CATEGORIES : "chia danh mục"
+                RESTAURANTS ||--o{ MENU_ITEMS : "có món"
+                RESTAURANTS ||--o{ CARTS : "có giỏ"
+                RESTAURANTS ||--o{ ORDERS : "nhận đơn"
+                RESTAURANTS ||--o{ RESTAURANT_HOURS : "mở cửa"
+                RESTAURANTS ||--o{ RESTAURANT_CLOSURES : "nghỉ lễ"
+                RESTAURANTS ||--o{ REVIEWS : "được đánh giá"
+                RESTAURANTS }o--o| CUISINES : "phục vụ"
+
+                MENU_CATEGORIES ||--o{ MENU_ITEMS : "gồm"
+
+                CARTS ||--o{ CART_ITEMS : "chứa"
+                MENU_ITEMS ||--o{ CART_ITEMS : "được thêm"
+
+                ORDERS ||--|{ ORDER_ITEMS : "chốt"
+                ORDERS ||--o{ ORDER_STATUS_HISTORY : "ghi lại từng bước"
+                ORDERS ||--o| PAYMENTS : "thanh toán"
+                ORDERS ||--o| ORDER_DELIVERIES : "giao hàng"
+                ORDERS ||--o{ REVIEWS : "được đánh giá"
+                ORDERS ||--o{ ORDER_VOUCHERS : "dùng voucher"
+                VOUCHERS ||--o{ ORDER_VOUCHERS : "được dùng"
+
+                MENU_ITEMS ||--o{ ORDER_ITEMS : "nguồn - FK SET NULL"
+                MENU_ITEMS ||--o{ REVIEWS : "được đánh giá"
+
+                APP_USERS {
+                    uuid id PK
+                    string user_name
+                    string email
+                    string phone_number
+                    string password_hash
+                    string full_name "cột thêm"
+                }
+
+                CUSTOMER_ADDRESSES {
+                    uuid id PK
+                    uuid user_id FK
+                    string recipient_name
+                    string phone_number
+                    string address_text
+                    decimal latitude
+                    decimal longtitude
+                    bool is_default
+                }
+
+                CUISINES {
+                    uuid id PK
+                    string name UK
+                    string slug UK
+                    int sort_order
+                }
+
+                RESTAURANTS {
+                    uuid id PK
+                    uuid owner_user_id FK "MỚI"
+                    uuid cuisine_id FK "MỚI"
+                    string name
+                    string address_text
+                    decimal latitude
+                    decimal longtitude
+                    bool is_approved
+                    bool is_active "MỚI"
+                    string phone_number "MỚI"
+                    string image_url "MỚI"
+                    decimal delivery_fee "MỚI"
+                    decimal min_order_value "MỚI"
+                    int preparation_minutes "MỚI"
+                    decimal rating_avg "MỚI"
+                    int rating_count "MỚI"
+                }
+
+                RESTAURANT_HOURS {
+                    uuid id PK
+                    uuid restaurant_id FK
+                    int day_of_week "0 đến 6"
+                    time opens_at
+                    time closes_at
+                    bool is_closed
+                }
+
+                RESTAURANT_CLOSURES {
+                    uuid id PK
+                    uuid restaurant_id FK
+                    date from_date
+                    date to_date
+                    string reason
+                }
+
+                MENU_CATEGORIES {
+                    uuid id PK
+                    uuid restaurant_id FK
+                    string name
+                }
+
+                MENU_ITEMS {
+                    uuid id PK
+                    uuid restaurant_id FK
+                    uuid category_id FK
+                    string name
+                    decimal price
+                    bool is_available
+                }
+
+                CARTS {
+                    uuid id PK
+                    uuid user_id FK
+                    uuid restaurant_id FK
+                }
+
+                CART_ITEMS {
+                    uuid id PK
+                    uuid cart_id FK
+                    uuid menu_item_id FK
+                    int quantity
+                    string note
+                }
+
+                ORDERS {
+                    uuid id PK
+                    string order_no UK
+                    uuid user_id FK
+                    uuid restaurant_id FK
+                    int status
+                    string recipient_name "snapshot"
+                    string phone_number "snapshot"
+                    string address_text "snapshot"
+                    decimal latitude "snapshot"
+                    decimal longtitude "snapshot"
+                    decimal subtotal
+                    decimal delivery_fee
+                    decimal discount_amount
+                    decimal total_amount
+                    string idempotency_key UK
+                    timestamptz placed_at
+                    timestamptz accepted_at
+                    timestamptz delivered_at
+                    timestamptz cancelled_at
+                }
+
+                ORDER_ITEMS {
+                    uuid id PK
+                    uuid order_id FK
+                    uuid menu_item_id FK "SET NULL"
+                    string item_name "SNAPSHOT"
+                    decimal unit_price "SNAPSHOT"
+                    int quantity
+                    decimal subtotal "SNAPSHOT"
+                    string note
+                }
+
+                ORDER_STATUS_HISTORY {
+                    uuid id PK
+                    uuid order_id FK
+                    int from_status "có thể rỗng"
+                    int to_status
+                    uuid changed_by_user_id FK
+                    string reason
+                    timestamptz changed_at
+                }
+
+                PAYMENTS {
+                    uuid id PK
+                    uuid order_id FK
+                    string provider
+                    int status
+                    decimal amount
+                    string provider_txn_id UK
+                    jsonb raw_payload
+                }
+
+                REVIEWS {
+                    uuid id PK
+                    uuid order_id FK "UNIQUE"
+                    uuid restaurant_id FK
+                    uuid user_id FK
+                    uuid menu_item_id FK
+                    int rating "1 đến 5"
+                    string comment
+                }
+
+                SHIPPER_PROFILES {
+                    uuid user_id PK "FK"
+                    bool is_available
+                    string vehicle_type
+                    decimal latitude
+                    decimal longtitude
+                }
+
+                ORDER_DELIVERIES {
+                    uuid id PK
+                    uuid order_id FK "UNIQUE"
+                    uuid shipper_user_id FK
+                    timestamptz assigned_at
+                    timestamptz delivered_at
+                    string proof_image_url
+                }
+
+                VOUCHERS {
+                    uuid id PK
+                    string code UK
+                    int discount_type
+                    decimal discount_value
+                    decimal max_discount
+                    int usage_limit
+                    int used_count
+                    bool is_active
+                }
+
+                ORDER_VOUCHERS {
+                    uuid order_id PK "FK"
+                    uuid voucher_id PK "FK"
+                    decimal discount_amount
+                }
+        </script>
+
+        <script>
+            (function () {
+                var LOCAL = "mermaid.min.js";
+                var CDN =
+                    "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js";
+
+                function loadScript(src) {
+                    return new Promise(function (res, rej) {
+                        var s = document.createElement("script");
+                        s.src = src;
+                        s.onload = res;
+                        s.onerror = rej;
+                        document.head.appendChild(s);
+                    });
+                }
+
+                /* Gom source từ script[type=text/plain][data-mm] */
+                var sources = Array.prototype.map.call(
+                    document.querySelectorAll(
+                        'script[type="text/plain"][data-mm]',
+                    ),
+                    function (el) {
+                        return {
+                            id: el.getAttribute("data-mm"),
+                            code: el.textContent.trim(),
+                        };
+                    },
+                );
+
+                /* Điền khối fallback ngay, không đợi mermaid — đọc được kể cả khi offline. */
+                sources.forEach(function (s) {
+                    var box = document.querySelector(
+                        'details.src[data-for="' + s.id + '"]',
+                    );
+                    if (!box) return;
+                    box.querySelector('[data-role="src"]').textContent = s.code;
+                });
+
+                function markFailed(id, why) {
+                    var fig = document.getElementById("f" + id.slice(1));
+                    var box = document.querySelector(
+                        'details.src[data-for="' + id + '"]',
+                    );
+                    if (box) box.open = true;
+                    if (fig) {
+                        fig.className = "pending";
+                        fig.textContent =
+                            'Không render được — mở "Xem source Mermaid" bên dưới. ' +
+                            (why || "");
+                    }
+                }
+
+                function openAll() {
+                    Array.prototype.forEach.call(
+                        document.querySelectorAll("details.src"),
+                        function (d) {
+                            d.open = true;
+                        },
+                    );
+                }
+
+                function renderAll(i) {
+                    if (i >= sources.length) return;
+                    var s = sources[i];
+                    var el = document.getElementById(s.id);
+                    if (!el) return renderAll(i + 1);
+
+                    window.mermaid
+                        .render("mmd_" + s.id, s.code)
+                        .then(function (res) {
+                            el.innerHTML = res.svg;
+                            var fig = document.getElementById(
+                                "f" + s.id.slice(1),
+                            );
+                            if (fig) {
+                                fig.className = "";
+                            }
+                            renderAll(i + 1);
+                        })
+                        .catch(function (err) {
+                            console.error("[mermaid]", s.id, err);
+                            markFailed(s.id);
+                            renderAll(i + 1);
+                        });
+                }
+
+                window.addEventListener("load", function () {
+                    if (window.mermaid) {
+                        window.mermaid.initialize({
+                            startOnLoad: false,
+                            theme: "default",
+                            securityLevel: "loose",
+                            flowchart: { htmlLabels: true },
+                            er: { useMaxWidth: true },
+                        });
+                        renderAll(0);
+                        return;
+                    }
+
+                    /* Ưu tiên bản cạnh file để chạy offline, không thì mới tải CDN. */
+                    loadScript(LOCAL)
+                        .catch(function () {
+                            return loadScript(CDN);
+                        })
+                        .then(function () {
+                            window.mermaid.initialize({
+                                startOnLoad: false,
+                                theme: "default",
+                                securityLevel: "loose",
+                                flowchart: { htmlLabels: true },
+                                er: { useMaxWidth: true },
+                            });
+                            renderAll(0);
+                        })
+                        .catch(function () {
+                            openAll();
+                            sources.forEach(function (s) {
+                                markFailed(
+                                    s.id,
+                                    "Không tải được thư viện Mermaid.",
+                                );
+                            });
+                        });
+                });
+            })();
+        </script>
+    </body>
+</html>

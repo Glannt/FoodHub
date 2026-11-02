@@ -1,0 +1,50 @@
+classDiagram
+    direction TB
+
+    class Restaurant {
+        <<AggregateRoot>>
+        +string Name
+        +string Address
+        +decimal Latitude
+        +decimal Longtitude
+        +bool IsApproved
+        +Restaurant(name, addr, lat, lng)
+        +Approve()
+        +Reject()
+        +UpdateDetails(name, addr, lat, lng)
+    }
+
+    class MenuCategory {
+        <<Entity>>
+        +Guid RestaurantId
+        +string Name
+        +MenuCategory(restaurantId, name)
+    }
+
+    class MenuItem {
+        <<AggregateRoot>>
+        +Guid RestaurantId
+        +Guid CategoryId
+        +string Name
+        +string Description
+        +decimal Price
+        +bool IsAvailable
+        +string ImageUrl
+        +MenuItem(restaurantId, categoryId, name, desc, price, img)
+        +UpdateDetails(name, desc, price, img)
+        +SetAvailability(bool)
+    }
+
+    class MenuItemAddedEvent {
+        <<record>>
+        +Guid MenuItemId
+        +Guid RestaurantId
+        +string Name
+        +DateTimeOffset OccurredOn
+    }
+
+    Restaurant "1" --> "*" MenuCategory : chứa
+    Restaurant "1" --> "*" MenuItem : sở hữu
+    MenuCategory "1" --> "*" MenuItem : nhóm
+    MenuItem ..> MenuItemAddedEvent : Raise khi tạo
+    MenuItemAddedEvent ..|> IDomainEvent : implements

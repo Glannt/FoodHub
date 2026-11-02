@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 using FoodHub.Application.Abstractions;
 using FoodHub.Domain.Restaurants;
+using FoodHub.Domain.Restaurants.Menus;
+using FoodHub.Domain.Restaurants.Products;
+using FoodHub.Domain.Users;
 
 namespace FoodHub.Infrastructure.Persistence;
 
@@ -28,8 +31,13 @@ public sealed class AppDbContext(DbContextOptions<AppDbContext> options)
     /// </summary>
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
 
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+    public DbSet<Menu> Menus => Set<Menu>();
+    public DbSet<MenuVersion> MenuVersions => Set<MenuVersion>();
+    public DbSet<MenuSchedule> MenuSchedules => Set<MenuSchedule>();
     public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
-
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
 
     /// <summary>

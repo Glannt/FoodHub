@@ -1,0 +1,90 @@
+classDiagram
+    direction TB
+
+    class Order {
+        <<AggregateRoot>>
+        +string OrderNo
+        +Guid CustomerId
+        +Guid RestaurantId
+        +OrderStatus Status
+        +string RecipientName
+        +string PhoneNumber
+        +string Address
+        +decimal Latitude
+        +decimal Longtitude
+        +decimal Subtotal
+        +decimal DeliveryFee
+        +decimal DiscountAmount
+        +decimal TotalAmount
+        +string Note
+        +DateTimeOffset? PlacedAt
+        +DateTimeOffset? AcceptedAt
+        +DateTimeOffset? CancelledAt
+        +Place()
+        +Accept()
+        +Reject(reason)
+        +StartPreparing()
+        +MarkReady()
+        +MarkPickedUp()
+        +Complete()
+        +Cancel(reason)
+    }
+
+    class OrderItem {
+        <<Entity>>
+        +Guid OrderId
+        +Guid MenuItemId
+        +string ItemName
+        +decimal UnitPrice
+        +int Quantity
+        +decimal Subtotal
+        +string Note
+        +OrderItem(orderId, menuItemId, name, price, qty, note)
+    }
+
+    class OrderStatusHistoryEntry {
+        <<Entity>>
+        +Guid OrderId
+        +OrderStatus FromStatus
+        +OrderStatus ToStatus
+        +Guid ChangedByUserId
+        +string Reason
+        +DateTimeOffset ChangedAt
+    }
+
+    class OrderStatus {
+        <<enum>>
+        PendingPayment
+        Placed
+        Accepted
+        Preparing
+        ReadyForPickup
+        PickedUp
+        Delivered
+        Cancelled
+    }
+
+    class OrderPlacedEvent {
+        <<record>>
+        +Guid OrderId
+        +Guid RestaurantId
+    }
+
+    class OrderCancelledEvent {
+        <<record>>
+        +Guid OrderId
+        +string Reason
+    }
+
+    class IDomainEvent {
+        <<interface>>
+    }
+
+    Order "1" *-- "*" OrderItem : snapshot giá lúc đặt
+    Order "1" --> "*" OrderStatusHistoryEntry : mỗi lần chuyển một dòng
+    Order --> OrderStatus : trạng thái hiện tại
+    Order ..> OrderPlacedEvent : Raise khi Place
+    Order ..> OrderCancelledEvent : Raise khi Cancel
+    OrderStatusHistoryEntry --> OrderStatus : from và to
+    OrderPlacedEvent ..|> IDomainEvent : implements
+    OrderCancelledEvent ..|> IDomainEvent : implements
